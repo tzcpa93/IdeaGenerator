@@ -226,6 +226,7 @@
           Generate a free AI app idea to get started:
         </p>
         <button id="generateBtn">Make me a disruptor bro plz</button>
+        <p id="ideaTitle" style="display: none;">Your free $20B idea:</p>
         <div id="idea">Click to generate a $20B idea.</div>
       </section>
     </main>
@@ -273,31 +274,35 @@
           console.error('Error loading ideas:', error);
         });
 
-      const button = document.getElementById('generateBtn');
-      const ideaDiv = document.getElementById('idea');
+const button = document.getElementById('generateBtn');
+const ideaDiv = document.getElementById('idea');
+const ideaTitle = document.getElementById('ideaTitle');
 
-      button.addEventListener('click', () => {
-        if (ideas.length === 0) {
-          ideaDiv.innerHTML = 'Error. AI found this and broke it.';
-          return;
-        }
+button.addEventListener('click', () => {
+  if (ideas.length === 0) {
+    ideaDiv.innerHTML = 'Error. AI found this and broke it.';
+    return;
+  }
 
-        // Change button text on first click only.
-        if (firstClick) {
-          button.textContent = "Plz bro you can do better c'mon";
-          firstClick = false;
-        }
+  // On the first click, change the button text and show the title paragraph.
+  if (firstClick) {
+    button.textContent = "Plz bro you can do better c'mon";
+    firstClick = false;
+    // Show the "Your free $20B idea:" text.
+    ideaTitle.style.display = "block";
+  }
 
-        // If we've cycled through all ideas, reshuffle.
-        if (currentIndex >= ideas.length) {
-          shuffle(ideas);
-          currentIndex = 0;
-        }
+  // If we've cycled through all ideas, reshuffle.
+  if (currentIndex >= ideas.length) {
+    shuffle(ideas);
+    currentIndex = 0;
+  }
 
-        // Display the next idea in the randomized order.
-        ideaDiv.innerHTML = ideas[currentIndex];
-        currentIndex++;
-      });
+  // Display the next idea in the randomized order.
+  ideaDiv.innerHTML = ideas[currentIndex];
+  currentIndex++;
+});
+
 
       // Exit-Intent Popup JavaScript
 let exitPopupShown = false;
