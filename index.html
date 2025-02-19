@@ -86,7 +86,7 @@
       #idea {
         margin-top: 30px;
         font-size: 1.1rem;
-        font-style: italic;
+        /* Removed italic style */
         color: #333;
         min-height: 1.5em;
       }
@@ -141,7 +141,7 @@
           const response = await fetch('/.netlify/functions/generateIdea');
           if (!response.ok) throw new Error('Network response was not ok');
           const data = await response.json();
-          // Use innerHTML so that HTML tags (like <strong> and <br/>) are rendered.
+          // Render the returned HTML (which should include the <strong> tags, <br><br>, and emojis)
           ideaDiv.innerHTML = data.idea;
         } catch (error) {
           ideaDiv.innerHTML = 'Oops! Something went wrong.';
