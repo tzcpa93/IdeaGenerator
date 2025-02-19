@@ -1,44 +1,49 @@
 // netlify/functions/generateIdea.js
 const fetch = require('node-fetch');
 
-exports.handler = async function(event, context) {
+exports.handler = async function (event, context) {
   try {
-    // We will use an environment variable for the API key: process.env.OPENAI_API_KEY
+    // Reference the secret API key stored in Netlify's environment variables.
     const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error("Missing OPENAI_API_KEY environment variable");
+    }
 
-    // You can tweak this prompt however you want:
-    const prompt = "Give me a funny, ridiculous, and silly startup idea in one short paragraph.";
+    // New prompt for generating absurd, satirical accounting app ideas.
+    const prompt = `Generate absurd ideas for accounting apps, mocking the surge of AI accounting apps created by individuals who have no experience in accounting. For each, you should generate a name and then a brief description. Your humor should be post-ironic and satirical.`;
 
-    // If you want to use ChatGPT (gpt-3.5-turbo), you might call /v1/chat/completions
-    // This example uses a 'text-davinci-003' style. Let's keep it simple.
-    const response = await fetch('https://api.openai.com/v1/completions', {
-      method: 'POST',
+    // Call the OpenAI API (using text-davinci-003 as an example).
+    const response = await fetch("https://api.openai.com/v1/completions", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "text-davinci-003",
+        model: "text-davinci-003", // You can change this to "gpt-3.5-turbo" if desired.
         prompt: prompt,
-        max_tokens: 60,
-        temperature: 0.9,
-      }),
+        max_tokens: 150,         // Adjust token count as needed.
+        temperature: 0.9         // This value controls the randomness.
+      })
     });
 
     const data = await response.json();
-    
-    // Extract the generated text
-    const idea = data?.choices?.[0]?.text?.trim() || "No idea generated.";
+
+    // Extract the idea from the response.
+    const idea =
+      data.choices && data.choices[0].text
+        ? data.choices[0].text.trim()
+        : "No idea generated.";
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ idea }),
+      body: JSON.stringify({ idea: idea }),
     };
   } catch (error) {
-    console.error('Error generating idea:', error);
+    console.error("Error generating idea:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to generate idea' }),
+      body: JSON.stringify({ error: "Failed to generate idea" }),
     };
   }
 };
