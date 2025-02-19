@@ -9,8 +9,13 @@ exports.handler = async function (event, context) {
       throw new Error("Missing OPENAI_API_KEY environment variable");
     }
 
-    // New prompt for generating absurd, satirical accounting app ideas.
-    const prompt = `Generate absurd ideas for accounting apps, mocking the surge of AI accounting apps created by individuals who have no experience in accounting. For each, you should generate a name and then a brief description. Your humor should be post-ironic and satirical.`;
+    // New prompt that instructs ChatGPT to return exactly one idea in HTML format:
+    // The first line is the app name (wrapped in <strong> tags),
+    // then a line break (<br/>) and then the app description.
+    const prompt = `Generate one absurd idea for an accounting app, mocking the surge of AI accounting apps created by individuals who have no experience in accounting. For your output, please return exactly two lines in HTML:
+1. The first line must be the app's name wrapped in <strong> tags.
+2. The second line should be a brief app description.
+Your humor should be post-ironic and satirical. Do not include any extra text.`;
 
     // Call the Chat Completions endpoint using GPT-3.5-turbo.
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -32,7 +37,7 @@ exports.handler = async function (event, context) {
 
     const data = await response.json();
 
-    // Log the complete API response for debugging.
+    // Log the complete API response for debugging purposes.
     console.log("API response:", JSON.stringify(data));
 
     // Extract the generated text from the chat response.
