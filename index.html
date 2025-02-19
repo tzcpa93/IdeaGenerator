@@ -38,7 +38,6 @@
 
       /* HERO SECTION */
       .hero {
-        /* Subtle gradient reminiscent of modern SaaS sites */
         background: linear-gradient(
           135deg,
           rgba(240, 240, 240, 1) 0%,
@@ -88,10 +87,10 @@
         font-size: 1.1rem;
         font-style: normal; /* Ensure non-italic style */
         color: #333;
-        max-width: 600px; /* Limit width */
+        max-width: 600px; /* Limit width similar to the header */
         margin-left: auto;
         margin-right: auto;
-        text-align: center; /* Center the content */
+        text-align: center; /* Center the output */
       }
       /* Increase the font size for the app name (inside <strong>) */
       #idea strong {
@@ -139,29 +138,56 @@
     </footer>
 
     <script>
-      const button = document.getElementById('generateBtn');
-      const ideaDiv = document.getElementById('idea');
+      // Global variables for idea management
+      let ideas = [];
+      let currentIndex = 0;
       let firstClick = true;
 
-      button.addEventListener('click', async () => {
-        // On the first click, change the button copy permanently
+      // Shuffle function (Fisher–Yates)
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      // Load ideas from the JSON file once the page loads.
+      fetch('/ideas.json')
+        .then(response => response.json())
+        .then(data => {
+          ideas = data;
+          shuffle(ideas);
+          currentIndex = 0;
+        })
+        .catch(error => {
+          console.error('Error loading ideas:', error);
+        });
+
+      const button = document.getElementById('generateBtn');
+      const ideaDiv = document.getElementById('idea');
+
+      button.addEventListener('click', () => {
+        if (ideas.length === 0) {
+          ideaDiv.innerHTML = 'No ideas available.';
+          return;
+        }
+
+        // Change button text on first click only.
         if (firstClick) {
           button.textContent = "Plz bro you can do better c'mon";
           firstClick = false;
         }
 
-        // Show a generating message while waiting for the response
-        ideaDiv.innerHTML = 'Generating...';
-        try {
-          const response = await fetch('/.netlify/functions/generateIdea');
-          if (!response.ok) throw new Error('Network response was not ok');
-          const data = await response.json();
-          // Render the returned HTML (with <strong>, <br><br>, and emojis)
-          ideaDiv.innerHTML = data.idea;
-        } catch (error) {
-          ideaDiv.innerHTML = 'Oops! Something went wrong.';
-          console.error(error);
+        // If we've cycled through all ideas, reshuffle.
+        if (currentIndex >= ideas.length) {
+          shuffle(ideas);
+          currentIndex = 0;
         }
+
+        // Display the next idea in the randomized order.
+        ideaDiv.innerHTML = ideas[currentIndex];
+        currentIndex++;
       });
     </script>
   </body>
