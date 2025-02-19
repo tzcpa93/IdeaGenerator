@@ -300,18 +300,24 @@
       });
 
       // Exit-Intent Popup JavaScript
-      let exitPopupShown = false;
-      document.addEventListener('mouseout', function (e) {
-        // Show the popup if the mouse leaves at the top of the viewport
-        if (!exitPopupShown && e.clientY <= 0) {
-          document.getElementById('exitPopup').style.display = 'block';
-          exitPopupShown = true;
-        }
-      });
+let exitPopupShown = false;
+const pageLoadTime = Date.now(); // Record when the page loads
 
-      document.getElementById('exitPopupCancel').addEventListener('click', function () {
-        document.getElementById('exitPopup').style.display = 'none';
-      });
+document.addEventListener('mouseout', function (e) {
+  // Only show the popup if:
+  // 1. The popup hasn't been shown already.
+  // 2. The mouse leaves at the top of the viewport (e.clientY <= 0).
+  // 3. At least 5000ms (5 seconds) have passed since the page loaded.
+  if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
+    document.getElementById('exitPopup').style.display = 'block';
+    exitPopupShown = true;
+  }
+});
+
+document.getElementById('exitPopupCancel').addEventListener('click', function () {
+  document.getElementById('exitPopup').style.display = 'none';
+});
+
     </script>
   </body>
 </html>
