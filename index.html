@@ -56,7 +56,7 @@
         margin-right: auto;
         line-height: 1.3;
       }
-      /* Highlight the word "easy" in the hero heading */
+      /* Highlight the word "easy" */
       .hero h1 .highlight {
         color: #1B86FA;
       }
@@ -82,23 +82,23 @@
         transition: background-color 0.2s ease-in-out;
       }
       button:hover {
-        background-color: #196ac1; /* Slightly darker hover effect */
+        background-color: #196ac1; /* Slightly darker hover */
       }
 
       /* IDEA DISPLAY CONTAINER */
       #idea {
         margin-top: 30px;
         font-size: 1.1rem;
-        font-style: normal;
+        font-style: normal; /* Ensure non-italic style */
         color: #333;
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
         text-align: center;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        background-color: #fff;  /* White background */
+        padding: 20px;           /* Neat padding */
+        border-radius: 8px;      /* Rounded edges */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
       }
       /* Increase the font size for the app name (inside <strong>) */
       #idea strong {
@@ -121,6 +121,59 @@
           font-size: 1rem;
         }
       }
+
+      /* EXIT-INTENT POPUP STYLES */
+      #exitPopup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+      #exitPopup > .popup-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        max-width: 90%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      #exitPopup p {
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+      #exitPopup .popup-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      #exitPopup .popup-buttons a,
+      #exitPopup .popup-buttons button {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: normal; /* Both buttons same weight */
+        text-decoration: none;
+        cursor: pointer;
+      }
+      /* "yes" button */
+      #exitPopup .popup-buttons a {
+        background-color: #90ee90;
+        color: #000;
+      }
+      /* "ligma" button */
+      #exitPopup .popup-buttons button {
+        background-color: #ccc;
+        color: #000;
+        border: none;
+      }
     </style>
   </head>
   <body>
@@ -137,7 +190,7 @@
           Generate a free AI app idea to get started:
         </p>
         <button id="generateBtn">Make me a disruptor bro plz</button>
-        <div id="idea">Click above to generate a $20B idea.</div>
+        <div id="idea">Click to generate a $20B idea.</div>
       </section>
     </main>
 
@@ -145,6 +198,18 @@
       <p>&copy; 2025 Accounting Disruptor. All rights reserved.</p>
     </footer>
 
+    <!-- Exit-Intent Popup HTML -->
+    <div id="exitPopup">
+      <div class="popup-content">
+        <p>wait ok sry do u want real help?</p>
+        <div class="popup-buttons">
+          <a href="https://finoptimal.com">yes</a>
+          <button id="exitPopupCancel">ligma</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
     <script>
       // Global variables for idea management
       let ideas = [];
@@ -196,6 +261,20 @@
         // Display the next idea in the randomized order.
         ideaDiv.innerHTML = ideas[currentIndex];
         currentIndex++;
+      });
+
+      /* Exit-Intent Popup JavaScript */
+      let exitPopupShown = false;
+      document.addEventListener('mouseout', function (e) {
+        // Show the popup if the mouse leaves at the top of the viewport
+        if (!exitPopupShown && e.clientY <= 0) {
+          document.getElementById('exitPopup').style.display = 'block';
+          exitPopupShown = true;
+        }
+      });
+
+      document.getElementById('exitPopupCancel').addEventListener('click', function () {
+        document.getElementById('exitPopup').style.display = 'none';
       });
     </script>
   </body>
