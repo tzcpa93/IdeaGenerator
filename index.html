@@ -117,7 +117,11 @@
     <main>
       <section class="hero">
         <h1>Accounting is easy. <br>Accountants are old.</h1>
-        <p>Did you take one accounting class in college?<br> Great, you're ready to disrupt a $20B industry.<br><br>Generate a free AI app idea to get started:</p>
+        <p>
+          Did you take one accounting class in college?<br>
+          Great, you're ready to disrupt a $20B industry.<br><br>
+          Generate a free AI app idea to get started:
+        </p>
         <button id="generateBtn">Make me a disruptor bro plz</button>
         <div id="idea">No idea generated.</div>
       </section>
@@ -132,14 +136,15 @@
       const ideaDiv = document.getElementById('idea');
 
       button.addEventListener('click', async () => {
-        ideaDiv.textContent = 'Generating...';
+        ideaDiv.innerHTML = 'Generating...';
         try {
           const response = await fetch('/.netlify/functions/generateIdea');
           if (!response.ok) throw new Error('Network response was not ok');
           const data = await response.json();
-          ideaDiv.textContent = data.idea;
+          // Use innerHTML so that HTML tags (like <strong> and <br/>) are rendered.
+          ideaDiv.innerHTML = data.idea;
         } catch (error) {
-          ideaDiv.textContent = 'Oops! Something went wrong.';
+          ideaDiv.innerHTML = 'Oops! Something went wrong.';
           console.error(error);
         }
       });
