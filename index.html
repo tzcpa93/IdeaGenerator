@@ -34,6 +34,7 @@
         color: #fff;
         font-weight: 800;
         letter-spacing: 1px;
+        font-size: 1.5rem;
       }
 
       /* HERO SECTION */
@@ -89,16 +90,16 @@
       #idea {
         margin-top: 30px;
         font-size: 1.1rem;
-        font-style: normal; /* Ensure non-italic style */
+        font-style: normal;
         color: #333;
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
         text-align: center;
-        background-color: #fff;  /* White background */
-        padding: 20px;           /* Neat padding */
-        border-radius: 8px;      /* Rounded edges */
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       }
       /* Increase the font size for the app name (inside <strong>) */
       #idea strong {
@@ -111,15 +112,6 @@
         text-align: center;
         font-size: 0.85rem;
         color: #777;
-      }
-
-      @media (max-width: 600px) {
-        .hero h1 {
-          font-size: 1.6rem;
-        }
-        .hero p {
-          font-size: 1rem;
-        }
       }
 
       /* EXIT-INTENT POPUP STYLES */
@@ -159,7 +151,7 @@
         display: inline-block;
         padding: 8px 16px;
         border-radius: 4px;
-        font-weight: normal; /* Both buttons same weight */
+        font-weight: normal;
         text-decoration: none;
         cursor: pointer;
       }
@@ -173,6 +165,38 @@
         background-color: #ccc;
         color: #000;
         border: none;
+      }
+
+      /* RESPONSIVE STYLES FOR MOBILE */
+      @media (max-width: 600px) {
+        header h2 {
+          font-size: 1.3rem;
+        }
+        .hero {
+          padding: 60px 10px;
+        }
+        .hero h1 {
+          font-size: 1.8rem;
+        }
+        .hero p {
+          font-size: 1rem;
+        }
+        button {
+          font-size: 1.1rem;
+          padding: 14px 28px;
+        }
+        #idea {
+          font-size: 1rem;
+          padding: 16px;
+        }
+        #exitPopup p {
+          font-size: 1rem;
+        }
+        #exitPopup .popup-buttons a,
+        #exitPopup .popup-buttons button {
+          padding: 8px 12px;
+          font-size: 1rem;
+        }
       }
     </style>
   </head>
