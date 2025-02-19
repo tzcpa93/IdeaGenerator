@@ -9,13 +9,13 @@ exports.handler = async function (event, context) {
       throw new Error("Missing OPENAI_API_KEY environment variable");
     }
 
-    // New prompt that instructs ChatGPT to return exactly one idea in HTML format:
-    // The first line is the app name (wrapped in <strong> tags),
-    // then a line break (<br/>) and then the app description.
-    const prompt = `Generate one absurd idea for an accounting app, mocking the surge of AI accounting apps created by individuals who have no experience in accounting. For your output, please return exactly two lines in HTML:
-1. The first line must be the app's name wrapped in <strong> tags.
-2. The second line should be a brief app description.
-Your humor should be post-ironic and satirical. Do not include any extra text.`;
+    // Updated prompt to force exactly two lines in HTML:
+    // 1. The app name wrapped in <strong> tags only.
+    // 2. A <br> tag followed by the plain text description.
+    const prompt = `Generate one absurd idea for an accounting app, mocking the surge of AI accounting apps created by individuals with no accounting experience. For your output, please return exactly two lines of HTML:
+1. The first line should contain only the app's name wrapped in <strong> tags.
+2. The second line should begin with a <br> tag immediately followed by the app description in plain text (with no additional HTML tags).
+Do not include any extra text or additional formatting. Your humor should be post-ironic and satirical.`;
 
     // Call the Chat Completions endpoint using GPT-3.5-turbo.
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -37,12 +37,14 @@ Your humor should be post-ironic and satirical. Do not include any extra text.`;
 
     const data = await response.json();
 
-    // Log the complete API response for debugging purposes.
+    // Log the complete API response for debugging.
     console.log("API response:", JSON.stringify(data));
 
     // Extract the generated text from the chat response.
     const idea =
-      data.choices && data.choices[0].message && data.choices[0].message.content
+      data.choices &&
+      data.choices[0].message &&
+      data.choices[0].message.content
         ? data.choices[0].message.content.trim()
         : "No idea generated.";
 
