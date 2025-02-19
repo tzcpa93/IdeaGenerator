@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Startup Idea Generator</title>
+    <style>
+      body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+      #idea { margin-top: 20px; max-width: 600px; margin: 20px auto; }
+      button { font-size: 16px; padding: 10px 20px; cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <h1>Startup Idea Generator</h1>
+    <button id="generateBtn">Give Me A Random Idea</button>
+    <div id="idea"></div>
+
+    <script>
+      const button = document.getElementById('generateBtn');
+      const ideaDiv = document.getElementById('idea');
+
+      button.addEventListener('click', async () => {
+        ideaDiv.textContent = 'Generating...';
+        try {
+          // Call our Netlify function
+          const response = await fetch('/.netlify/functions/generateIdea');
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          ideaDiv.textContent = data.idea;
+        } catch (error) {
+          ideaDiv.textContent = 'Oops! Something went wrong.';
+          console.error(error);
+        }
+      });
+    </script>
+  </body>
+</html>
