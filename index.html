@@ -88,11 +88,10 @@
         font-size: 1.1rem;
         font-style: normal; /* Ensure non-italic style */
         color: #333;
-        min-height: 1.5em;
-        max-width: 600px; /* Limit width similar to the header */
+        max-width: 600px; /* Limit width */
         margin-left: auto;
         margin-right: auto;
-        text-align: left;
+        text-align: center; /* Center the content */
       }
       /* Increase the font size for the app name (inside <strong>) */
       #idea strong {
@@ -157,7 +156,7 @@
           const response = await fetch('/.netlify/functions/generateIdea');
           if (!response.ok) throw new Error('Network response was not ok');
           const data = await response.json();
-          // Use innerHTML so that returned HTML (with <strong> and <br><br>) is rendered.
+          // Render the returned HTML (with <strong>, <br><br>, and emojis)
           ideaDiv.innerHTML = data.idea;
         } catch (error) {
           ideaDiv.innerHTML = 'Oops! Something went wrong.';
