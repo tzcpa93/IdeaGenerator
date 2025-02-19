@@ -172,18 +172,17 @@
 
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
-        /* Header adjustments for mobile: reduce font size and add horizontal padding */
+        /* Adjust header for mobile: smaller font and added horizontal padding */
         header {
           padding: 15px 10px;
         }
         header h2 {
-          font-size: 1.2rem; /* Smaller text */
-          white-space: nowrap; /* Prevent wrapping */
-          overflow: hidden;
-          text-overflow: ellipsis;
-          padding: 0 10px; /* Add horizontal padding */
+          font-size: 1.2rem; /* Smaller font for mobile */
+          padding: 0 10px; /* Horizontal padding so it doesn't run against the edge */
+          /* Allow wrapping if needed */
+          white-space: normal;
         }
-        /* Other mobile refinements remain as before */
+        /* Other mobile refinements */
         .hero {
           padding: 15px;
         }
