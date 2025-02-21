@@ -209,6 +209,31 @@
           font-size: 1rem;
         }
       }
+
+      /* Emoji Animation */
+.emoji {
+  position: absolute;
+  pointer-events: none;
+  font-size: 1.5rem;
+  animation: shootFall 2s ease-out forwards;
+}
+
+@keyframes shootFall {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(var(--x-offset, 0px), -100px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x-offset, 0px), 100vh) scale(0.8);
+  }
+}
+
+      
     </style>
   </head>
   <body>
@@ -300,6 +325,9 @@ button.addEventListener('click', () => {
   // Display the next idea in the randomized order.
   ideaDiv.innerHTML = ideas[currentIndex];
   currentIndex++;
+
+  // Launch the emoji animation from the button.
+  createEmojiAnimation();
 });
 
 
@@ -321,6 +349,34 @@ document.addEventListener('mouseout', function (e) {
 document.getElementById('exitPopupCancel').addEventListener('click', function () {
   document.getElementById('exitPopup').style.display = 'none';
 });
+
+      function createEmojiAnimation() {
+  const emojiSet = ["💰", "🚀", "🍆"]; // Array of emojis to choose from
+  const buttonRect = button.getBoundingClientRect();
+  // Calculate the center of the button
+  const startX = buttonRect.left + buttonRect.width / 2;
+  const startY = buttonRect.top + buttonRect.height / 2;
+  
+  // Create 10 emoji elements
+  for (let i = 0; i < 10; i++) {
+    const emoji = document.createElement("span");
+    emoji.classList.add("emoji");
+    // Randomly pick one emoji from the set
+    emoji.textContent = emojiSet[Math.floor(Math.random() * emojiSet.length)];
+    // Set a random horizontal offset between -50px and 50px
+    const randomXOffset = Math.floor(Math.random() * 101) - 50;
+    emoji.style.setProperty("--x-offset", randomXOffset + "px");
+    // Position the emoji at the button's center (using viewport coordinates)
+    emoji.style.left = startX + "px";
+    emoji.style.top = startY + "px";
+    document.body.appendChild(emoji);
+    // Remove the emoji after its animation completes (2 seconds)
+    emoji.addEventListener("animationend", () => {
+      emoji.remove();
+    });
+  }
+}
+
 
     </script>
   </body>
