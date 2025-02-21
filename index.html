@@ -124,7 +124,7 @@
         margin: 0;
       }
       
-      /* "Your free $20B idea:" title styling (and later session total) */
+      /* "Your free $20B idea:" title styling */
       #ideaTitle {
         margin-top: 30px;
       }
@@ -132,7 +132,7 @@
       /* Visionaries text styling */
       #visionaryText {
         display: none;
-        margin-top: 10px;
+        margin-top: 20px; /* Added extra padding above the visionary text */
         font-size: 0.85rem;
         font-style: italic;
         color: #555;
@@ -300,14 +300,11 @@
       let currentIdeaTitle = "";
       let currentIdeaDescription = "";
       
-      // Artificial view count that increments per idea displayed.
-      let viewCount = 500;
+      // Artificial view count (unused now) and session idea total
+      let sessionIdeaTotal = 20;
       
       // Session-wide visionary count (static for session): random number between 195 and 277.
       const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
-      
-      // Session idea total, starts at 20 (i.e., $20B) and increments by 20 for each idea after the first.
-      let sessionIdeaTotal = 20;
       
       // Fisher–Yates shuffle function to randomize the array in place.
       function shuffle(array) {
@@ -386,11 +383,9 @@
         if (firstClick) {
           button.textContent = "Plz bro you can do better c'mon";
           firstClick = false;
-          // On first idea, display the original title.
           ideaTitle.innerHTML = "<br>Your free $20B idea:";
           claimBtn.style.display = "inline-block";
         } else {
-          // For subsequent ideas, increment the session total by $20B.
           sessionIdeaTotal += 20;
           ideaTitle.innerHTML = "<br>$" + sessionIdeaTotal + " of ideas generated.";
         }
@@ -407,17 +402,19 @@
           currentIdeaDescription = "";
         }
       
-        // Update visionary text with the session-wide number (static for this session).
+        // Update visionary text with the session-wide number.
         visionaryText.style.display = "block";
         visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...";
       });
       
-      // "Claim dibs on this idea" button: Copy text and open LinkedIn's share dialog.
+      // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
       claimBtn.addEventListener('click', () => {
-        // Build clipboard text as:
+        // Construct clipboard text as:
         // Line 1: "Calling dibs on a $20B idea: {idea title} 🔥🔥"
         // Two line breaks
-        // Line 2: "{idea title}" (then a line break) then "{idea description}"
+        // Line 2: "{idea title}"
+        // Two line breaks
+        // Line 3: "{idea description}"
         const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
