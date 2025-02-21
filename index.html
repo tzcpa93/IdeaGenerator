@@ -72,22 +72,24 @@
       }
       
       /* BUTTONS */
-      button {
-  font-size: 1rem;
-  padding: 16px 32px;
-  cursor: pointer;
-  border: none;
-  border-radius: 6px;
-  background-color: #1B86FA;
-  color: #fff;
-  font-weight: 700;
-  transition: background-color 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
-  box-shadow: 0 0 8px rgba(27, 134, 250, 0.6);
-}
-button:hover {
-  background-color: #196ac1;
-  box-shadow: 0 0 15px rgba(27, 134, 250, 1);
-}
+            button {
+        font-size: 1rem;
+        padding: 16px 32px;
+        cursor: pointer;
+        border: none;
+        border-radius: 6px;
+        background-color: #1B86FA;
+        color: #fff;
+        font-weight: 700;
+        transition: background-color 0.2s ease-in-out;
+        /* Removed box-shadow */
+        /* box-shadow: 0 0 8px rgba(27, 134, 250, 0.6); */
+      }
+      button:hover {
+        background-color: #196ac1;
+        /* Removed box-shadow on hover */
+        /* box-shadow: 0 0 15px rgba(27, 134, 250, 1); */
+      }
 
       
       /* Claim Button - Dark Grey, Smaller, with extra top margin */
@@ -157,6 +159,11 @@ button:hover {
         font-size: 0.85rem;
         color: #777;
       }
+
+      .generated-idea-shadow {
+  box-shadow: 0 0 8px rgba(27, 134, 250, 0.6);
+}
+
       
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
@@ -274,6 +281,34 @@ button:hover {
           padding: 12px 24px;
         }
       }
+
+      .button-container {
+  position: relative;
+  display: inline-block;
+}
+
+.mouse-cursor {
+  position: absolute;
+  bottom: -10px;  /* Adjust to position the icon exactly as you like */
+  right: -10px;   /* Adjust as needed */
+  width: 24px;    /* Change size if needed */
+  height: auto;
+  animation: pulseIcon 2s infinite;
+  cursor: default;
+}
+
+@keyframes pulseIcon {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+      
     </style>
   </head>
   <body>
@@ -289,7 +324,10 @@ button:hover {
           Have you used ChatGPT a few times?<br><br>
           Guess what? You're ready to disrupt a $20B industry.<br>
         </p>
-        <button id="generateBtn">Make me a disruptor right now</button>
+        <div class="button-container">
+  <button id="generateBtn">Make me a disruptor right now</button>
+  <img src="images/mouse-cursor.png" alt="Mouse Cursor" class="mouse-cursor" />
+</div>
         <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
         <div id="idea">Click above to generate a $20B idea.</div>
         <div id="visionaryText">--</div>
@@ -339,8 +377,8 @@ button:hover {
         "Plz bro you can do better c'mon",
         "Plzzzz bro another idea",
         "Not bad but I want the bag bro",
-        "Anudder One <img src='frank-head.png' alt='Frank Head' class='button-icon' />",
-        "Anotha one <img src='khaled-head.png' alt='Khaled Head' class='button-icon' />",
+        "Anudder One <img src='images/frank-head.png' alt='Frank Head' class='button-icon' />",
+        "Anotha one <img src='images/khaled-head.png' alt='Khaled Head' class='button-icon' />",
         "I'm tryna build in public bro GIMME ANOTHER IDEA",
         "I'm in my bag fr bro just gimme one more idea and watch me cook",
         "My partner is gna leave me if u don't give me a better idea"
@@ -482,6 +520,10 @@ button:hover {
           ideaDiv.innerHTML = rawIdea;
           currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = "";
+        }
+        // After processing the idea, if this is the first click, add the shadow class.
+        if (clickCount === 1) {
+          ideaDiv.classList.add('generated-idea-shadow');
         }
         
         // Update visionary text using the static sessionVisionaryCount.
