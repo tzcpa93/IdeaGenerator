@@ -20,14 +20,14 @@
         margin: 0;
         padding: 0;
       }
-      
+
       html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
         background: #fff;
         color: #111;
       }
-      
+
       /* HEADER (Desktop Version) */
       header {
         background-color: #1B86FA;
@@ -38,9 +38,9 @@
         color: #fff;
         font-weight: 800;
         letter-spacing: 1px;
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* Desktop header font size */
       }
-      
+
       /* HERO SECTION */
       .hero {
         background: linear-gradient(
@@ -51,7 +51,7 @@
         padding: 80px 20px;
         text-align: center;
       }
-      
+
       .hero h1 {
         font-size: 2rem;
         font-weight: 800;
@@ -73,7 +73,7 @@
         margin: 0 auto 40px auto;
         color: #555;
       }
-      
+
       /* BUTTONS */
       button {
         font-size: 1rem;
@@ -90,9 +90,16 @@
         background-color: #196ac1;
       }
       
-      /* New Claim Button (same style as main button) */
+      /* Claim Button - Dark Grey, Smaller, with extra top margin */
       #claimBtn {
-        margin-top: 10px;
+        display: none;
+        margin-top: 20px;
+        background-color: #444;
+        font-size: 0.9rem;
+        padding: 10px 20px;
+      }
+      #claimBtn:hover {
+        background-color: #333;
       }
       
       /* IDEA DISPLAY CONTAINER */
@@ -113,20 +120,20 @@
       #idea strong {
         font-size: 1.2em;
       }
-      
-      /* Styling for the description paragraph */
+
+      /* Additional styling for the description paragraph */
       #idea p.desc {
-        text-align: left;
-        text-indent: 2em;
-        line-height: 1.6;
+        text-align: left;  /* Left-align description */
+        text-indent: 2em;  /* Indent first line */
+        line-height: 1.6;  /* Increase line spacing */
         margin: 0;
       }
-      
+
       /* "Your free $20B idea:" title styling */
       #ideaTitle {
-        margin-top: 20px;
+        margin-top: 20px; /* Extra padding above the title */
       }
-      
+
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -134,7 +141,7 @@
         font-size: 0.85rem;
         color: #777;
       }
-      
+
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
         display: none;
@@ -187,7 +194,7 @@
         color: #000;
         border: none;
       }
-      
+
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
@@ -224,13 +231,28 @@
           font-size: 1rem;
         }
       }
+      
+      /* Toast Notification for Copy Action */
+      #toast {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1B86FA;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        z-index: 2000;
+      }
     </style>
   </head>
   <body>
     <header>
       <h2>Generate AI accounting app ideas for free</h2>
     </header>
-    
+
     <main>
       <section class="hero">
         <h1>Accounting is <span class="highlight">easy</span>.<br>Accountants are old.</h1>
@@ -242,14 +264,14 @@
         <button id="generateBtn">Make me a disruptor bro plz</button>
         <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
         <div id="idea">Click above to generate a $20B idea.</div>
-        <button id="claimBtn" style="display:none; margin-top: 10px;">Claim This Idea</button>
+        <button id="claimBtn" style="display: none;">Claim dibs on this idea</button>
       </section>
     </main>
-    
+
     <footer>
       <p>&copy; 2025 Accounting Disruptor. All rights reserved.</p>
     </footer>
-    
+
     <!-- Exit-Intent Popup HTML -->
     <div id="exitPopup">
       <div class="popup-content">
@@ -260,12 +282,17 @@
         </div>
       </div>
     </div>
-    
+
+    <!-- Toast Notification -->
+    <div id="toast">Idea copied to clipboard. Get ready to paste.</div>
+
     <script>
       // Global variables for idea management
       let ideas = [];
       let currentIndex = 0;
       let firstClick = true;
+      let currentIdeaTitle = "";
+      let currentIdeaDescription = "";
       
       // Fisher–Yates shuffle function to randomize the array in place.
       function shuffle(array) {
@@ -280,7 +307,7 @@
       fetch('/ideas.json')
         .then(response => response.json())
         .then(data => {
-          // Combine all tiers into one array if your JSON uses tier1, tier2, etc.
+          // Combine tiers if present; otherwise assume data is an array.
           if (data.tier1) {
             ideas = [].concat(data.tier1, data.tier2, data.tier3 || []);
           } else {
@@ -327,20 +354,30 @@
         // Split the idea at the first "<br><br>" into title and description.
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
-          // Display the title (centered) and the description (wrapped in a left-aligned paragraph with indent).
-          ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
+          currentIdeaTitle = parts[0];
+          currentIdeaDescription = parts.slice(1).join(' ');
+          // Display the title (centered) and description (wrapped in a left-aligned paragraph)
+          ideaDiv.innerHTML = currentIdeaTitle + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
+          currentIdeaTitle = rawIdea;
+          currentIdeaDescription = "";
         }
       });
       
-      // Claim This Idea Button: Copy idea text and open LinkedIn's share dialog.
+      // "Claim This Idea" button: Copy formatted idea text and open LinkedIn's share dialog.
       claimBtn.addEventListener('click', () => {
-        // Copy the idea text (using innerText for a clean version)
-        const ideaText = ideaDiv.innerText || ideaDiv.textContent;
-        navigator.clipboard.writeText(ideaText)
+        // Build the text to copy: "Calling dibs on {idea name}." (paragraph break) "What is {idea name}? {description}"
+        const textToCopy = "Calling dibs on " + currentIdeaTitle + ".\n\nWhat is " + currentIdeaTitle + "? " + currentIdeaDescription;
+        navigator.clipboard.writeText(textToCopy)
           .then(() => {
-            // Open LinkedIn share window (opens the "share offsite" page for the current URL)
+            // Show toast notification
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+              toast.style.display = 'none';
+            }, 2000);
+            // Open LinkedIn share dialog in a new tab
             window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
           })
           .catch(err => console.error("Failed to copy text: ", err));
