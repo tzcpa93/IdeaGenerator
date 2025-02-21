@@ -415,7 +415,7 @@
         // Line 2: "{idea title}"
         // Two line breaks
         // Line 3: "{idea description}"
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
             const toast = document.getElementById('toast');
