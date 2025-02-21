@@ -20,14 +20,14 @@
         margin: 0;
         padding: 0;
       }
-      
+
       html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
         background: #fff;
         color: #111;
       }
-      
+
       /* HEADER */
       header {
         background-color: #1B86FA;
@@ -40,7 +40,7 @@
         letter-spacing: 1px;
         font-size: 1.5rem;
       }
-      
+
       /* HERO SECTION */
       .hero {
         background: linear-gradient(
@@ -70,7 +70,7 @@
         margin: 0 auto 40px auto;
         color: #555;
       }
-      
+
       /* BUTTONS */
       button {
         font-size: 1rem;
@@ -86,7 +86,7 @@
       button:hover {
         background-color: #196ac1;
       }
-      
+
       /* Claim Button - Dark Grey, Smaller, with extra top margin */
       #claimBtn {
         display: none;
@@ -98,7 +98,7 @@
       #claimBtn:hover {
         background-color: #333;
       }
-      
+
       /* IDEA DISPLAY CONTAINER */
       #idea {
         margin-top: 20px;
@@ -117,27 +117,20 @@
       #idea strong {
         font-size: 1.2em;
       }
-      
+
       /* Styling for the description paragraph (no indent) */
       #idea p.desc {
         text-align: left;
         line-height: 1.6;
         margin: 0;
       }
-      
+
       /* "Your free $20B idea:" title styling */
       #ideaTitle {
         margin-top: 30px;
       }
-      
-      /* New statistic element for fake real-time view count */
-      #stat {
-        margin-top: 15px;
-        font-size: 1rem;
-        color: #777;
-      }
-      
-      /* New "visionary count" text above claim button */
+
+      /* Visionary count text styling */
       #visionaryText {
         display: none;
         margin-top: 10px;
@@ -145,7 +138,7 @@
         font-style: italic;
         color: #555;
       }
-      
+
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -153,7 +146,7 @@
         font-size: 0.85rem;
         color: #777;
       }
-      
+
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
         display: none;
@@ -204,7 +197,7 @@
         color: #000;
         border: none;
       }
-      
+
       /* Toast Modal for Copy Action */
       #toast {
         display: none;
@@ -220,7 +213,7 @@
         text-align: center;
         z-index: 2000;
       }
-      
+
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
@@ -266,16 +259,15 @@
 
     <main>
       <section class="hero">
-        <h1>Accounting is <span class="highlight">easy</span>.<br>Accountants are old.</h1>
+        <h1>Accounting is <span class="highlight">easy</span>.<br>Accountants are old.<br><span class="highlight">You're a disruptor.</span></h1>
         <p>
           Did you take one accounting class in college?<br>
           Have you used ChatGPT a few times?<br><br>
-          Great, you're ready to disrupt a $20B industry.<br>
+          Guess what? You're ready to disrupt a $20B industry.<br>
         </p>
-        <button id="generateBtn">Make me a disruptor bro plz</button>
+        <button id="generateBtn">Become a disruptor right now</button>
         <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
         <div id="idea">Click above to generate a $20B idea.</div>
-        <div id="stat">500 people are eyeing this idea.</div>
         <div id="visionaryText">--</div>
         <button id="claimBtn" style="display: none;">Claim dibs on this idea</button>
       </section>
@@ -308,9 +300,6 @@
       let firstClick = true;
       let currentIdeaTitle = "";
       let currentIdeaDescription = "";
-      
-      // Artificial view count that increments per idea displayed.
-      let viewCount = 500;
       
       // Fisher–Yates shuffle function to randomize the array in place.
       function shuffle(array) {
@@ -347,7 +336,6 @@
       const ideaDiv = document.getElementById('idea');
       const ideaTitle = document.getElementById('ideaTitle');
       const claimBtn = document.getElementById('claimBtn');
-      const statDiv = document.getElementById('stat');
       const visionaryText = document.getElementById('visionaryText');
       
       // Function to get the next idea from the appropriate tier.
@@ -371,6 +359,7 @@
         if (currentTier === 4) {
           ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
           claimBtn.style.display = "none";
+          visionaryText.style.display = "none";
           return;
         }
       
@@ -378,6 +367,7 @@
         if (!rawIdea) {
           ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
           claimBtn.style.display = "none";
+          visionaryText.style.display = "none";
           return;
         }
         console.log("Raw idea:", rawIdea);
@@ -402,12 +392,7 @@
           currentIdeaDescription = "";
         }
       
-        // Increment the view counter.
-        let increment = Math.floor(Math.random() * 3) + 17; // random number between 17 and 19
-        viewCount += increment;
-        statDiv.innerHTML = viewCount + " people are eyeing this idea.";
-      
-        // Update visionary text with a new random number between 17 and 19.
+        // Update visionary text with a random number between 17 and 19.
         let visionaryCount = Math.floor(Math.random() * 3) + 17;
         visionaryText.style.display = "block";
         visionaryText.innerHTML = visionaryCount + " visionaries are eyeing this idea right now... 👀";
@@ -415,10 +400,10 @@
       
       // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
       claimBtn.addEventListener('click', () => {
-        // Build the clipboard text as:
-        // "Calling dibs on a $20B idea: {idea title} 🔥🔥"
-        // then two line breaks,
-        // then "{idea title}" followed by a space and then "{idea description}"
+        // Build clipboard text:
+        // Line 1: "Calling dibs on a $20B idea: {idea title} 🔥🔥"
+        // Two line breaks
+        // Line 2: "{idea title}" followed by a space then "{idea description}"
         const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
