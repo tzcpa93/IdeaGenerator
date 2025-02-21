@@ -1,490 +1,219 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Disrupt Accounting | AI App Ideas</title>
+<script>
+  // Global variables for idea management and session stats
+  let tier1 = [];
+  let tier2 = [];
+  let tier3 = [];
+  let currentTier = 1; // 1 for tier1, 2 for tier2, 3 for tier3, 4 when finished.
 
-    <!-- Google Font: Karla -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&display=swap"
-      rel="stylesheet"
-    />
+  // We track the first and second clicks distinctly
+  let firstClick = true;
+  let secondClick = false;
 
-    <!-- Ensure proper scaling on mobile devices -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  let currentIdeaTitle = "";
+  let currentIdeaDescription = "";
 
-    <style>
-      /* RESET */
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      
-      html, body {
-        height: 100%;
-        font-family: 'Karla', sans-serif;
-        background: #fff;
-        color: #111;
-      }
-      
-      /* HEADER */
-      header {
-        background-color: #1B86FA;
-        padding: 20px 0;
-        text-align: center;
-      }
-      header h2 {
-        color: #fff;
-        font-weight: 800;
-        letter-spacing: 1px;
-        font-size: 1.5rem;
-      }
-      
-      /* HERO SECTION */
-      .hero {
-        background: linear-gradient(
-          135deg,
-          rgba(240, 240, 240, 1) 0%,
-          rgba(255, 255, 255, 1) 70%
-        );
-        padding: 80px 20px;
-        text-align: center;
-      }
-      .hero h1 {
-        font-size: 2rem;
-        font-weight: 800;
-        margin-bottom: 15px;
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.3;
-      }
-      .hero h1 .highlight {
-        color: #1B86FA;
-      }
-      .hero p {
-        font-size: 1.1rem;
-        font-weight: 400;
-        max-width: 700px;
-        margin: 0 auto 40px auto;
-        color: #555;
-      }
-      
-      /* BUTTONS */
-      button {
-        font-size: 1rem;
-        padding: 16px 32px;
-        cursor: pointer;
-        border: none;
-        border-radius: 6px;
-        background-color: #1B86FA;
-        color: #fff;
-        font-weight: 700;
-        transition: background-color 0.2s ease-in-out;
-      }
-      button:hover {
-        background-color: #196ac1;
-      }
-      
-      /* Claim Button - Dark Grey, Smaller, with extra top margin */
-      #claimBtn {
-        display: none;
-        margin-top: 20px;
-        background-color: #444;
-        font-size: 0.9rem;
-        padding: 10px 20px;
-      }
-      #claimBtn:hover {
-        background-color: #333;
-      }
-      
-      /* IDEA DISPLAY CONTAINER */
-      #idea {
-        margin-top: 20px;
-        font-size: 1.1rem;
-        color: #333;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      }
-      #idea strong {
-        font-size: 1.2em;
-      }
-      
-      /* Styling for the description paragraph (no indent) */
-      #idea p.desc {
-        text-align: left;
-        line-height: 1.6;
-        margin: 0;
-      }
-      
-      /* Tier title styling */
-      #ideaTitle {
-        margin-top: 30px;
-        display: none;
-      }
-      
-      /* Visionary text styling */
-      #visionaryText {
-        display: none;
-        margin-top: 30px;
-        font-size: 0.85rem;
-        font-style: italic;
-        color: #555;
-      }
-      
-      /* Inline image in button styling */
-      .button-icon {
-        width: 20px;
-        height: auto;
-        margin-left: 4px;
-        vertical-align: middle;
-      }
-      
-      /* FOOTER */
-      footer {
-        padding: 20px 0;
-        text-align: center;
-        font-size: 0.85rem;
-        color: #777;
-      }
-      
-      /* EXIT-INTENT POPUP STYLES */
-      #exitPopup {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-      }
-      #exitPopup > .popup-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-        max-width: 90%;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      }
-      #exitPopup p {
-        margin-bottom: 15px;
-        font-size: 1.1rem;
-      }
-      #exitPopup .popup-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-      }
-      #exitPopup .popup-buttons a,
-      #exitPopup .popup-buttons button {
-        display: inline-block;
-        padding: 8px 16px;
-        border-radius: 4px;
-        font-weight: normal;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      #exitPopup .popup-buttons a {
-        background-color: #90ee90;
-        color: #000;
-      }
-      #exitPopup .popup-buttons button {
-        background-color: #ccc;
-        color: #000;
-        border: none;
-      }
-      
-      /* Toast Modal for Copy Action */
-      #toast {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #1B86FA;
-        color: #fff;
-        padding: 20px 30px;
-        border-radius: 8px;
-        font-size: 1.2rem;
-        text-align: center;
-        z-index: 2000;
-      }
-      
-      /* MOBILE OVERRIDES */
-      @media (max-width: 600px) {
-        header {
-          padding: 15px 10px;
-        }
-        header h2 {
-          font-size: 1.2rem;
-          padding: 0 10px;
-          white-space: normal;
-        }
-        .hero {
-          padding: 15px;
-        }
-        .hero h1 {
-          font-size: 1.5rem;
-        }
-        .hero p {
-          font-size: 0.95rem;
-        }
-        button {
-          font-size: 1rem;
-          padding: 12px 24px;
-        }
-        #idea {
-          font-size: 0.95rem;
-          padding: 14px;
-        }
-        #exitPopup p {
-          font-size: 1rem;
-        }
-        #exitPopup .popup-buttons a,
-        #exitPopup .popup-buttons button {
-          padding: 8px 12px;
-          font-size: 1rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h2>Generate AI accounting app ideas for free</h2>
-    </header>
+  // Session idea total for display, starts at 20 ($20B)
+  let sessionIdeaTotal = 20;
 
-    <main>
-      <section class="hero">
-        <h1>Accounting is <span class="highlight">easy</span>.<br>Accountants are old.</h1>
-        <p>
-          Did you take one accounting class in college?<br>
-          Have you used ChatGPT a few times?<br><br>
-          Great, you're ready to disrupt a $20B industry.<br>
-        </p>
-        <button id="generateBtn">Make me a disruptor right now</button>
-        <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
-        <div id="idea">Click above to generate a $20B idea.</div>
-        <div id="visionaryText">--</div>
-        <button id="claimBtn" style="display: none;">Claim dibs on this idea</button>
-      </section>
-    </main>
+  // Session-wide visionary count (static for session): random number between 195 and 277.
+  const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
 
-    <footer>
-      <p>&copy; 2025 Accounting Disruptor. All rights reserved.</p>
-    </footer>
+  // All possible button states (including first two)
+  const allStates = [
+    "Make me a disruptor right now",              // 0
+    "Bro plz, I need to disrupt. More ideas?",    // 1
+    "Make me a disruptor bro plz",
+    "Plz bro you can do better c'mon",
+    "Plzzzz bro another idea",
+    "Not bad but I want the bag bro",
+    "Anudder One <img src='frank-head.png' alt='Frank Head' class='button-icon' />",
+    "Anotha one <img src='khaled-head.png' alt='Khaled Head' class='button-icon' />",
+    "I'm tryna build in public bro GIMME ANOTHER IDEA",
+    "I'm in my bag fr bro just gimme one more idea and watch me cook",
+    "My partner is gna leave me if u don't give me a better idea"
+  ];
 
-    <!-- Exit-Intent Popup HTML -->
-    <div id="exitPopup">
-      <div class="popup-content">
-        <p>wait sorry -- do u want real help?</p>
-        <div class="popup-buttons">
-          <a href="https://finoptimal.com" target="_blank" onclick="document.getElementById('exitPopup').style.display='none';">yes</a>
-          <button id="exitPopupCancel">no</button>
-        </div>
-      </div>
-    </div>
+  // We'll shuffle the entire list once the user hits the third click
+  let cycledStates = [];
+  let cycleIndex = 0; // tracks position in cycledStates
 
-    <!-- Toast Modal for Copy Action -->
-    <div id="toast">Idea copied to clipboard.<br><br>Just paste, post and profitttttttt.</div>
+  // Button color toggle array
+  const buttonColors = ["#1B86FA", "#000"];
+  let colorIndex = 0;
 
-    <script>
-      // Global variables for idea management and session stats
-      let tier1 = [];
-      let tier2 = [];
-      let tier3 = [];
-      let currentTier = 1; // 1 for tier1, 2 for tier2, 3 for tier3, 4 when finished.
-      let firstClick = true;
-      let currentIdeaTitle = "";
-      let currentIdeaDescription = "";
-      
-      // Session idea total for display, starts at 20 ($20B)
-      let sessionIdeaTotal = 20;
-      
-      // Session-wide visionary count (static for session): random number between 195 and 277.
-      const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
-      
-      // Fisher–Yates shuffle function to randomize the array in place.
-      function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+  // Helper: Toggle the button color each click
+  function toggleButtonColor() {
+    colorIndex = 1 - colorIndex;
+    button.style.backgroundColor = buttonColors[colorIndex];
+  }
+
+  // Fisher–Yates shuffle function
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Load ideas from the JSON file on page load.
+  fetch('/ideas.json')
+    .then(response => response.json())
+    .then(data => {
+      if (data.tier1) {
+        tier1 = shuffle(data.tier1);
+        tier2 = shuffle(data.tier2 || []);
+        tier3 = shuffle(data.tier3 || []);
+      } else {
+        tier1 = shuffle(data);
+        tier2 = [];
+        tier3 = [];
       }
-      
-      // Load ideas from the JSON file on page load.
-      fetch('/ideas.json')
-        .then(response => response.json())
-        .then(data => {
-          if (data.tier1) {
-            tier1 = shuffle(data.tier1);
-            tier2 = shuffle(data.tier2 || []);
-            tier3 = shuffle(data.tier3 || []);
-          } else {
-            tier1 = shuffle(data);
-            tier2 = [];
-            tier3 = [];
-          }
-          currentTier = 1;
-          console.log("Loaded tier1:", tier1);
-          console.log("Loaded tier2:", tier2);
-          console.log("Loaded tier3:", tier3);
-        })
-        .catch(error => {
-          console.error('Error loading ideas:', error);
-        });
-      
-      const button = document.getElementById('generateBtn');
-      const ideaDiv = document.getElementById('idea');
-      const ideaTitle = document.getElementById('ideaTitle');
-      const claimBtn = document.getElementById('claimBtn');
-      const visionaryText = document.getElementById('visionaryText');
-      
-      // Array for random button texts after second click.
-      const randomTexts = [
-        "Make me a disruptor bro plz",
-        "Plz bro you can do better c'mon",
-        "Plzzzz bro another idea",
-        "Not bad but I want the bag bro",
-        // Replace the text with an inline image for Frank:
-        "Anudder One <img src='frank-head.png' alt='Frank Head' class='button-icon' />",
-        "Anotha one (dj khaled voice)",
-        "I'm tryna build in public bro GIMME ANOTHER IDEA",
-        "I'm in my bag fr bro just gimme one more idea and watch me cook",
-        "My partner is gna leave me if u don't give me a better idea"
-      ];
-      
-      // Function to pick a random text from the array.
-      function getRandomText() {
-        return randomTexts[Math.floor(Math.random() * randomTexts.length)];
+      console.log("Loaded tier1:", tier1);
+      console.log("Loaded tier2:", tier2);
+      console.log("Loaded tier3:", tier3);
+    })
+    .catch(error => {
+      console.error('Error loading ideas:', error);
+    });
+
+  const button = document.getElementById('generateBtn');
+  const ideaDiv = document.getElementById('idea');
+  const ideaTitle = document.getElementById('ideaTitle');
+  const claimBtn = document.getElementById('claimBtn');
+  const visionaryText = document.getElementById('visionaryText');
+
+  // Initially set the button to the first state
+  button.innerHTML = allStates[0];
+
+  // Returns the next idea from the correct tier
+  function getNextIdea() {
+    let rawIdea = "";
+    if (currentTier === 1 && tier1.length > 0) {
+      rawIdea = tier1.shift();
+      if (tier1.length === 0) currentTier = 2;
+    } else if (currentTier === 2 && tier2.length > 0) {
+      rawIdea = tier2.shift();
+      if (tier2.length === 0) currentTier = 3;
+    } else if (currentTier === 3 && tier3.length > 0) {
+      rawIdea = tier3.shift();
+      if (tier3.length === 0) currentTier = 4;
+    }
+    return rawIdea;
+  }
+
+  // Event listener for generating an idea
+  button.addEventListener('click', () => {
+    // If finished all tiers, show final message.
+    if (currentTier === 4) {
+      ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
+      claimBtn.style.display = "none";
+      visionaryText.style.display = "none";
+      ideaTitle.innerHTML = "";
+      ideaTitle.style.display = "none";
+      return;
+    }
+
+    let rawIdea = getNextIdea();
+    if (!rawIdea) {
+      // No more ideas in the tiers
+      ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
+      claimBtn.style.display = "none";
+      visionaryText.style.display = "none";
+      ideaTitle.innerHTML = "";
+      ideaTitle.style.display = "none";
+      return;
+    }
+
+    console.log("Raw idea:", rawIdea);
+
+    // --- Button Text Logic ---
+    if (firstClick) {
+      // First click => use second state
+      button.innerHTML = allStates[1];
+      firstClick = false;
+    } else if (!secondClick) {
+      // Second click => user hits third time next
+      secondClick = true;
+      // Now we shuffle the entire allStates array for subsequent usage
+      cycledStates = shuffle([...allStates]);
+      cycleIndex = 0;
+      // Next click will pick from cycledStates
+    } else {
+      // From the third click onward => cycle through cycledStates
+      button.innerHTML = cycledStates[cycleIndex];
+      cycleIndex++;
+      if (cycleIndex >= cycledStates.length) {
+        cycleIndex = 0; // repeat the cycle
       }
-      
-      // Button color toggle array.
-      const buttonColors = ["#1B86FA", "#000"];
-      let colorIndex = 0;
-      
-      // Toggle button color each click.
-      function toggleButtonColor() {
-        colorIndex = 1 - colorIndex;
-        button.style.backgroundColor = buttonColors[colorIndex];
-      }
-      
-      // Function to get the next idea from the appropriate tier.
-      function getNextIdea() {
-        let rawIdea = "";
-        if (currentTier === 1 && tier1.length > 0) {
-          rawIdea = tier1.shift();
-          if (tier1.length === 0) currentTier = 2;
-        } else if (currentTier === 2 && tier2.length > 0) {
-          rawIdea = tier2.shift();
-          if (tier2.length === 0) currentTier = 3;
-        } else if (currentTier === 3 && tier3.length > 0) {
-          rawIdea = tier3.shift();
-          if (tier3.length === 0) currentTier = 4;
-        }
-        return rawIdea;
-      }
-      
-      button.addEventListener('click', () => {
-        // If finished all tiers, show final message.
-        if (currentTier === 4) {
-          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
-          claimBtn.style.display = "none";
-          visionaryText.style.display = "none";
-          ideaTitle.innerHTML = "";
-          ideaTitle.style.display = "none";
-          return;
-        }
-        
-        let rawIdea = getNextIdea();
-        if (!rawIdea) {
-          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
-          claimBtn.style.display = "none";
-          visionaryText.style.display = "none";
-          ideaTitle.innerHTML = "";
-          ideaTitle.style.display = "none";
-          return;
-        }
-        console.log("Raw idea:", rawIdea);
-        
-        // Button text logic:
-        if (firstClick) {
-          button.textContent = "Bro plz, I need to disrupt. More ideas?";
-          firstClick = false;
-          ideaTitle.style.display = "block";
-          ideaTitle.innerHTML = "<br>Your free $20B idea:";
-          claimBtn.style.display = "inline-block";
-        } else {
-          sessionIdeaTotal += 20;
-          ideaTitle.style.display = "block";
-          ideaTitle.innerHTML = "<br>$" + sessionIdeaTotal + " of ideas generated.";
-          // For subsequent clicks, set a random text from the array (allow innerHTML to work).
-          button.innerHTML = getRandomText();
-        }
-        toggleButtonColor();
-        
-        // Split the raw idea into title and description.
-        let parts = rawIdea.split('<br><br>');
-        if (parts.length >= 2) {
-          currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = parts.slice(1).join('<br><br>').replace(/<[^>]*>/g, "").trim();
-          ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
-        } else {
-          ideaDiv.innerHTML = rawIdea;
-          currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = "";
-        }
-        
-        // Update visionary text with static sessionVisionaryCount.
-        visionaryText.style.display = "block";
-        visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...";
-      });
-      
-      // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
-      claimBtn.addEventListener('click', () => {
-        // Construct clipboard text as:
-        // Line 1: "Calling dibs on a $20B idea: {idea title} 🔥🔥"
-        // Two line breaks
-        // Line 2: "{idea title}"
-        // Two line breaks
-        // Line 3: "{idea description}"
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => {
-            const toast = document.getElementById('toast');
-            toast.style.display = 'block';
-            setTimeout(() => {
-              toast.style.display = 'none';
-              window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
-            }, 3000);
-          })
-          .catch(err => console.error("Failed to copy text: ", err));
-      });
-      
-      // Exit-Intent Popup JavaScript
-      let exitPopupShown = false;
-      const pageLoadTime = Date.now();
-      
-      document.addEventListener('mouseout', function (e) {
-        if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
-          document.getElementById('exitPopup').style.display = 'block';
-          exitPopupShown = true;
-        }
-      });
-      
-      document.getElementById('exitPopupCancel').addEventListener('click', function () {
-        document.getElementById('exitPopup').style.display = 'none';
-      });
-    </script>
+    }
+    toggleButtonColor();
+    // --- End button text logic ---
+
+    // Title logic
+    if (!secondClick) {
+      // i.e. first idea
+      ideaTitle.style.display = "block";
+      ideaTitle.innerHTML = "<br>Your free $20B idea:";
+      claimBtn.style.display = "inline-block";
+    } else {
+      // subsequent ideas
+      sessionIdeaTotal += 20;
+      ideaTitle.style.display = "block";
+      ideaTitle.innerHTML = `<br>$${sessionIdeaTotal}B of ideas generated.`;
+    }
+
+    // Process the raw idea into title/description
+    let parts = rawIdea.split('<br><br>');
+    if (parts.length >= 2) {
+      currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
+      currentIdeaDescription = parts.slice(1).join('<br><br>').replace(/<[^>]*>/g, "").trim();
+      ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
+    } else {
+      ideaDiv.innerHTML = rawIdea;
+      currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
+      currentIdeaDescription = "";
+    }
+
+    // Show visionary text
+    visionaryText.style.display = "block";
+    visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...👀";
+  });
+
+  // "Claim dibs on this idea" button
+  claimBtn.addEventListener('click', () => {
+    // "Calling dibs on a $20B idea: {idea title} 🔥🔥"
+    // then 2 line breaks, then {idea title}, then 2 line breaks, then {description}
+    const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
+      "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
+
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+          window.open("https://www.linkedin.com/sharing/share-offsite/?url=" +
+            encodeURIComponent(window.location.href),
+            "_blank"
+          );
+        }, 3000);
+      })
+      .catch(err => console.error("Failed to copy text: ", err));
+  });
+
+  // Exit-Intent Popup JavaScript
+  let exitPopupShown = false;
+  const pageLoadTime = Date.now();
+
+  document.addEventListener('mouseout', function (e) {
+    if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
+      document.getElementById('exitPopup').style.display = 'block';
+      exitPopupShown = true;
+    }
+  });
+
+  document.getElementById('exitPopupCancel').addEventListener('click', function () {
+    document.getElementById('exitPopup').style.display = 'none';
+  });
+</script>
