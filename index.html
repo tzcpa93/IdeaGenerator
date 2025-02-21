@@ -20,14 +20,14 @@
         margin: 0;
         padding: 0;
       }
-
+      
       html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
         background: #fff;
         color: #111;
       }
-
+      
       /* HEADER (Desktop Version) */
       header {
         background-color: #1B86FA;
@@ -38,9 +38,9 @@
         color: #fff;
         font-weight: 800;
         letter-spacing: 1px;
-        font-size: 1.5rem; /* Desktop header font size */
+        font-size: 1.5rem;
       }
-
+      
       /* HERO SECTION */
       .hero {
         background: linear-gradient(
@@ -51,7 +51,7 @@
         padding: 80px 20px;
         text-align: center;
       }
-
+      
       .hero h1 {
         font-size: 2rem;
         font-weight: 800;
@@ -73,8 +73,8 @@
         margin: 0 auto 40px auto;
         color: #555;
       }
-
-      /* BUTTON */
+      
+      /* BUTTONS */
       button {
         font-size: 1rem;
         padding: 16px 32px;
@@ -89,7 +89,12 @@
       button:hover {
         background-color: #196ac1;
       }
-
+      
+      /* New Claim Button (same style as main button) */
+      #claimBtn {
+        margin-top: 10px;
+      }
+      
       /* IDEA DISPLAY CONTAINER */
       #idea {
         margin-top: 30px;
@@ -108,20 +113,20 @@
       #idea strong {
         font-size: 1.2em;
       }
-
-      /* Additional styling for the description paragraph */
+      
+      /* Styling for the description paragraph */
       #idea p.desc {
-        text-align: left;  /* Left-align description */
-        text-indent: 2em;  /* Indent first line */
-        line-height: 1.6;  /* Increase line spacing */
+        text-align: left;
+        text-indent: 2em;
+        line-height: 1.6;
         margin: 0;
       }
-
+      
       /* "Your free $20B idea:" title styling */
       #ideaTitle {
-        margin-top: 20px; /* Extra padding above the title */
+        margin-top: 20px;
       }
-
+      
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -129,7 +134,7 @@
         font-size: 0.85rem;
         color: #777;
       }
-
+      
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
         display: none;
@@ -182,19 +187,17 @@
         color: #000;
         border: none;
       }
-
+      
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
-        /* Adjust header for mobile: smaller font and added horizontal padding */
         header {
           padding: 15px 10px;
         }
         header h2 {
-          font-size: 1.2rem; /* Smaller font for mobile */
-          padding: 0 10px; /* Horizontal padding */
+          font-size: 1.2rem;
+          padding: 0 10px;
           white-space: normal;
         }
-        /* Other mobile refinements */
         .hero {
           padding: 15px;
         }
@@ -227,7 +230,7 @@
     <header>
       <h2>Generate AI accounting app ideas for free</h2>
     </header>
-
+    
     <main>
       <section class="hero">
         <h1>Accounting is <span class="highlight">easy</span>.<br>Accountants are old.</h1>
@@ -239,13 +242,14 @@
         <button id="generateBtn">Make me a disruptor bro plz</button>
         <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
         <div id="idea">Click above to generate a $20B idea.</div>
+        <button id="claimBtn" style="display:none; margin-top: 10px;">Claim This Idea</button>
       </section>
     </main>
-
+    
     <footer>
       <p>&copy; 2025 Accounting Disruptor. All rights reserved.</p>
     </footer>
-
+    
     <!-- Exit-Intent Popup HTML -->
     <div id="exitPopup">
       <div class="popup-content">
@@ -256,13 +260,13 @@
         </div>
       </div>
     </div>
-
+    
     <script>
       // Global variables for idea management
       let ideas = [];
       let currentIndex = 0;
       let firstClick = true;
-
+      
       // Fisher–Yates shuffle function to randomize the array in place.
       function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -271,13 +275,17 @@
         }
         return array;
       }
-
+      
       // Load ideas from the JSON file on page load.
       fetch('/ideas.json')
         .then(response => response.json())
         .then(data => {
-          // Combine all tiers from your JSON file into one array.
-          ideas = [].concat(data.tier1, data.tier2, data.tier3);
+          // Combine all tiers into one array if your JSON uses tier1, tier2, etc.
+          if (data.tier1) {
+            ideas = [].concat(data.tier1, data.tier2, data.tier3 || []);
+          } else {
+            ideas = data;
+          }
           shuffle(ideas);
           currentIndex = 0;
           console.log("Loaded ideas:", ideas);
@@ -285,35 +293,37 @@
         .catch(error => {
           console.error('Error loading ideas:', error);
         });
-
+      
       const button = document.getElementById('generateBtn');
       const ideaDiv = document.getElementById('idea');
       const ideaTitle = document.getElementById('ideaTitle');
-
+      const claimBtn = document.getElementById('claimBtn');
+      
       button.addEventListener('click', () => {
         if (ideas.length === 0) {
           ideaDiv.innerHTML = 'Error. AI found this and broke it.';
           return;
         }
-
-        // On the first click, change the button text and show the title paragraph.
+      
+        // On the first click, change the button text, show the title, and reveal the claim button.
         if (firstClick) {
           button.textContent = "Plz bro you can do better c'mon";
           firstClick = false;
           ideaTitle.style.display = "block";
+          claimBtn.style.display = "inline-block";
         }
-
+      
         // If we've cycled through all ideas, reshuffle.
         if (currentIndex >= ideas.length) {
           shuffle(ideas);
           currentIndex = 0;
         }
-
+      
         // Get the raw idea string.
         let rawIdea = ideas[currentIndex];
         console.log("Raw idea:", rawIdea);
         currentIndex++;
-
+      
         // Split the idea at the first "<br><br>" into title and description.
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
@@ -323,11 +333,23 @@
           ideaDiv.innerHTML = rawIdea;
         }
       });
-
+      
+      // Claim This Idea Button: Copy idea text and open LinkedIn's share dialog.
+      claimBtn.addEventListener('click', () => {
+        // Copy the idea text (using innerText for a clean version)
+        const ideaText = ideaDiv.innerText || ideaDiv.textContent;
+        navigator.clipboard.writeText(ideaText)
+          .then(() => {
+            // Open LinkedIn share window (opens the "share offsite" page for the current URL)
+            window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
+          })
+          .catch(err => console.error("Failed to copy text: ", err));
+      });
+      
       // Exit-Intent Popup JavaScript
       let exitPopupShown = false;
       const pageLoadTime = Date.now(); // Record when the page loads
-
+      
       document.addEventListener('mouseout', function (e) {
         // Only show the popup if:
         // 1. The popup hasn't been shown already.
@@ -338,7 +360,7 @@
           exitPopupShown = true;
         }
       });
-
+      
       document.getElementById('exitPopupCancel').addEventListener('click', function () {
         document.getElementById('exitPopup').style.display = 'none';
       });
