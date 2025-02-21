@@ -20,14 +20,14 @@
         margin: 0;
         padding: 0;
       }
-
+      
       html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
         background: #fff;
         color: #111;
       }
-
+      
       /* HEADER */
       header {
         background-color: #1B86FA;
@@ -40,7 +40,7 @@
         letter-spacing: 1px;
         font-size: 1.5rem;
       }
-
+      
       /* HERO SECTION */
       .hero {
         background: linear-gradient(
@@ -70,7 +70,7 @@
         margin: 0 auto 40px auto;
         color: #555;
       }
-
+      
       /* BUTTONS */
       button {
         font-size: 1rem;
@@ -86,7 +86,7 @@
       button:hover {
         background-color: #196ac1;
       }
-
+      
       /* Claim Button - Dark Grey, Smaller, with extra top margin */
       #claimBtn {
         display: none;
@@ -98,12 +98,11 @@
       #claimBtn:hover {
         background-color: #333;
       }
-
+      
       /* IDEA DISPLAY CONTAINER */
       #idea {
         margin-top: 20px;
         font-size: 1.1rem;
-        font-style: normal;
         color: #333;
         max-width: 600px;
         margin-left: auto;
@@ -117,20 +116,20 @@
       #idea strong {
         font-size: 1.2em;
       }
-
+      
       /* Styling for the description paragraph (no indent) */
       #idea p.desc {
         text-align: left;
         line-height: 1.6;
         margin: 0;
       }
-
-      /* "Your free $20B idea:" title styling */
+      
+      /* "Your free $20B idea:" title styling (and later session total) */
       #ideaTitle {
         margin-top: 30px;
       }
-
-      /* Visionary count text styling */
+      
+      /* Visionaries text styling */
       #visionaryText {
         display: none;
         margin-top: 10px;
@@ -138,7 +137,7 @@
         font-style: italic;
         color: #555;
       }
-
+      
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -146,7 +145,7 @@
         font-size: 0.85rem;
         color: #777;
       }
-
+      
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
         display: none;
@@ -197,7 +196,7 @@
         color: #000;
         border: none;
       }
-
+      
       /* Toast Modal for Copy Action */
       #toast {
         display: none;
@@ -213,7 +212,7 @@
         text-align: center;
         z-index: 2000;
       }
-
+      
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
@@ -259,13 +258,13 @@
 
     <main>
       <section class="hero">
-        <h1>Accounting is <span class="highlight">easy</span>.<br>Accountants are old.<br><span class="highlight">You're a disruptor.</span></h1>
+        <h1>Accounting is <span class="highlight">easy</span>.<br>Accountants are old.</h1>
         <p>
           Did you take one accounting class in college?<br>
           Have you used ChatGPT a few times?<br><br>
-          Guess what? You're ready to disrupt a $20B industry.<br>
+          Great, you're ready to disrupt a $20B industry.<br>
         </p>
-        <button id="generateBtn">Become a disruptor right now</button>
+        <button id="generateBtn">Make me a disruptor bro plz</button>
         <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
         <div id="idea">Click above to generate a $20B idea.</div>
         <div id="visionaryText">--</div>
@@ -300,6 +299,15 @@
       let firstClick = true;
       let currentIdeaTitle = "";
       let currentIdeaDescription = "";
+      
+      // Artificial view count that increments per idea displayed.
+      let viewCount = 500;
+      
+      // Session-wide visionary count (static for session): random number between 195 and 277.
+      const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
+      
+      // Session idea total, starts at 20 (i.e., $20B) and increments by 20 for each idea after the first.
+      let sessionIdeaTotal = 20;
       
       // Fisher–Yates shuffle function to randomize the array in place.
       function shuffle(array) {
@@ -360,6 +368,7 @@
           ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
           claimBtn.style.display = "none";
           visionaryText.style.display = "none";
+          ideaTitle.innerHTML = "";
           return;
         }
       
@@ -368,6 +377,7 @@
           ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
           claimBtn.style.display = "none";
           visionaryText.style.display = "none";
+          ideaTitle.innerHTML = "";
           return;
         }
         console.log("Raw idea:", rawIdea);
@@ -376,8 +386,13 @@
         if (firstClick) {
           button.textContent = "Plz bro you can do better c'mon";
           firstClick = false;
-          ideaTitle.style.display = "block";
+          // On first idea, display the original title.
+          ideaTitle.innerHTML = "<br>Your free $20B idea:";
           claimBtn.style.display = "inline-block";
+        } else {
+          // For subsequent ideas, increment the session total by $20B.
+          sessionIdeaTotal += 20;
+          ideaTitle.innerHTML = "<br>$" + sessionIdeaTotal + " of ideas generated.";
         }
       
         // Split the raw idea into title and description.
@@ -392,18 +407,17 @@
           currentIdeaDescription = "";
         }
       
-        // Update visionary text with a random number between 17 and 19.
-        let visionaryCount = Math.floor(Math.random() * 3) + 17;
+        // Update visionary text with the session-wide number (static for this session).
         visionaryText.style.display = "block";
-        visionaryText.innerHTML = visionaryCount + " visionaries are eyeing this idea right now... 👀";
+        visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...";
       });
       
-      // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
+      // "Claim dibs on this idea" button: Copy text and open LinkedIn's share dialog.
       claimBtn.addEventListener('click', () => {
-        // Build clipboard text:
+        // Build clipboard text as:
         // Line 1: "Calling dibs on a $20B idea: {idea title} 🔥🔥"
         // Two line breaks
-        // Line 2: "{idea title}" followed by a space then "{idea description}"
+        // Line 2: "{idea title}" (then a line break) then "{idea description}"
         const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
