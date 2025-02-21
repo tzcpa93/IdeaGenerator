@@ -20,14 +20,14 @@
         margin: 0;
         padding: 0;
       }
-
+      
       html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
         background: #fff;
         color: #111;
       }
-
+      
       /* HEADER */
       header {
         background-color: #1B86FA;
@@ -40,7 +40,7 @@
         letter-spacing: 1px;
         font-size: 1.5rem;
       }
-
+      
       /* HERO SECTION */
       .hero {
         background: linear-gradient(
@@ -70,7 +70,7 @@
         margin: 0 auto 40px auto;
         color: #555;
       }
-
+      
       /* BUTTONS */
       button {
         font-size: 1rem;
@@ -86,7 +86,7 @@
       button:hover {
         background-color: #196ac1;
       }
-
+      
       /* Claim Button - Dark Grey, Smaller, with extra top margin */
       #claimBtn {
         display: none;
@@ -98,7 +98,7 @@
       #claimBtn:hover {
         background-color: #333;
       }
-
+      
       /* IDEA DISPLAY CONTAINER */
       #idea {
         margin-top: 20px;
@@ -117,19 +117,35 @@
       #idea strong {
         font-size: 1.2em;
       }
-
-      /* Styling for the description paragraph without indent */
+      
+      /* Styling for the description paragraph (no indent) */
       #idea p.desc {
         text-align: left;
         line-height: 1.6;
         margin: 0;
       }
-
+      
       /* "Your free $20B idea:" title styling */
       #ideaTitle {
         margin-top: 30px;
       }
-
+      
+      /* New statistic element for fake real-time view count */
+      #stat {
+        margin-top: 15px;
+        font-size: 1rem;
+        color: #777;
+      }
+      
+      /* New "visionary count" text above claim button */
+      #visionaryText {
+        display: none;
+        margin-top: 10px;
+        font-size: 0.85rem;
+        font-style: italic;
+        color: #555;
+      }
+      
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -137,7 +153,7 @@
         font-size: 0.85rem;
         color: #777;
       }
-
+      
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
         display: none;
@@ -188,7 +204,7 @@
         color: #000;
         border: none;
       }
-
+      
       /* Toast Modal for Copy Action */
       #toast {
         display: none;
@@ -204,7 +220,7 @@
         text-align: center;
         z-index: 2000;
       }
-
+      
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
@@ -259,6 +275,8 @@
         <button id="generateBtn">Make me a disruptor bro plz</button>
         <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
         <div id="idea">Click above to generate a $20B idea.</div>
+        <div id="stat">500 people are eyeing this idea.</div>
+        <div id="visionaryText">--</div>
         <button id="claimBtn" style="display: none;">Claim dibs on this idea</button>
       </section>
     </main>
@@ -279,17 +297,20 @@
     </div>
 
     <!-- Toast Modal for Copy Action -->
-    <div id="toast">Idea copied. The bag is loading...<br><br>Just paste & post to get funding.</div>
+    <div id="toast">Idea copied to clipboard.<br><br>Just paste, post and profitttttttt.</div>
 
     <script>
-      // Global variables for idea management
+      // Global variables for idea management and session stats
       let tier1 = [];
       let tier2 = [];
       let tier3 = [];
-      let currentTier = 1; // 1 for tier1, 2 for tier2, 3 for tier3
+      let currentTier = 1; // 1 for tier1, 2 for tier2, 3 for tier3, 4 when finished.
       let firstClick = true;
       let currentIdeaTitle = "";
       let currentIdeaDescription = "";
+      
+      // Artificial view count that increments per idea displayed.
+      let viewCount = 500;
       
       // Fisher–Yates shuffle function to randomize the array in place.
       function shuffle(array) {
@@ -309,7 +330,6 @@
             tier2 = shuffle(data.tier2 || []);
             tier3 = shuffle(data.tier3 || []);
           } else {
-            // Fallback if no tiers exist.
             tier1 = shuffle(data);
             tier2 = [];
             tier3 = [];
@@ -327,45 +347,39 @@
       const ideaDiv = document.getElementById('idea');
       const ideaTitle = document.getElementById('ideaTitle');
       const claimBtn = document.getElementById('claimBtn');
+      const statDiv = document.getElementById('stat');
+      const visionaryText = document.getElementById('visionaryText');
       
-      // Function to get next idea from the appropriate tier.
+      // Function to get the next idea from the appropriate tier.
       function getNextIdea() {
         let rawIdea = "";
         if (currentTier === 1 && tier1.length > 0) {
-          rawIdea = tier1.shift(); // Remove from front
-          if (tier1.length === 0) {
-            currentTier = 2;
-          }
+          rawIdea = tier1.shift();
+          if (tier1.length === 0) currentTier = 2;
         } else if (currentTier === 2 && tier2.length > 0) {
           rawIdea = tier2.shift();
-          if (tier2.length === 0) {
-            currentTier = 3;
-          }
+          if (tier2.length === 0) currentTier = 3;
         } else if (currentTier === 3 && tier3.length > 0) {
           rawIdea = tier3.shift();
-          if (tier3.length === 0) {
-            currentTier = 4; // 4 indicates finished all tiers.
-          }
+          if (tier3.length === 0) currentTier = 4;
         }
         return rawIdea;
       }
       
       button.addEventListener('click', () => {
-        // If all tiers are finished, show final message.
+        // If finished all tiers, show final message.
         if (currentTier === 4) {
-          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
-          claimBtn.style.display = "none"; // Hide claim button.
-          return;
-        }
-      
-        let rawIdea = getNextIdea();
-        if (!rawIdea) {
-          // In case getNextIdea() returns empty before reaching tier4.
           ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
           claimBtn.style.display = "none";
           return;
         }
       
+        let rawIdea = getNextIdea();
+        if (!rawIdea) {
+          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
+          claimBtn.style.display = "none";
+          return;
+        }
         console.log("Raw idea:", rawIdea);
       
         // On the first click, update UI.
@@ -376,36 +390,42 @@
           claimBtn.style.display = "inline-block";
         }
       
-        // Split the idea at the first "<br><br>" into title and description.
+        // Split the raw idea into title and description.
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
-          // Store plain text versions for clipboard use.
           currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = parts.slice(1).join('<br><br>').replace(/<[^>]*>/g, "").trim();
-          // Display formatted idea.
           ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
           currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = "";
         }
+      
+        // Increment the view counter.
+        let increment = Math.floor(Math.random() * 3) + 17; // random number between 17 and 19
+        viewCount += increment;
+        statDiv.innerHTML = viewCount + " people are eyeing this idea.";
+      
+        // Update visionary text with a new random number between 17 and 19.
+        let visionaryCount = Math.floor(Math.random() * 3) + 17;
+        visionaryText.style.display = "block";
+        visionaryText.innerHTML = visionaryCount + " visionaries are eyeing this idea right now... 👀";
       });
       
-      // "Claim dibs on this idea" button: Copy text in desired format and open LinkedIn share dialog.
+      // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
       claimBtn.addEventListener('click', () => {
-        // Construct the clipboard text as:
+        // Build the clipboard text as:
         // "Calling dibs on a $20B idea: {idea title} 🔥🔥"
         // then two line breaks,
         // then "{idea title}" followed by a space and then "{idea description}"
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + " " + currentIdeaDescription;
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
-            // Show toast modal for 3 seconds
             const toast = document.getElementById('toast');
             toast.style.display = 'block';
             setTimeout(() => {
               toast.style.display = 'none';
-              // Open LinkedIn share dialog in a new tab without redirecting current page.
               window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
             }, 3000);
           })
