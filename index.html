@@ -28,7 +28,7 @@
         color: #111;
       }
 
-      /* HEADER (Desktop Version) */
+      /* HEADER */
       header {
         background-color: #1B86FA;
         padding: 20px 0;
@@ -38,7 +38,7 @@
         color: #fff;
         font-weight: 800;
         letter-spacing: 1px;
-        font-size: 1.5rem; /* Desktop header font size */
+        font-size: 1.5rem;
       }
 
       /* HERO SECTION */
@@ -51,7 +51,6 @@
         padding: 80px 20px;
         text-align: center;
       }
-
       .hero h1 {
         font-size: 2rem;
         font-weight: 800;
@@ -61,11 +60,9 @@
         margin-right: auto;
         line-height: 1.3;
       }
-      /* Highlight the word "easy" */
       .hero h1 .highlight {
         color: #1B86FA;
       }
-      
       .hero p {
         font-size: 1.1rem;
         font-weight: 400;
@@ -89,7 +86,7 @@
       button:hover {
         background-color: #196ac1;
       }
-      
+
       /* Claim Button - Dark Grey, Smaller, with extra top margin */
       #claimBtn {
         display: none;
@@ -101,10 +98,10 @@
       #claimBtn:hover {
         background-color: #333;
       }
-      
+
       /* IDEA DISPLAY CONTAINER */
       #idea {
-        margin-top: 30px;
+        margin-top: 20px;
         font-size: 1.1rem;
         font-style: normal;
         color: #333;
@@ -121,17 +118,17 @@
         font-size: 1.2em;
       }
 
-      /* Styling for the description paragraph */
+      /* Additional styling for the description paragraph */
       #idea p.desc {
-        text-align: left;  /* Left-align description */
-        text-indent: 2em;  /* Indent first line */
-        line-height: 1.6;  /* Increase line spacing */
+        text-align: left;
+        text-indent: 2em;
+        line-height: 1.6;
         margin: 0;
       }
 
       /* "Your free $20B idea:" title styling */
       #ideaTitle {
-        margin-top: 20px; /* Extra padding above the title */
+        margin-top: 30px;
       }
 
       /* FOOTER */
@@ -183,19 +180,17 @@
         text-decoration: none;
         cursor: pointer;
       }
-      /* "yes" button */
       #exitPopup .popup-buttons a {
         background-color: #90ee90;
         color: #000;
       }
-      /* "no" button */
       #exitPopup .popup-buttons button {
         background-color: #ccc;
         color: #000;
         border: none;
       }
 
-      /* Toast Notification for Copy Action (Modal Style) */
+      /* Toast Modal for Copy Action */
       #toast {
         display: none;
         position: fixed;
@@ -206,7 +201,7 @@
         color: #fff;
         padding: 20px 30px;
         border-radius: 8px;
-        font-size: 1rem;
+        font-size: 1.2rem;
         z-index: 2000;
       }
 
@@ -354,13 +349,11 @@
         // Split the idea at the first "<br><br>" into title and description.
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
-          currentIdeaTitle = parts[0];
-          // Remove HTML tags from title for clipboard use.
-          let plainTitle = currentIdeaTitle.replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = parts.slice(1).join(' ');
-          ideaDiv.innerHTML = currentIdeaTitle + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
-          // Store the plain text for copying later.
-          currentIdeaTitle = plainTitle;
+          // Store plain text versions (stripping HTML) for clipboard use.
+          currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
+          currentIdeaDescription = parts.slice(1).join(' ').replace(/<[^>]*>/g, "").trim();
+          // Display with formatting: title stays as-is; description wrapped in a left-aligned paragraph.
+          ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
           currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
@@ -368,20 +361,23 @@
         }
       });
       
-      // "Claim dibs on this idea" button: Copy formatted text and open LinkedIn share dialog.
+      // "Claim dibs on this idea" button: Copy formatted text and open LinkedIn's share dialog.
       claimBtn.addEventListener('click', () => {
-        // Build the text to copy: "Calling dibs on a $20B idea: {idea name}"
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle;
+        // Build the text to copy:
+        // "Calling dibs on a $20B idea: {idea name}"
+        // {line break}
+        // "{description}"
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + "\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
-            // Show toast modal for 2 seconds
+            // Show toast modal for 3 seconds
             const toast = document.getElementById('toast');
             toast.style.display = 'block';
             setTimeout(() => {
               toast.style.display = 'none';
-              // Open LinkedIn share dialog in a new tab
+              // Open LinkedIn share dialog in a new tab (does not redirect current page)
               window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
-            }, 2000);
+            }, 3000);
           })
           .catch(err => console.error("Failed to copy text: ", err));
       });
