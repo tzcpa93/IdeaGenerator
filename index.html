@@ -132,7 +132,7 @@
       /* Visionaries text styling */
       #visionaryText {
         display: none;
-        margin-top: 20px; /* Added extra padding above the visionary text */
+        margin-top: 20px;
         font-size: 0.85rem;
         font-style: italic;
         color: #555;
@@ -300,7 +300,7 @@
       let currentIdeaTitle = "";
       let currentIdeaDescription = "";
       
-      // Artificial view count (unused now) and session idea total
+      // Session idea total for display, starts at 20 ($20B)
       let sessionIdeaTotal = 20;
       
       // Session-wide visionary count (static for session): random number between 195 and 277.
@@ -368,7 +368,7 @@
           ideaTitle.innerHTML = "";
           return;
         }
-      
+        
         let rawIdea = getNextIdea();
         if (!rawIdea) {
           ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
@@ -378,7 +378,7 @@
           return;
         }
         console.log("Raw idea:", rawIdea);
-      
+        
         // On the first click, update UI.
         if (firstClick) {
           button.textContent = "Plz bro you can do better c'mon";
@@ -389,7 +389,7 @@
           sessionIdeaTotal += 20;
           ideaTitle.innerHTML = "<br>$" + sessionIdeaTotal + " of ideas generated.";
         }
-      
+        
         // Split the raw idea into title and description.
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
@@ -401,15 +401,15 @@
           currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = "";
         }
-      
-        // Update visionary text with the session-wide number.
+        
+        // Update visionary text (static for the session).
         visionaryText.style.display = "block";
         visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...";
       });
       
       // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
       claimBtn.addEventListener('click', () => {
-        // Construct clipboard text as:
+        // Build the clipboard text as:
         // Line 1: "Calling dibs on a $20B idea: {idea title} 🔥🔥"
         // Two line breaks
         // Line 2: "{idea title}"
