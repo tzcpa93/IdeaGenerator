@@ -283,8 +283,10 @@
 
     <script>
       // Global variables for idea management
-      let ideas = [];
-      let currentIndex = 0;
+      let tier1 = [];
+      let tier2 = [];
+      let tier3 = [];
+      let currentTier = 1; // 1 for tier1, 2 for tier2, 3 for tier3
       let firstClick = true;
       let currentIdeaTitle = "";
       let currentIdeaDescription = "";
@@ -302,15 +304,20 @@
       fetch('/ideas.json')
         .then(response => response.json())
         .then(data => {
-          // Combine tiers if present; otherwise assume data is an array.
           if (data.tier1) {
-            ideas = [].concat(data.tier1, data.tier2, data.tier3 || []);
+            tier1 = shuffle(data.tier1);
+            tier2 = shuffle(data.tier2 || []);
+            tier3 = shuffle(data.tier3 || []);
           } else {
-            ideas = data;
+            // Fallback if no tiers exist.
+            tier1 = shuffle(data);
+            tier2 = [];
+            tier3 = [];
           }
-          shuffle(ideas);
-          currentIndex = 0;
-          console.log("Loaded ideas:", ideas);
+          currentTier = 1;
+          console.log("Loaded tier1:", tier1);
+          console.log("Loaded tier2:", tier2);
+          console.log("Loaded tier3:", tier3);
         })
         .catch(error => {
           console.error('Error loading ideas:', error);
@@ -321,13 +328,47 @@
       const ideaTitle = document.getElementById('ideaTitle');
       const claimBtn = document.getElementById('claimBtn');
       
+      // Function to get next idea from the appropriate tier.
+      function getNextIdea() {
+        let rawIdea = "";
+        if (currentTier === 1 && tier1.length > 0) {
+          rawIdea = tier1.shift(); // Remove from front
+          if (tier1.length === 0) {
+            currentTier = 2;
+          }
+        } else if (currentTier === 2 && tier2.length > 0) {
+          rawIdea = tier2.shift();
+          if (tier2.length === 0) {
+            currentTier = 3;
+          }
+        } else if (currentTier === 3 && tier3.length > 0) {
+          rawIdea = tier3.shift();
+          if (tier3.length === 0) {
+            currentTier = 4; // 4 indicates finished all tiers.
+          }
+        }
+        return rawIdea;
+      }
+      
       button.addEventListener('click', () => {
-        if (ideas.length === 0) {
-          ideaDiv.innerHTML = 'Error. AI found this and broke it.';
+        // If all tiers are finished, show final message.
+        if (currentTier === 4) {
+          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
+          claimBtn.style.display = "none"; // Hide claim button.
           return;
         }
       
-        // On the first click, change the button text, show the title, and reveal the claim button.
+        let rawIdea = getNextIdea();
+        if (!rawIdea) {
+          // In case getNextIdea() returns empty before reaching tier4.
+          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
+          claimBtn.style.display = "none";
+          return;
+        }
+      
+        console.log("Raw idea:", rawIdea);
+      
+        // On the first click, update UI.
         if (firstClick) {
           button.textContent = "Plz bro you can do better c'mon";
           firstClick = false;
@@ -335,24 +376,13 @@
           claimBtn.style.display = "inline-block";
         }
       
-        // If we've cycled through all ideas, reshuffle.
-        if (currentIndex >= ideas.length) {
-          shuffle(ideas);
-          currentIndex = 0;
-        }
-      
-        // Get the raw idea string.
-        let rawIdea = ideas[currentIndex];
-        console.log("Raw idea:", rawIdea);
-        currentIndex++;
-      
         // Split the idea at the first "<br><br>" into title and description.
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
-          // Store plain text versions (strip HTML) for clipboard use.
+          // Store plain text versions for clipboard use.
           currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = parts.slice(1).join('<br><br>').replace(/<[^>]*>/g, "").trim();
-          // Display with formatting: title remains as-is; description wrapped in a paragraph.
+          // Display formatted idea.
           ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
@@ -361,13 +391,13 @@
         }
       });
       
-      // "Claim dibs on this idea" button: Copy formatted text and open LinkedIn's share dialog.
+      // "Claim dibs on this idea" button: Copy text in desired format and open LinkedIn share dialog.
       claimBtn.addEventListener('click', () => {
-        // Build the clipboard text as:
+        // Construct the clipboard text as:
         // "Calling dibs on a $20B idea: {idea title} 🔥🔥"
-        // <br><br>
-        // "{idea description}"
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
+        // then two line breaks,
+        // then "{idea title}" followed by a space and then "{idea description}"
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + " " + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
             // Show toast modal for 3 seconds
@@ -375,7 +405,7 @@
             toast.style.display = 'block';
             setTimeout(() => {
               toast.style.display = 'none';
-              // Open LinkedIn share dialog in a new tab (without redirecting the current page)
+              // Open LinkedIn share dialog in a new tab without redirecting current page.
               window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
             }, 3000);
           })
