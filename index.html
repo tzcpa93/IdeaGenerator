@@ -297,7 +297,7 @@
     </div>
 
     <!-- Toast Modal for Copy Action -->
-    <div id="toast">Idea copied to clipboard.<br><br>Just paste, post and profitttttttt.</div>
+    <div id="toast">Idea copied to clipboard.<br><br>Just paste, post and profittt.</div>
 
     <script>
   // Global variables for idea management and session stats
@@ -448,12 +448,12 @@
     // Title logic: first idea vs. subsequent ideas.
     if (clickCount === 1) {
       ideaTitle.style.display = "block";
-      ideaTitle.innerHTML = "<br>Your free $20B idea:";
+      ideaTitle.innerHTML = "<br>Your free <b>$20B</b> idea:";
       claimBtn.style.display = "inline-block";
     } else {
       sessionIdeaTotal += 20;
       ideaTitle.style.display = "block";
-      ideaTitle.innerHTML = `<br>$${sessionIdeaTotal}B of ideas generated.`;
+      ideaTitle.innerHTML = `<br><b>$${sessionIdeaTotal}B</b> of ideas generated.`;
     }
     
     // Process the raw idea into title and description.
@@ -481,8 +481,7 @@
     // Line 2: "{idea title}"
     // Two line breaks
     // Line 3: "{idea description}"
-    const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
-      "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
+    const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
       
     navigator.clipboard.writeText(textToCopy)
       .then(() => {
