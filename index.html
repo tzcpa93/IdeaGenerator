@@ -1,4 +1,305 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Disrupt Accounting | AI App Ideas</title>
+
+    <!-- Google Font: Karla -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Ensure proper scaling on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      /* RESET */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      html, body {
+        height: 100%;
+        font-family: 'Karla', sans-serif;
+        background: #fff;
+        color: #111;
+      }
+      
+      /* HEADER */
+      header {
+        background-color: #1B86FA;
+        padding: 20px 0;
+        text-align: center;
+      }
+      header h2 {
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: 1px;
+        font-size: 1.5rem;
+      }
+      
+      /* HERO SECTION */
+      .hero {
+        background: linear-gradient(
+          135deg,
+          rgba(240, 240, 240, 1) 0%,
+          rgba(255, 255, 255, 1) 70%
+        );
+        padding: 80px 20px;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.3;
+      }
+      .hero h1 .highlight {
+        color: #1B86FA;
+      }
+      .hero p {
+        font-size: 1.1rem;
+        font-weight: 400;
+        max-width: 700px;
+        margin: 0 auto 40px auto;
+        color: #555;
+      }
+      
+      /* BUTTONS */
+      button {
+        font-size: 1rem;
+        padding: 16px 32px;
+        cursor: pointer;
+        border: none;
+        border-radius: 6px;
+        background-color: #1B86FA;
+        color: #fff;
+        font-weight: 700;
+        transition: background-color 0.2s ease-in-out;
+      }
+      button:hover {
+        background-color: #196ac1;
+      }
+      
+      /* Claim Button - Dark Grey, Smaller, with extra top margin */
+      #claimBtn {
+        display: none;
+        margin-top: 20px;
+        background-color: #444;
+        font-size: 0.9rem;
+        padding: 10px 20px;
+      }
+      #claimBtn:hover {
+        background-color: #333;
+      }
+      
+      /* IDEA DISPLAY CONTAINER */
+      #idea {
+        margin-top: 20px;
+        font-size: 1.1rem;
+        color: #333;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      #idea strong {
+        font-size: 1.2em;
+      }
+      
+      /* Styling for the description paragraph (no indent) */
+      #idea p.desc {
+        text-align: left;
+        line-height: 1.6;
+        margin: 0;
+      }
+      
+      /* Tier title styling */
+      #ideaTitle {
+        margin-top: 30px;
+        display: none;
+      }
+      
+      /* Visionary text styling */
+      #visionaryText {
+        display: none;
+        margin-top: 30px;
+        font-size: 0.85rem;
+        font-style: italic;
+        color: #555;
+      }
+      
+      /* Inline image in button styling */
+      .button-icon {
+        width: 20px;
+        height: auto;
+        margin-left: 4px;
+        vertical-align: middle;
+      }
+      
+      /* FOOTER */
+      footer {
+        padding: 20px 0;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #777;
+      }
+      
+      /* EXIT-INTENT POPUP STYLES */
+      #exitPopup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+      #exitPopup > .popup-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        max-width: 90%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      #exitPopup p {
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+      #exitPopup .popup-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      #exitPopup .popup-buttons a,
+      #exitPopup .popup-buttons button {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: normal;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      #exitPopup .popup-buttons a {
+        background-color: #90ee90;
+        color: #000;
+      }
+      #exitPopup .popup-buttons button {
+        background-color: #ccc;
+        color: #000;
+        border: none;
+      }
+      
+      /* Toast Modal for Copy Action */
+      #toast {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #1B86FA;
+        color: #fff;
+        padding: 20px 30px;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        text-align: center;
+        z-index: 2000;
+      }
+      
+      /* MOBILE OVERRIDES */
+      @media (max-width: 600px) {
+        header {
+          padding: 15px 10px;
+        }
+        header h2 {
+          font-size: 1.2rem;
+          padding: 0 10px;
+          white-space: normal;
+        }
+        .hero {
+          padding: 15px;
+        }
+        .hero h1 {
+          font-size: 1.5rem;
+        }
+        .hero p {
+          font-size: 0.95rem;
+        }
+        button {
+          font-size: 1rem;
+          padding: 12px 24px;
+        }
+        #idea {
+          font-size: 0.95rem;
+          padding: 14px;
+        }
+        #exitPopup p {
+          font-size: 1rem;
+        }
+        #exitPopup .popup-buttons a,
+        #exitPopup .popup-buttons button {
+          padding: 8px 12px;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h2>Generate AI accounting app ideas for free</h2>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Accounting is <span class="highlight">easy</span>.<br>Accountants are old.</h1>
+        <p>
+          Did you take one accounting class in college?<br>
+          Have you used ChatGPT a few times?<br><br>
+          Great, you're ready to disrupt a $20B industry.<br>
+        </p>
+        <button id="generateBtn">Make me a disruptor right now</button>
+        <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
+        <div id="idea">Click above to generate a $20B idea.</div>
+        <div id="visionaryText">--</div>
+        <button id="claimBtn" style="display: none;">Claim dibs on this idea</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Accounting Disruptor. All rights reserved.</p>
+    </footer>
+
+    <!-- Exit-Intent Popup HTML -->
+    <div id="exitPopup">
+      <div class="popup-content">
+        <p>wait sorry -- do u want real help?</p>
+        <div class="popup-buttons">
+          <a href="https://finoptimal.com" target="_blank" onclick="document.getElementById('exitPopup').style.display='none';">yes</a>
+          <button id="exitPopupCancel">no</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Modal for Copy Action -->
+    <div id="toast">Idea copied to clipboard.<br><br>Just paste, post and profitttttttt.</div>
+
+    <script>
   // Global variables for idea management and session stats
   let tier1 = [];
   let tier2 = [];
