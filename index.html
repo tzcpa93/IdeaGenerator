@@ -38,7 +38,7 @@
         color: #fff;
         font-weight: 800;
         letter-spacing: 1px;
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* Desktop header font size */
       }
 
       /* HERO SECTION */
@@ -61,6 +61,7 @@
         margin-right: auto;
         line-height: 1.3;
       }
+      /* Highlight the word "easy" */
       .hero h1 .highlight {
         color: #1B86FA;
       }
@@ -108,6 +109,19 @@
         font-size: 1.2em;
       }
 
+      /* Additional styling for the description paragraph */
+      #idea p.desc {
+        text-align: left;  /* Left-align description */
+        text-indent: 2em;  /* Indent first line */
+        line-height: 1.6;  /* Increase line spacing */
+        margin: 0;
+      }
+
+      /* "Your free $20B idea:" title styling */
+      #ideaTitle {
+        margin-top: 20px; /* Extra padding above the title */
+      }
+
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -116,17 +130,71 @@
         color: #777;
       }
 
+      /* EXIT-INTENT POPUP STYLES */
+      #exitPopup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+      #exitPopup > .popup-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        max-width: 90%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      #exitPopup p {
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+      #exitPopup .popup-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+      #exitPopup .popup-buttons a,
+      #exitPopup .popup-buttons button {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: normal;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      /* "yes" button */
+      #exitPopup .popup-buttons a {
+        background-color: #90ee90;
+        color: #000;
+      }
+      /* "no" button */
+      #exitPopup .popup-buttons button {
+        background-color: #ccc;
+        color: #000;
+        border: none;
+      }
+
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
+        /* Adjust header for mobile: smaller font and added horizontal padding */
         header {
           padding: 15px 10px;
-          margin-top: 10px;
         }
         header h2 {
-          font-size: 1.2rem;
-          padding: 0 10px;
+          font-size: 1.2rem; /* Smaller font for mobile */
+          padding: 0 10px; /* Horizontal padding */
           white-space: normal;
         }
+        /* Other mobile refinements */
         .hero {
           padding: 15px;
         }
@@ -143,6 +211,14 @@
         #idea {
           font-size: 0.95rem;
           padding: 14px;
+        }
+        #exitPopup p {
+          font-size: 1rem;
+        }
+        #exitPopup .popup-buttons a,
+        #exitPopup .popup-buttons button {
+          padding: 8px 12px;
+          font-size: 1rem;
         }
       }
     </style>
@@ -170,13 +246,24 @@
       <p>&copy; 2025 Accounting Disruptor. All rights reserved.</p>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Exit-Intent Popup HTML -->
+    <div id="exitPopup">
+      <div class="popup-content">
+        <p>wait sorry -- do u want real help?</p>
+        <div class="popup-buttons">
+          <a href="https://finoptimal.com" target="_blank" onclick="document.getElementById('exitPopup').style.display='none';">yes</a>
+          <button id="exitPopupCancel">no</button>
+        </div>
+      </div>
+    </div>
+
     <script>
-      let tiers = {};
-      let currentTier = 1;
+      // Global variables for idea management
+      let ideas = [];
       let currentIndex = 0;
       let firstClick = true;
 
+      // Fisher–Yates shuffle function to randomize the array in place.
       function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -185,14 +272,12 @@
         return array;
       }
 
+      // Load ideas from the JSON file on page load.
       fetch('/ideas.json')
         .then(response => response.json())
         .then(data => {
-          tiers = data;
-          if (tiers.tier1) shuffle(tiers.tier1);
-          if (tiers.tier2) shuffle(tiers.tier2);
-          if (tiers.tier3) shuffle(tiers.tier3);
-          currentTier = 1;
+          ideas = data;
+          shuffle(ideas);
           currentIndex = 0;
         })
         .catch(error => {
@@ -204,30 +289,56 @@
       const ideaTitle = document.getElementById('ideaTitle');
 
       button.addEventListener('click', () => {
-        let tierKey = "tier" + currentTier;
-        let currentTierArray = tiers[tierKey];
-
-        if (!currentTierArray || currentIndex >= currentTierArray.length) {
-          if (currentTier < 3) {
-            currentTier++;
-            currentIndex = 0;
-            tierKey = "tier" + currentTier;
-            currentTierArray = tiers[tierKey];
-            if (currentTierArray) shuffle(currentTierArray);
-          } else {
-            ideaDiv.innerHTML = "<strong>I gave you over $500B of ideas bro, go get funded.</strong>";
-            return;
-          }
+        if (ideas.length === 0) {
+          ideaDiv.innerHTML = 'Error. AI found this and broke it.';
+          return;
         }
 
+        // On the first click, change the button text and show the title paragraph.
         if (firstClick) {
           button.textContent = "Plz bro you can do better c'mon";
           firstClick = false;
           ideaTitle.style.display = "block";
         }
 
-        ideaDiv.innerHTML = currentTierArray[currentIndex];
+        // If we've cycled through all ideas, reshuffle.
+        if (currentIndex >= ideas.length) {
+          shuffle(ideas);
+          currentIndex = 0;
+        }
+
+        // Get the raw idea string.
+        let rawIdea = ideas[currentIndex];
         currentIndex++;
+
+        // Split the idea at the first "<br><br>" into a title and description.
+        let parts = rawIdea.split('<br><br>');
+        if (parts.length >= 2) {
+          // Title remains as-is (centered).
+          // Description is wrapped in a paragraph with class "desc" for left alignment, indent, and increased line spacing.
+          ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
+        } else {
+          ideaDiv.innerHTML = rawIdea;
+        }
+      });
+
+      // Exit-Intent Popup JavaScript
+      let exitPopupShown = false;
+      const pageLoadTime = Date.now(); // Record when the page loads
+
+      document.addEventListener('mouseout', function (e) {
+        // Only show the popup if:
+        // 1. The popup hasn't been shown already.
+        // 2. The mouse leaves at the top of the viewport (e.clientY <= 0).
+        // 3. At least 5000ms (5 seconds) have passed since the page loaded.
+        if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
+          document.getElementById('exitPopup').style.display = 'block';
+          exitPopupShown = true;
+        }
+      });
+
+      document.getElementById('exitPopupCancel').addEventListener('click', function () {
+        document.getElementById('exitPopup').style.display = 'none';
       });
     </script>
   </body>
