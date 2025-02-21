@@ -60,6 +60,7 @@
         margin-right: auto;
         line-height: 1.3;
       }
+      /* Highlight the word "easy" */
       .hero h1 .highlight {
         color: #1B86FA;
       }
@@ -118,7 +119,7 @@
         font-size: 1.2em;
       }
 
-      /* Additional styling for the description paragraph */
+      /* Styling for the description paragraph */
       #idea p.desc {
         text-align: left;
         text-indent: 2em;
@@ -180,10 +181,12 @@
         text-decoration: none;
         cursor: pointer;
       }
+      /* "yes" button */
       #exitPopup .popup-buttons a {
         background-color: #90ee90;
         color: #000;
       }
+      /* "no" button */
       #exitPopup .popup-buttons button {
         background-color: #ccc;
         color: #000;
@@ -279,7 +282,7 @@
     </div>
 
     <!-- Toast Modal for Copy Action -->
-    <div id="toast">Idea copied to clipboard. Just paste, post and profitttttttt.</div>
+    <div id="toast">Idea copied to clipboard.<br>Just paste, post and profitttttttt.</div>
 
     <script>
       // Global variables for idea management
@@ -352,7 +355,7 @@
           // Store plain text versions (stripping HTML) for clipboard use.
           currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = parts.slice(1).join(' ').replace(/<[^>]*>/g, "").trim();
-          // Display with formatting: title stays as-is; description wrapped in a left-aligned paragraph.
+          // Display with formatting: title remains as-is; description wrapped in a left-aligned paragraph.
           ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
@@ -364,10 +367,8 @@
       // "Claim dibs on this idea" button: Copy formatted text and open LinkedIn's share dialog.
       claimBtn.addEventListener('click', () => {
         // Build the text to copy:
-        // "Calling dibs on a $20B idea: {idea name}"
-        // {line break}
-        // "{description}"
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + "\n" + currentIdeaDescription;
+        // "Calling dibs on a $20B idea: {idea name}" then two line breaks, then "{description}", then two fire emojis.
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + "\n\n" + currentIdeaDescription + "\n🔥🔥";
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
             // Show toast modal for 3 seconds
@@ -375,7 +376,7 @@
             toast.style.display = 'block';
             setTimeout(() => {
               toast.style.display = 'none';
-              // Open LinkedIn share dialog in a new tab (does not redirect current page)
+              // Open LinkedIn share dialog in a new tab without redirecting the current page.
               window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
             }, 3000);
           })
