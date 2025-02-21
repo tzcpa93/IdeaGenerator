@@ -139,6 +139,14 @@
         color: #555;
       }
       
+      /* Inline image in button styling */
+      .button-icon {
+        width: 20px;
+        height: auto;
+        margin-left: 4px;
+        vertical-align: middle;
+      }
+      
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -265,7 +273,7 @@
           Have you used ChatGPT a few times?<br><br>
           Great, you're ready to disrupt a $20B industry.<br>
         </p>
-        <button id="generateBtn">Make me a disruptor bro plz</button>
+        <button id="generateBtn">Make me a disruptor right now</button>
         <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
         <div id="idea">Click above to generate a $20B idea.</div>
         <div id="visionaryText">--</div>
@@ -289,213 +297,194 @@
     </div>
 
     <!-- Toast Modal for Copy Action -->
-    <div id="toast">Idea copied to clipboard.<br><br>Just paste, post and profittt.</div>
+    <div id="toast">Idea copied to clipboard.<br><br>Just paste, post and profitttttttt.</div>
 
     <script>
-  // Global variables for idea management and session stats
-  let tier1 = [];
-  let tier2 = [];
-  let tier3 = [];
-  let currentTier = 1; // 1 for tier1, 2 for tier2, 3 for tier3, 4 when finished.
-  let firstClick = true;
-  let secondClick = false; 
-  let currentIdeaTitle = "";
-  let currentIdeaDescription = "";
-  
-  // Session idea total for display, starts at 20 ($20B)
-  let sessionIdeaTotal = 20;
-  
-  // Session-wide visionary count (static for session): random number between 195 and 277.
-  const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
-
-  // Button text states
-  const secondClickText = "Bro plz, I need to disrupt. More ideas?";
-  const randomTexts = [
-    "Make me a disruptor bro plz",
-    "Plz bro you can do better c'mon",
-    "Plzzzz bro another idea",
-    "Not bad but I want the bag bro",
-    "Anudder one (frank the tank voice)",
-    "Anotha one (dj khaled voice)",
-    "I'm tryna build in public bro GIMME ANOTHER IDEA",
-    "I'm in my bag fr bro just gimme one more idea and watch me cook",
-    "My partner is gna leave me if u don't give me a better idea"
-  ];
-  
-  // Button color toggle
-  const buttonColors = ["#1B86FA", "#000"]; 
-  let colorIndex = 0; 
-   
-  // Fisher–Yates shuffle function to randomize the array in place.
-  function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-  
-  // Load ideas from the JSON file on page load.
-  fetch('/ideas.json')
-    .then(response => response.json())
-    .then(data => {
-      if (data.tier1) {
-        tier1 = shuffle(data.tier1);
-        tier2 = shuffle(data.tier2 || []);
-        tier3 = shuffle(data.tier3 || []);
-      } else {
-        tier1 = shuffle(data);
-        tier2 = [];
-        tier3 = [];
+      // Global variables for idea management and session stats
+      let tier1 = [];
+      let tier2 = [];
+      let tier3 = [];
+      let currentTier = 1; // 1 for tier1, 2 for tier2, 3 for tier3, 4 when finished.
+      let firstClick = true;
+      let currentIdeaTitle = "";
+      let currentIdeaDescription = "";
+      
+      // Session idea total for display, starts at 20 ($20B)
+      let sessionIdeaTotal = 20;
+      
+      // Session-wide visionary count (static for session): random number between 195 and 277.
+      const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
+      
+      // Fisher–Yates shuffle function to randomize the array in place.
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
       }
-      currentTier = 1;
-      console.log("Loaded tier1:", tier1);
-      console.log("Loaded tier2:", tier2);
-      console.log("Loaded tier3:", tier3);
-    })
-    .catch(error => {
-      console.error('Error loading ideas:', error);
-    });
-  
-  const button = document.getElementById('generateBtn');
-  const ideaDiv = document.getElementById('idea');
-  const ideaTitle = document.getElementById('ideaTitle');
-  const claimBtn = document.getElementById('claimBtn');
-  const visionaryText = document.getElementById('visionaryText');
-  
-  // Function to get the next idea from the appropriate tier.
-  function getNextIdea() {
-    let rawIdea = "";
-    if (currentTier === 1 && tier1.length > 0) {
-      rawIdea = tier1.shift();
-      if (tier1.length === 0) currentTier = 2;
-    } else if (currentTier === 2 && tier2.length > 0) {
-      rawIdea = tier2.shift();
-      if (tier2.length === 0) currentTier = 3;
-    } else if (currentTier === 3 && tier3.length > 0) {
-      rawIdea = tier3.shift();
-      if (tier3.length === 0) currentTier = 4;
-    }
-    return rawIdea;
-  }
-  
-  // Toggle button color each time
-  function toggleButtonColor() {
-    colorIndex = 1 - colorIndex; 
-    button.style.backgroundColor = buttonColors[colorIndex]; 
-  }
-
-  button.textContent = "Make me a disruptor right now"; // Initial state
-
-  button.addEventListener('click', () => {
-    // If finished all tiers, show final message.
-    if (currentTier === 4) {
-      ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
-      claimBtn.style.display = "none";
-      visionaryText.style.display = "none";
-      ideaTitle.innerHTML = "";
-      ideaTitle.style.display = "none";
-      return;
-    }
-    
-    let rawIdea = getNextIdea();
-    if (!rawIdea) {
-      ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
-      claimBtn.style.display = "none";
-      visionaryText.style.display = "none";
-      ideaTitle.innerHTML = "";
-      ideaTitle.style.display = "none";
-      return;
-    }
-    
-    console.log("Raw idea:", rawIdea);
-    
-    // --- Button text logic ---
-    if (firstClick) {
-      // First click
-      button.textContent = secondClickText;
-      firstClick = false;
-    } else if (!secondClick) {
-      // Second click
-      secondClick = true; 
-      // After the second click, pick randomly from the array
-      button.textContent = getRandomText();
-    } else {
-      // From the third click onward
-      button.textContent = getRandomText();
-    }
-    toggleButtonColor();
-    // --- End button text logic ---
-
-    // On the first idea, set up the title
-    if (!secondClick) {
-      // i.e. first idea
-      ideaTitle.style.display = "block";
-      ideaTitle.innerHTML = "<br>Your free $20B idea:";
-      claimBtn.style.display = "inline-block";
-    } else {
-      // subsequent ideas
-      sessionIdeaTotal += 20;
-      ideaTitle.style.display = "block";
-      ideaTitle.innerHTML = `<br>$${sessionIdeaTotal}B of ideas generated.`;
-    }
-    
-    // Split the raw idea into title and description
-    let parts = rawIdea.split('<br><br>');
-    if (parts.length >= 2) {
-      currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
-      currentIdeaDescription = parts.slice(1).join('<br><br>').replace(/<[^>]*>/g, "").trim();
-      ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
-    } else {
-      ideaDiv.innerHTML = rawIdea;
-      currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
-      currentIdeaDescription = "";
-    }
-
-    // Show visionary text
-    visionaryText.style.display = "block";
-    visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...👀";
-  });
-
-  // Helper to pick a random text from the array
-  function getRandomText() {
-    return randomTexts[Math.floor(Math.random() * randomTexts.length)];
-  }
-
-  // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
-  claimBtn.addEventListener('click', () => {
-    // Construct clipboard text
-    // "Calling dibs on a $20B idea: {idea title} 🔥🔥"
-    // Two line breaks
-    // Then the idea description
-    const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
-    navigator.clipboard.writeText(textToCopy)
-      .then(() => {
-        const toast = document.getElementById('toast');
-        toast.style.display = 'block';
-        setTimeout(() => {
-          toast.style.display = 'none';
-          window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
-        }, 3000);
-      })
-      .catch(err => console.error("Failed to copy text: ", err));
-  });
-  
-  // Exit-Intent Popup JavaScript
-  let exitPopupShown = false;
-  const pageLoadTime = Date.now();
-  
-  document.addEventListener('mouseout', function (e) {
-    if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
-      document.getElementById('exitPopup').style.display = 'block';
-      exitPopupShown = true;
-    }
-  });
-  
-  document.getElementById('exitPopupCancel').addEventListener('click', function () {
-    document.getElementById('exitPopup').style.display = 'none';
-  });
-</script>
-
-  </body>
-</html>
+      
+      // Load ideas from the JSON file on page load.
+      fetch('/ideas.json')
+        .then(response => response.json())
+        .then(data => {
+          if (data.tier1) {
+            tier1 = shuffle(data.tier1);
+            tier2 = shuffle(data.tier2 || []);
+            tier3 = shuffle(data.tier3 || []);
+          } else {
+            tier1 = shuffle(data);
+            tier2 = [];
+            tier3 = [];
+          }
+          currentTier = 1;
+          console.log("Loaded tier1:", tier1);
+          console.log("Loaded tier2:", tier2);
+          console.log("Loaded tier3:", tier3);
+        })
+        .catch(error => {
+          console.error('Error loading ideas:', error);
+        });
+      
+      const button = document.getElementById('generateBtn');
+      const ideaDiv = document.getElementById('idea');
+      const ideaTitle = document.getElementById('ideaTitle');
+      const claimBtn = document.getElementById('claimBtn');
+      const visionaryText = document.getElementById('visionaryText');
+      
+      // Array for random button texts after second click.
+      const randomTexts = [
+        "Make me a disruptor bro plz",
+        "Plz bro you can do better c'mon",
+        "Plzzzz bro another idea",
+        "Not bad but I want the bag bro",
+        // Replace the text with an inline image for Frank:
+        "Anudder One <img src='images/frank-head.png' alt='Frank Head' class='button-icon' />",
+        "Anotha one (dj khaled voice)",
+        "I'm tryna build in public bro GIMME ANOTHER IDEA",
+        "I'm in my bag fr bro just gimme one more idea and watch me cook",
+        "My partner is gna leave me if u don't give me a better idea"
+      ];
+      
+      // Function to pick a random text from the array.
+      function getRandomText() {
+        return randomTexts[Math.floor(Math.random() * randomTexts.length)];
+      }
+      
+      // Button color toggle array.
+      const buttonColors = ["#1B86FA", "#000"];
+      let colorIndex = 0;
+      
+      // Toggle button color each click.
+      function toggleButtonColor() {
+        colorIndex = 1 - colorIndex;
+        button.style.backgroundColor = buttonColors[colorIndex];
+      }
+      
+      // Function to get the next idea from the appropriate tier.
+      function getNextIdea() {
+        let rawIdea = "";
+        if (currentTier === 1 && tier1.length > 0) {
+          rawIdea = tier1.shift();
+          if (tier1.length === 0) currentTier = 2;
+        } else if (currentTier === 2 && tier2.length > 0) {
+          rawIdea = tier2.shift();
+          if (tier2.length === 0) currentTier = 3;
+        } else if (currentTier === 3 && tier3.length > 0) {
+          rawIdea = tier3.shift();
+          if (tier3.length === 0) currentTier = 4;
+        }
+        return rawIdea;
+      }
+      
+      button.addEventListener('click', () => {
+        // If finished all tiers, show final message.
+        if (currentTier === 4) {
+          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
+          claimBtn.style.display = "none";
+          visionaryText.style.display = "none";
+          ideaTitle.innerHTML = "";
+          ideaTitle.style.display = "none";
+          return;
+        }
+        
+        let rawIdea = getNextIdea();
+        if (!rawIdea) {
+          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
+          claimBtn.style.display = "none";
+          visionaryText.style.display = "none";
+          ideaTitle.innerHTML = "";
+          ideaTitle.style.display = "none";
+          return;
+        }
+        console.log("Raw idea:", rawIdea);
+        
+        // Button text logic:
+        if (firstClick) {
+          button.textContent = "Bro plz, I need to disrupt. More ideas?";
+          firstClick = false;
+          ideaTitle.style.display = "block";
+          ideaTitle.innerHTML = "<br>Your free $20B idea:";
+          claimBtn.style.display = "inline-block";
+        } else {
+          sessionIdeaTotal += 20;
+          ideaTitle.style.display = "block";
+          ideaTitle.innerHTML = "<br>$" + sessionIdeaTotal + " of ideas generated.";
+          // For subsequent clicks, set a random text from the array (allow innerHTML to work).
+          button.innerHTML = getRandomText();
+        }
+        toggleButtonColor();
+        
+        // Split the raw idea into title and description.
+        let parts = rawIdea.split('<br><br>');
+        if (parts.length >= 2) {
+          currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
+          currentIdeaDescription = parts.slice(1).join('<br><br>').replace(/<[^>]*>/g, "").trim();
+          ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
+        } else {
+          ideaDiv.innerHTML = rawIdea;
+          currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
+          currentIdeaDescription = "";
+        }
+        
+        // Update visionary text with static sessionVisionaryCount.
+        visionaryText.style.display = "block";
+        visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...";
+      });
+      
+      // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
+      claimBtn.addEventListener('click', () => {
+        // Construct clipboard text as:
+        // Line 1: "Calling dibs on a $20B idea: {idea title} 🔥🔥"
+        // Two line breaks
+        // Line 2: "{idea title}"
+        // Two line breaks
+        // Line 3: "{idea description}"
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+              toast.style.display = 'none';
+              window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
+            }, 3000);
+          })
+          .catch(err => console.error("Failed to copy text: ", err));
+      });
+      
+      // Exit-Intent Popup JavaScript
+      let exitPopupShown = false;
+      const pageLoadTime = Date.now();
+      
+      document.addEventListener('mouseout', function (e) {
+        if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
+          document.getElementById('exitPopup').style.display = 'block';
+          exitPopupShown = true;
+        }
+      });
+      
+      document.getElementById('exitPopupCancel').addEventListener('click', function () {
+        document.getElementById('exitPopup').style.display = 'none';
+      });
+    </script>
