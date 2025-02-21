@@ -14,20 +14,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style>
+      /* Existing CSS... */
       /* RESET */
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
-
       html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
         background: #fff;
         color: #111;
       }
-
       /* HEADER (Desktop Version) */
       header {
         background-color: #1B86FA;
@@ -40,7 +39,6 @@
         letter-spacing: 1px;
         font-size: 1.5rem; /* Desktop header font size */
       }
-
       /* HERO SECTION */
       .hero {
         background: linear-gradient(
@@ -51,7 +49,6 @@
         padding: 80px 20px;
         text-align: center;
       }
-
       .hero h1 {
         font-size: 2rem;
         font-weight: 800;
@@ -65,7 +62,6 @@
       .hero h1 .highlight {
         color: #1B86FA;
       }
-      
       .hero p {
         font-size: 1.1rem;
         font-weight: 400;
@@ -73,7 +69,6 @@
         margin: 0 auto 40px auto;
         color: #555;
       }
-
       /* BUTTON */
       button {
         font-size: 1rem;
@@ -89,7 +84,6 @@
       button:hover {
         background-color: #196ac1;
       }
-
       /* IDEA DISPLAY CONTAINER */
       #idea {
         margin-top: 30px;
@@ -108,7 +102,6 @@
       #idea strong {
         font-size: 1.2em;
       }
-
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -116,7 +109,6 @@
         font-size: 0.85rem;
         color: #777;
       }
-
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
         display: none;
@@ -169,7 +161,6 @@
         color: #000;
         border: none;
       }
-
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         /* Adjust header for mobile: smaller font and added horizontal padding */
@@ -177,12 +168,10 @@
           padding: 15px 10px;
         }
         header h2 {
-          font-size: 1.2rem; /* Smaller font for mobile */
-          padding: 0 10px; /* Horizontal padding so it doesn't run against the edge */
-          /* Allow wrapping if needed */
+          font-size: 1.2rem;
+          padding: 0 10px;
           white-space: normal;
         }
-        /* Other mobile refinements */
         .hero {
           padding: 15px;
         }
@@ -210,30 +199,28 @@
         }
       }
 
-      /* Emoji Animation */
-.emoji {
-  position: absolute;
-  pointer-events: none;
-  font-size: 1.5rem;
-  animation: shootFall 2s ease-out forwards;
-}
-
-@keyframes shootFall {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: translate(var(--x-offset, 0px), -100px) scale(1.2);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(var(--x-offset, 0px), 100vh) scale(0.8);
-  }
-}
-
-      
+      /* ===== NEW EMOJI ANIMATION CSS ===== */
+      .emoji {
+        position: absolute;
+        pointer-events: none;
+        font-size: 1.5rem;
+        animation: shootFall 2s ease-out forwards;
+      }
+      @keyframes shootFall {
+        0% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: translate(calc(var(--x-offset, 0px) * 0.5), 0px) scale(1.2);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(var(--x-offset, 0px), 400px) scale(0.8);
+        }
+      }
+      /* ===== END EMOJI ANIMATION CSS ===== */
     </style>
   </head>
   <body>
@@ -270,7 +257,7 @@
       </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- ===== NEW SCRIPT SECTION ===== -->
     <script>
       // Global variables for idea management
       let ideas = [];
@@ -298,86 +285,86 @@
           console.error('Error loading ideas:', error);
         });
 
-const button = document.getElementById('generateBtn');
-const ideaDiv = document.getElementById('idea');
-const ideaTitle = document.getElementById('ideaTitle');
+      const button = document.getElementById('generateBtn');
+      const ideaDiv = document.getElementById('idea');
+      const ideaTitle = document.getElementById('ideaTitle');
 
-button.addEventListener('click', () => {
-  if (ideas.length === 0) {
-    ideaDiv.innerHTML = 'Error. AI found this and broke it.';
-    return;
-  }
+      // ===== New Emoji Animation Function =====
+      function createEmojiAnimation() {
+        const emojiSet = ["🔥", "🍆", "🚀", "💰"];
+        // Use the idea container's position as the source
+        const ideaRect = ideaDiv.getBoundingClientRect();
+        // Choose a random starting X position along the top edge of the idea container
+        const startX = ideaRect.left + Math.random() * ideaRect.width;
+        const startY = ideaRect.top;
+        
+        // Create 10 emoji elements
+        for (let i = 0; i < 10; i++) {
+          const emoji = document.createElement("span");
+          emoji.classList.add("emoji");
+          // Choose a random emoji from our set
+          emoji.textContent = emojiSet[Math.floor(Math.random() * emojiSet.length)];
+          // Set a random horizontal offset between -150px and 150px
+          const randomXOffset = Math.floor(Math.random() * 301) - 150;
+          emoji.style.setProperty("--x-offset", randomXOffset + "px");
+          // Position the emoji at the calculated starting position
+          emoji.style.left = startX + "px";
+          emoji.style.top = startY + "px";
+          document.body.appendChild(emoji);
+          // Remove the emoji after animation ends (2 seconds)
+          emoji.addEventListener("animationend", () => {
+            emoji.remove();
+          });
+        }
+      }
+      // ===== End of Emoji Animation Function =====
 
-  // On the first click, change the button text and show the title paragraph.
-  if (firstClick) {
-    button.textContent = "Plz bro you can do better c'mon";
-    firstClick = false;
-    // Show the "Your free $20B idea:" text.
-    ideaTitle.style.display = "block";
-  }
+      button.addEventListener('click', () => {
+        if (ideas.length === 0) {
+          ideaDiv.innerHTML = 'Error. AI found this and broke it.';
+          return;
+        }
 
-  // If we've cycled through all ideas, reshuffle.
-  if (currentIndex >= ideas.length) {
-    shuffle(ideas);
-    currentIndex = 0;
-  }
+        // On the first click, change the button text and show the title paragraph.
+        if (firstClick) {
+          button.textContent = "Plz bro you can do better c'mon";
+          firstClick = false;
+          ideaTitle.style.display = "block";
+        }
 
-  // Display the next idea in the randomized order.
-  ideaDiv.innerHTML = ideas[currentIndex];
-  currentIndex++;
+        // If we've cycled through all ideas, reshuffle.
+        if (currentIndex >= ideas.length) {
+          shuffle(ideas);
+          currentIndex = 0;
+        }
 
-  // Launch the emoji animation from the button.
-  createEmojiAnimation();
-});
+        // Display the next idea in the randomized order.
+        ideaDiv.innerHTML = ideas[currentIndex];
+        currentIndex++;
 
+        // Launch the emoji animation from the idea container.
+        createEmojiAnimation();
+      });
 
       // Exit-Intent Popup JavaScript
-let exitPopupShown = false;
-const pageLoadTime = Date.now(); // Record when the page loads
+      let exitPopupShown = false;
+      const pageLoadTime = Date.now(); // Record when the page loads
 
-document.addEventListener('mouseout', function (e) {
-  // Only show the popup if:
-  // 1. The popup hasn't been shown already.
-  // 2. The mouse leaves at the top of the viewport (e.clientY <= 0).
-  // 3. At least 5000ms (5 seconds) have passed since the page loaded.
-  if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
-    document.getElementById('exitPopup').style.display = 'block';
-    exitPopupShown = true;
-  }
-});
+      document.addEventListener('mouseout', function (e) {
+        // Only show the popup if:
+        // 1. The popup hasn't been shown already.
+        // 2. The mouse leaves at the top of the viewport (e.clientY <= 0).
+        // 3. At least 5000ms (5 seconds) have passed since the page loaded.
+        if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
+          document.getElementById('exitPopup').style.display = 'block';
+          exitPopupShown = true;
+        }
+      });
 
-document.getElementById('exitPopupCancel').addEventListener('click', function () {
-  document.getElementById('exitPopup').style.display = 'none';
-});
-
-      function createEmojiAnimation() {
-  const emojiSet = ["💰", "🚀", "🍆"]; // Array of emojis to choose from
-  const buttonRect = button.getBoundingClientRect();
-  // Calculate the center of the button
-  const startX = buttonRect.left + buttonRect.width / 2;
-  const startY = buttonRect.top + buttonRect.height / 2;
-  
-  // Create 10 emoji elements
-  for (let i = 0; i < 10; i++) {
-    const emoji = document.createElement("span");
-    emoji.classList.add("emoji");
-    // Randomly pick one emoji from the set
-    emoji.textContent = emojiSet[Math.floor(Math.random() * emojiSet.length)];
-    // Set a random horizontal offset between -50px and 50px
-    const randomXOffset = Math.floor(Math.random() * 101) - 50;
-    emoji.style.setProperty("--x-offset", randomXOffset + "px");
-    // Position the emoji at the button's center (using viewport coordinates)
-    emoji.style.left = startX + "px";
-    emoji.style.top = startY + "px";
-    document.body.appendChild(emoji);
-    // Remove the emoji after its animation completes (2 seconds)
-    emoji.addEventListener("animationend", () => {
-      emoji.remove();
-    });
-  }
-}
-
-
+      document.getElementById('exitPopupCancel').addEventListener('click', function () {
+        document.getElementById('exitPopup').style.display = 'none';
+      });
     </script>
+    <!-- ===== End New Script Section ===== -->
   </body>
 </html>
