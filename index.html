@@ -351,7 +351,7 @@
         if (parts.length >= 2) {
           // Store plain text versions (strip HTML) for clipboard use.
           currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = parts.slice(1).join(' ').replace(/<[^>]*>/g, "").trim();
+          currentIdeaDescription = parts.slice(1).join('<br><br>').replace(/<[^>]*>/g, "").trim();
           // Display with formatting: title remains as-is; description wrapped in a paragraph.
           ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
@@ -363,12 +363,11 @@
       
       // "Claim dibs on this idea" button: Copy formatted text and open LinkedIn's share dialog.
       claimBtn.addEventListener('click', () => {
-        // Construct the full idea text as plain text.
-        let fullIdea = currentIdeaTitle + "\n" + currentIdeaDescription;
-        // Build the text to copy:
-        // "Calling dibs on a $20B idea: {fullIdea} 🔥🔥"
-        // then two line breaks, then "{fullIdea}"
-        const textToCopy = "Calling dibs on a $20B idea: " + fullIdea + " 🔥🔥" + "\n\n" + fullIdea;
+        // Build the clipboard text as:
+        // "Calling dibs on a $20B idea: {idea title} 🔥🔥"
+        // <br><br>
+        // "{idea description}"
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
             // Show toast modal for 3 seconds
