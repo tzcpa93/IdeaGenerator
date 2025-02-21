@@ -87,7 +87,7 @@
         background-color: #196ac1;
       }
       
-      /* Claim Button - Dark Grey, Smaller, with extra top margin */
+      /* Claim Button */
       #claimBtn {
         display: none;
         margin-top: 20px;
@@ -124,15 +124,15 @@
         margin: 0;
       }
       
-      /* "Your free $20B idea:" title styling */
+      /* Tier title styling */
       #ideaTitle {
         margin-top: 30px;
       }
       
-      /* Visionaries text styling */
+      /* Visionary text styling */
       #visionaryText {
         display: none;
-        margin-top: 20px;
+        margin-top: 30px;  /* Increased extra padding above visionary text */
         font-size: 0.85rem;
         font-style: italic;
         color: #555;
@@ -402,20 +402,20 @@
           currentIdeaDescription = "";
         }
         
-        // Update visionary text (static for the session).
+        // Update visionary text using the static sessionVisionaryCount.
         visionaryText.style.display = "block";
         visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...";
       });
       
       // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
       claimBtn.addEventListener('click', () => {
-        // Build the clipboard text as:
+        // Construct clipboard text as:
         // Line 1: "Calling dibs on a $20B idea: {idea title} 🔥🔥"
         // Two line breaks
         // Line 2: "{idea title}"
         // Two line breaks
         // Line 3: "{idea description}"
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
             const toast = document.getElementById('toast');
