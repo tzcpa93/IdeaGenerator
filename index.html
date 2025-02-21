@@ -306,9 +306,8 @@
   let tier3 = [];
   let currentTier = 1; // 1 for tier1, 2 for tier2, 3 for tier3, 4 when finished.
 
-  // We track the first and second clicks distinctly
-  let firstClick = true;
-  let secondClick = false;
+  // We'll track click counts
+  let clickCount = 0;
 
   let currentIdeaTitle = "";
   let currentIdeaDescription = "";
@@ -319,10 +318,10 @@
   // Session-wide visionary count (static for session): random number between 195 and 277.
   const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
 
-  // All possible button states (including first two)
+  // All possible button texts, including the first two states:
   const allStates = [
-    "Make me a disruptor right now",              // 0
-    "Bro plz, I need to disrupt. More ideas?",    // 1
+    "Make me a disruptor right now",               // index 0 (initial)
+    "Bro plz, I need to disrupt. More ideas?",     // index 1 (second)
     "Make me a disruptor bro plz",
     "Plz bro you can do better c'mon",
     "Plzzzz bro another idea",
@@ -334,21 +333,21 @@
     "My partner is gna leave me if u don't give me a better idea"
   ];
 
-  // We'll shuffle the entire list once the user hits the third click
+  // We'll store a shuffled cycle of allStates once we reach the 3rd click
   let cycledStates = [];
-  let cycleIndex = 0; // tracks position in cycledStates
+  let cycleIndex = 0;
 
   // Button color toggle array
   const buttonColors = ["#1B86FA", "#000"];
   let colorIndex = 0;
 
-  // Helper: Toggle the button color each click
+  // Toggle the button color each click
   function toggleButtonColor() {
     colorIndex = 1 - colorIndex;
     button.style.backgroundColor = buttonColors[colorIndex];
   }
 
-  // Fisher–Yates shuffle function
+  // Fisher–Yates shuffle function to randomize the array in place
   function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -357,7 +356,7 @@
     return array;
   }
 
-  // Load ideas from the JSON file on page load.
+  // Load ideas from the JSON file on page load
   fetch('/ideas.json')
     .then(response => response.json())
     .then(data => {
@@ -384,10 +383,10 @@
   const claimBtn = document.getElementById('claimBtn');
   const visionaryText = document.getElementById('visionaryText');
 
-  // Initially set the button to the first state
+  // Set the initial button text to the first state
   button.innerHTML = allStates[0];
 
-  // Returns the next idea from the correct tier
+  // Function to get the next idea from the appropriate tier
   function getNextIdea() {
     let rawIdea = "";
     if (currentTier === 1 && tier1.length > 0) {
@@ -403,9 +402,8 @@
     return rawIdea;
   }
 
-  // Event listener for generating an idea
   button.addEventListener('click', () => {
-    // If finished all tiers, show final message.
+    // If all tiers are finished, show final message
     if (currentTier === 4) {
       ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
       claimBtn.style.display = "none";
@@ -417,7 +415,6 @@
 
     let rawIdea = getNextIdea();
     if (!rawIdea) {
-      // No more ideas in the tiers
       ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
       claimBtn.style.display = "none";
       visionaryText.style.display = "none";
@@ -425,40 +422,42 @@
       ideaTitle.style.display = "none";
       return;
     }
-
     console.log("Raw idea:", rawIdea);
 
     // --- Button Text Logic ---
-    if (firstClick) {
-      // First click => use second state
+    clickCount++;
+    if (clickCount === 1) {
+      // This is the first click => show the second state
       button.innerHTML = allStates[1];
-      firstClick = false;
-    } else if (!secondClick) {
-      // Second click => user hits third time next
-      secondClick = true;
-      // Now we shuffle the entire allStates array for subsequent usage
-      cycledStates = shuffle([...allStates]);
-      cycleIndex = 0;
-      // Next click will pick from cycledStates
+    } else if (clickCount === 2) {
+      // Second click => next time we go random
+      // But for now, keep the second state text
+      // or if you prefer, we can set it again:
+      // button.innerHTML = allStates[1];
     } else {
-      // From the third click onward => cycle through cycledStates
+      // Third click onward => cycle from a shuffled array of all states
+      if (cycledStates.length === 0) {
+        // Shuffle all states into cycledStates
+        cycledStates = shuffle([...allStates]);
+        cycleIndex = 0;
+      }
       button.innerHTML = cycledStates[cycleIndex];
       cycleIndex++;
       if (cycleIndex >= cycledStates.length) {
-        cycleIndex = 0; // repeat the cycle
+        cycleIndex = 0;
       }
     }
     toggleButtonColor();
-    // --- End button text logic ---
+    // --- End Button Text Logic ---
 
-    // Title logic
-    if (!secondClick) {
-      // i.e. first idea
+    // Title logic: first or subsequent ideas
+    if (clickCount === 1) {
+      // First idea => "Your free $20B idea:"
       ideaTitle.style.display = "block";
       ideaTitle.innerHTML = "<br>Your free $20B idea:";
       claimBtn.style.display = "inline-block";
     } else {
-      // subsequent ideas
+      // subsequent ideas => increment sessionIdeaTotal
       sessionIdeaTotal += 20;
       ideaTitle.style.display = "block";
       ideaTitle.innerHTML = `<br>$${sessionIdeaTotal}B of ideas generated.`;
@@ -481,10 +480,11 @@
     visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...👀";
   });
 
-  // "Claim dibs on this idea" button
+  // "Claim dibs on this idea" button: Copy text & open LinkedIn share dialog
   claimBtn.addEventListener('click', () => {
     // "Calling dibs on a $20B idea: {idea title} 🔥🔥"
-    // then 2 line breaks, then {idea title}, then 2 line breaks, then {description}
+    // Then 2 line breaks
+    // Then {idea title}, 2 line breaks, {description}
     const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
       "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
 
@@ -494,7 +494,8 @@
         toast.style.display = 'block';
         setTimeout(() => {
           toast.style.display = 'none';
-          window.open("https://www.linkedin.com/sharing/share-offsite/?url=" +
+          window.open(
+            "https://www.linkedin.com/sharing/share-offsite/?url=" +
             encodeURIComponent(window.location.href),
             "_blank"
           );
@@ -518,3 +519,4 @@
     document.getElementById('exitPopup').style.display = 'none';
   });
 </script>
+
