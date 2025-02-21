@@ -190,8 +190,8 @@
           padding: 15px 10px;
         }
         header h2 {
-          font-size: 1.2rem; /* Smaller font for mobile */
-          padding: 0 10px; /* Horizontal padding */
+          font-size: 1.2rem;
+          padding: 0 10px;
           white-space: normal;
         }
         /* Other mobile refinements */
@@ -279,6 +279,7 @@
           ideas = data;
           shuffle(ideas);
           currentIndex = 0;
+          console.log("Loaded ideas:", ideas);
         })
         .catch(error => {
           console.error('Error loading ideas:', error);
@@ -309,13 +310,13 @@
 
         // Get the raw idea string.
         let rawIdea = ideas[currentIndex];
+        console.log("Raw idea:", rawIdea);
         currentIndex++;
 
         // Split the idea at the first "<br><br>" into a title and description.
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
-          // Title remains as-is (centered).
-          // Description is wrapped in a paragraph with class "desc" for left alignment, indent, and increased line spacing.
+          // Title remains centered; description is wrapped in a paragraph with class "desc"
           ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
