@@ -121,7 +121,7 @@
         font-size: 1.2em;
       }
 
-      /* Additional styling for the description paragraph */
+      /* Styling for the description paragraph */
       #idea p.desc {
         text-align: left;  /* Left-align description */
         text-indent: 2em;  /* Indent first line */
@@ -195,6 +195,21 @@
         border: none;
       }
 
+      /* Toast Notification for Copy Action (Modal Style) */
+      #toast {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #1B86FA;
+        color: #fff;
+        padding: 20px 30px;
+        border-radius: 8px;
+        font-size: 1rem;
+        z-index: 2000;
+      }
+
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
@@ -230,21 +245,6 @@
           padding: 8px 12px;
           font-size: 1rem;
         }
-      }
-      
-      /* Toast Notification for Copy Action */
-      #toast {
-        display: none;
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #1B86FA;
-        color: #fff;
-        padding: 10px 20px;
-        border-radius: 4px;
-        font-size: 0.9rem;
-        z-index: 2000;
       }
     </style>
   </head>
@@ -283,8 +283,8 @@
       </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast">Idea copied to clipboard. Get ready to paste.</div>
+    <!-- Toast Modal for Copy Action -->
+    <div id="toast">Idea copied to clipboard. Just paste, post and profitttttttt.</div>
 
     <script>
       // Global variables for idea management
@@ -355,30 +355,33 @@
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
           currentIdeaTitle = parts[0];
+          // Remove HTML tags from title for clipboard use.
+          let plainTitle = currentIdeaTitle.replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = parts.slice(1).join(' ');
-          // Display the title (centered) and description (wrapped in a left-aligned paragraph)
           ideaDiv.innerHTML = currentIdeaTitle + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
+          // Store the plain text for copying later.
+          currentIdeaTitle = plainTitle;
         } else {
           ideaDiv.innerHTML = rawIdea;
-          currentIdeaTitle = rawIdea;
+          currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = "";
         }
       });
       
-      // "Claim This Idea" button: Copy formatted idea text and open LinkedIn's share dialog.
+      // "Claim dibs on this idea" button: Copy formatted text and open LinkedIn share dialog.
       claimBtn.addEventListener('click', () => {
-        // Build the text to copy: "Calling dibs on {idea name}." (paragraph break) "What is {idea name}? {description}"
-        const textToCopy = "Calling dibs on " + currentIdeaTitle + ".\n\nWhat is " + currentIdeaTitle + "? " + currentIdeaDescription;
+        // Build the text to copy: "Calling dibs on a $20B idea: {idea name}"
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
-            // Show toast notification
+            // Show toast modal for 2 seconds
             const toast = document.getElementById('toast');
             toast.style.display = 'block';
             setTimeout(() => {
               toast.style.display = 'none';
+              // Open LinkedIn share dialog in a new tab
+              window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
             }, 2000);
-            // Open LinkedIn share dialog in a new tab
-            window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
           })
           .catch(err => console.error("Failed to copy text: ", err));
       });
