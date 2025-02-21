@@ -190,8 +190,8 @@
           padding: 15px 10px;
         }
         header h2 {
-          font-size: 1.2rem;
-          padding: 0 10px;
+          font-size: 1.2rem; /* Smaller font for mobile */
+          padding: 0 10px; /* Horizontal padding */
           white-space: normal;
         }
         /* Other mobile refinements */
@@ -276,7 +276,8 @@
       fetch('/ideas.json')
         .then(response => response.json())
         .then(data => {
-          ideas = data;
+          // Combine all tiers from your JSON file into one array.
+          ideas = [].concat(data.tier1, data.tier2, data.tier3);
           shuffle(ideas);
           currentIndex = 0;
           console.log("Loaded ideas:", ideas);
@@ -313,10 +314,10 @@
         console.log("Raw idea:", rawIdea);
         currentIndex++;
 
-        // Split the idea at the first "<br><br>" into a title and description.
+        // Split the idea at the first "<br><br>" into title and description.
         let parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
-          // Title remains centered; description is wrapped in a paragraph with class "desc"
+          // Display the title (centered) and the description (wrapped in a left-aligned paragraph with indent).
           ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
