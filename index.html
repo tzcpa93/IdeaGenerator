@@ -291,7 +291,7 @@
   position: absolute;
   bottom: -10px;  /* Adjust to position the icon exactly as you like */
   right: -10px;   /* Adjust as needed */
-  width: 24px;    /* Change size if needed */
+  width: 60px;    /* Change size if needed */
   height: auto;
   animation: pulseIcon 2s infinite;
   cursor: default;
@@ -534,7 +534,7 @@
       // "Claim dibs on this idea" button: Copy text and open LinkedIn share dialog.
       claimBtn.addEventListener('click', () => {
         const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
-          "\n\n" + currentIdeaTitle + "\n\n" + currentIdeaDescription;
+          "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
             const toast = document.getElementById('toast');
