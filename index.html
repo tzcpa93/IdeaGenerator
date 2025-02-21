@@ -225,14 +225,17 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #1B86FA;
-        color: #fff;
+        background: #fff;              /* White background */
+        color: #000;                  /* Black text */
         padding: 20px 30px;
+        border: 2px solid #1B86FA;      /* Blue border */
         border-radius: 8px;
         font-size: 1.2rem;
         text-align: center;
         z-index: 2000;
+        min-width: 250px;
       }
+
       
       /* MOBILE OVERRIDES (ONLY affect mobile) */
       @media (max-width: 600px) {
@@ -310,6 +313,24 @@
   }
 }
 
+      .toast-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #1B86FA;   /* Blue border */
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
       
     </style>
   </head>
@@ -353,7 +374,9 @@
     </div>
 
     <!-- Toast Modal for Copy Action -->
-    <div id="toast">1. Paste idea on next page.<br>2. Post to claim idea.<br>3. Profittt.</div>
+    <div id="toast">
+       <div class="toast-spinner"></div>
+      <b>Preparing claim...</b></b>1. Paste idea on next page.<br>2. Post to claim idea.<br>3. Profittt.</div>
 
     <script>
       // Global variables for idea management and session stats
