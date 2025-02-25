@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2DS0CZPVWM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2DS0CZPVWM');
+</script>
+
+    
     <meta charset="UTF-8" />
     <title>Disrupt Accounting | AI App Ideas</title>
 
@@ -367,8 +379,13 @@
       <div class="popup-content">
         <p>wait sorry -- do u want real help?</p>
         <div class="popup-buttons">
-          <a href="https://finoptimal.com" target="_blank" onclick="document.getElementById('exitPopup').style.display='none';">yes</a>
-          <button id="exitPopupCancel">no</button>
+          <a id="exitPopupYes" 
+   href="https://finoptimal.com" 
+   target="_blank" 
+   onclick="document.getElementById('exitPopup').style.display='none';">
+  yes
+</a>
+<button id="exitPopupCancel">no</button>
         </div>
       </div>
     </div>
@@ -506,6 +523,12 @@
   button.addEventListener('click', () => {
     clickCount++;
 
+  // GA event for generating an idea
+    gtag('event', 'generate_idea_click', {
+    event_category: 'button',
+    event_label: 'Generate Idea'
+  });
+
     // Attempt to get an idea
     const rawIdea = getNextIdea();
     if (!rawIdea) {
@@ -577,6 +600,13 @@
   // ----------- "Claim dibs on this idea" Button Logic -----------
 
   claimBtn.addEventListener('click', () => {
+
+  // GA event for claim dibs
+  gtag('event', 'claim_dibs_click', {
+    event_category: 'button',
+    event_label: 'Claim Dibs Button'
+  });
+    
   const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
     "\n\n" + currentIdeaDescription;
   navigator.clipboard.writeText(textToCopy)
@@ -593,7 +623,7 @@
 });
 
 
-  // ----------- Exit-Intent Popup JavaScript -----------
+// ----------- Exit-Intent Popup JavaScript -----------
   let exitPopupShown = false;
   const pageLoadTime = Date.now();
 
@@ -604,8 +634,31 @@
     }
   });
 
+  // NO (Cancel) button logic
   document.getElementById('exitPopupCancel').addEventListener('click', function () {
+    // Fire GA event for "No" click
+    gtag('event', 'exit_intent_no_click', {
+      event_category: 'exit_intent_popup',
+      event_label: 'No Button'
+    });
+
+    // Hide the popup
     document.getElementById('exitPopup').style.display = 'none';
+  });
+
+  // YES button logic (assuming an element with id="exitPopupYes")
+  document.getElementById('exitPopupYes').addEventListener('click', function(e) {
+    // Fire GA event for "Yes" click
+    gtag('event', 'exit_intent_yes_click', {
+      event_category: 'exit_intent_popup',
+      event_label: 'Yes Button'
+    });
+
+    // Hide the popup (or keep it open if you prefer)
+    document.getElementById('exitPopup').style.display = 'none';
+
+    // If you want to let the <a href="..."> handle navigation, don't do window.open here
+    // If it's just a button, you can do window.open("https://finoptimal.com", "_blank");
   });
 </script>
 
