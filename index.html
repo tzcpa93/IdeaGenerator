@@ -577,22 +577,28 @@
   // ----------- "Claim dibs on this idea" Button Logic -----------
 
   claimBtn.addEventListener('click', () => {
-    // Build the text to copy
-    const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
-      "\n\n" + currentIdeaDescription;
+  // Open the new tab/window FIRST so mobile browsers see it as a user-initiated action
+  const newTab = window.open(
+    "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href),
+    "_blank"
+  );
 
-    navigator.clipboard.writeText(textToCopy)
-      .then(() => {
-        const toast = document.getElementById('toast');
-        toast.style.display = 'block';
-        setTimeout(() => {
-          toast.style.display = 'none';
-          window.open("https://www.linkedin.com/sharing/share-offsite/?url=" +
-            encodeURIComponent(window.location.href), "_blank");
-        }, 3000);
-      })
-      .catch(err => console.error("Failed to copy text: ", err));
-  });
+  const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
+    "\n\n" + currentIdeaDescription;
+
+  // Then copy to clipboard
+  navigator.clipboard.writeText(textToCopy)
+    .then(() => {
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+
+      // Hide the toast after 3 seconds
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    })
+    .catch(err => console.error("Failed to copy text: ", err));
+});
 
   // ----------- Exit-Intent Popup JavaScript -----------
   let exitPopupShown = false;
