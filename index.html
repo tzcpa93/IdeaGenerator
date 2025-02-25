@@ -376,7 +376,7 @@
     <!-- Toast Modal for Copy Action -->
     <div id="toast">
        <div class="toast-spinner"></div>
-      <b>Preparing claim...</b><br><br>Paste idea on next page to claim 💰🔥🚀.</div></body>
+      <b>Copying claim to clipboard...</b><br><br>Share on social to claim 🔥🚀.</div></body>
 
     <script>
   // Global arrays for tiers:
@@ -577,28 +577,21 @@
   // ----------- "Claim dibs on this idea" Button Logic -----------
 
   claimBtn.addEventListener('click', () => {
-  // Open the new tab/window FIRST so mobile browsers see it as a user-initiated action
-  const newTab = window.open(
-    "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href),
-    "_blank"
-  );
-
   const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
     "\n\n" + currentIdeaDescription;
-
-  // Then copy to clipboard
   navigator.clipboard.writeText(textToCopy)
     .then(() => {
       const toast = document.getElementById('toast');
       toast.style.display = 'block';
-
-      // Hide the toast after 3 seconds
       setTimeout(() => {
         toast.style.display = 'none';
+        window.open("https://www.linkedin.com/sharing/share-offsite/?url=" +
+          encodeURIComponent(window.location.href), "_blank");
       }, 3000);
     })
     .catch(err => console.error("Failed to copy text: ", err));
 });
+
 
   // ----------- Exit-Intent Popup JavaScript -----------
   let exitPopupShown = false;
