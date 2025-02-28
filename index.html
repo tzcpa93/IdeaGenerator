@@ -144,6 +144,11 @@
         transform: translateY(-2px); /* Hover movement added */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow added */
       }
+      button.initial-state:hover {
+        background-color: #3EFCFA;  /* Keep neon */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
       /* Claim Button - Dark Grey, Smaller, with extra top margin */
       #claimBtn {
@@ -279,7 +284,7 @@
         background: #fff;
         color: #000;
         padding: 20px 30px;
-        border: 2px solid #1B86FA;
+        border: 2px solid #3EFCFA;
         border-radius: 8px;
         font-size: 1.2rem;
         text-align: center;
@@ -391,7 +396,7 @@
           Guess what? You're ready to disrupt a $20B industry.<br>
         </p>
         <div class="button-container">
-          <button id="generateBtn">Make me a disruptor right now</button>
+          <button id="generateBtn" class="initial-state">Make me a disruptor right now</button>
           <img src="images/mouse-cursor.png" alt="Mouse Cursor" class="mouse-cursor" />
         </div>
         <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
