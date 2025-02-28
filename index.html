@@ -126,27 +126,6 @@
         color: #555;
       }
       
-      /* VALUE PROPOSITION BADGE */
-      .value-props {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-      }
-      .badge {
-        background-color: rgba(27, 134, 250, 0.1);
-        color: #fff;
-        padding: 8px 15px;
-        border-radius: 50px;
-        font-size: 0.9rem;
-        display: flex;
-        align-items: center;
-      }
-      .badge img {
-        width: 24px;
-        height: auto;
-        margin-right: 8px;
-      }
-      
       /* BUTTONS */
       button {
         font-size: 1rem;
@@ -409,13 +388,6 @@
           Have you used ChatGPT a few times?<br><br>
           Guess what? You're ready to disrupt a $20B industry.<br>
         </p>
-        <!-- Added Value Proposition Badge -->
-        <div class="value-props">
-          <div class="badge">
-            <img src="images/zero_experience.png" alt="Zero Experience Required">
-            <span>Zero Experience Required</span>
-          </div>
-        </div>
         <div class="button-container">
           <button id="generateBtn">Make me a disruptor right now</button>
           <img src="images/mouse-cursor.png" alt="Mouse Cursor" class="mouse-cursor" />
@@ -502,11 +474,14 @@
       ];
 
       // ----------- Utility / Helper Functions -----------
+
+      // Toggle button color each click.
       function toggleButtonColor() {
         colorIndex = 1 - colorIndex;
         button.style.backgroundColor = buttonColors[colorIndex];
       }
 
+      // Fisher–Yates shuffle function
       function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -537,6 +512,7 @@
         });
 
       // ----------- Tier Logic Function -----------
+
       function getNextIdea() {
         if (clickCount === 1) {
           if (tier1.length > 0) {
@@ -544,14 +520,17 @@
             return tier1.splice(index, 1)[0];
           }
         }
+
         if (!hasCombinedTier12) {
           combinedTier12 = tier1.concat(tier2);
           combinedTier12 = shuffle(combinedTier12);
           hasCombinedTier12 = true;
         }
+
         if (combinedTier12.length > 0) {
           return combinedTier12.shift();
         }
+
         if (!tier3Shuffled) {
           tier3 = shuffle(tier3);
           tier3Shuffled = true;
@@ -559,13 +538,16 @@
         if (tier3.length > 0) {
           return tier3.shift();
         }
+
         return null;
       }
 
       // ----------- Button Click Handler -----------
+
       button.addEventListener('click', () => {
         clickCount++;
 
+        // GA event for generating an idea
         gtag('event', 'generate_idea_click', {
           event_category: 'button',
           event_label: 'Generate Idea'
@@ -627,6 +609,7 @@
       });
 
       // ----------- "Claim dibs on this idea" Button Logic -----------
+
       claimBtn.addEventListener('click', () => {
         gtag('event', 'claim_dibs_click', {
           event_category: 'button',
