@@ -58,7 +58,7 @@
         background-color: #1B86FA;
         padding: 20px 0;
         text-align: center;
-        position: relative; /* Added for shimmer animation */
+        position: relative; /* For shimmer animation */
       }
       header:before {
         content: '';
@@ -137,13 +137,11 @@
         color: #fff;
         font-weight: 700;
         transition: background-color 0.2s ease-in-out;
-        /* Removed box-shadow */
-        /* box-shadow: 0 0 8px rgba(27, 134, 250, 0.6); */
       }
       button:hover {
         background-color: #196ac1;
-        transform: translateY(-2px); /* Added hover movement */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added subtle shadow */
+        transform: translateY(-2px); /* Hover movement added */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow added */
       }
 
       /* Claim Button - Dark Grey, Smaller, with extra top margin */
@@ -285,6 +283,22 @@
         text-align: center;
         z-index: 2000;
         min-width: 250px;
+      }
+      /* Spinner for loading animation */
+      .toast-spinner {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        border: 3px solid #1B86FA; /* Blue border */
+        border-top: 3px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        vertical-align: middle;
+        margin-bottom: 10px;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
       
       /* MOBILE OVERRIDES (ONLY affect mobile) */
