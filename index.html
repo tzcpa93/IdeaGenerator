@@ -432,243 +432,245 @@
     </div>
 
     <script>
-      // Global arrays for tiers:
-      let tier1 = [];
-      let tier2 = [];
-      let tier3 = [];
+  // Global arrays for tiers:
+  let tier1 = [];
+  let tier2 = [];
+  let tier3 = [];
 
-      // Variables controlling combined-tier logic:
-      let combinedTier12 = [];
-      let hasCombinedTier12 = false;
-      let tier3Shuffled = false;
+  // Variables controlling combined-tier logic:
+  let combinedTier12 = [];
+  let hasCombinedTier12 = false;
+  let tier3Shuffled = false;
 
-      // For button text logic:
-      let clickCount = 0;
-      let cycledStates = [];
-      let cycleIndex = 0;
+  // For button text logic:
+  let clickCount = 0;
+  let cycledStates = [];
+  let cycleIndex = 0;
 
-      // Variables for referencing DOM elements
-      const button = document.getElementById('generateBtn');
-      const ideaDiv = document.getElementById('idea');
-      const ideaTitle = document.getElementById('ideaTitle');
-      const claimBtn = document.getElementById('claimBtn');
-      const visionaryText = document.getElementById('visionaryText');
+  // Variables for referencing DOM elements
+  const button = document.getElementById('generateBtn');
+  const ideaDiv = document.getElementById('idea');
+  const ideaTitle = document.getElementById('ideaTitle');
+  const claimBtn = document.getElementById('claimBtn');
+  const visionaryText = document.getElementById('visionaryText');
 
-      // Session idea total for display, starts at 20 ($20B)
-      let sessionIdeaTotal = 20;
+  // Session idea total for display, starts at 20 ($20B)
+  let sessionIdeaTotal = 20;
 
-      // Session-wide visionary count (random number between 195 and 277)
-      const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
+  // Session-wide visionary count (random number between 195 and 277)
+  const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
 
-      // All possible button texts
-      const allStates = [
-        "Make me a disruptor right now",
-        "Bro plz, I need to disrupt. More ideas?",
-        "Make me a disruptor bro plz",
-        "Plz bro you can do better c'mon",
-        "Plzzzz bro another idea",
-        "Not bad but I want the bag bro",
-        "Anudder One <img src='images/frank-head.png' alt='Frank Head' class='button-icon' />",
-        "Anotha one <img src='images/khaled-head.png' alt='Khaled Head' class='button-icon' />",
-        "I'm tryna build in public bro GIMME ANOTHER IDEA",
-        "I'm in my bag fr bro just gimme one more idea and watch me cook",
-        "My partner is gna leave me if u don't give me a better idea"
-      ];
+  // All possible button texts
+  const allStates = [
+    "Make me a disruptor right now",
+    "Bro plz, I need to disrupt. More ideas?",
+    "Make me a disruptor bro plz",
+    "Plz bro you can do better c'mon",
+    "Plzzzz bro another idea",
+    "Not bad but I want the bag bro",
+    "Anudder One <img src='images/frank-head.png' alt='Frank Head' class='button-icon' />",
+    "Anotha one <img src='images/khaled-head.png' alt='Khaled Head' class='button-icon' />",
+    "I'm tryna build in public bro GIMME ANOTHER IDEA",
+    "I'm in my bag fr bro just gimme one more idea and watch me cook",
+    "My partner is gna leave me if u don't give me a better idea"
+  ];
 
-      // ----------- Utility / Helper Functions -----------
+  // ----------- Utility / Helper Functions -----------
 
-      // Toggle button color now forces white background with black text
-      const buttonColors = ["#3EFCFA", "#fff"];
-      let colorIndex = 0;
-      function toggleButtonColor() {
-        // Flip between 0 and 1
-        colorIndex = 1 - colorIndex;
-        // Set the button background color from the array
-        button.style.backgroundColor = buttonColors[colorIndex];
-        // Always keep black text for both
-        button.style.color = "#000";
+  // Toggle button color now forces white background with black text
+  const buttonColors = ["#3EFCFA", "#fff"];
+  let colorIndex = 0;
+  function toggleButtonColor() {
+    // Flip between 0 and 1
+    colorIndex = 1 - colorIndex;
+    // Set the button background color from the array
+    button.style.backgroundColor = buttonColors[colorIndex];
+    // Always keep black text for both
+    button.style.color = "#000";
+  }
+
+  // Fisher–Yates shuffle function
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Load ideas from the JSON file on page load
+  fetch('/ideas.json')
+    .then(response => response.json())
+    .then(data => {
+      if (data.tier1) {
+        tier1 = shuffle(data.tier1);
+        tier2 = shuffle(data.tier2 || []);
+        tier3 = shuffle(data.tier3 || []);
+      } else {
+        tier1 = shuffle(data);
+        tier2 = [];
+        tier3 = [];
       }
+      console.log("Loaded tier1:", tier1);
+      console.log("Loaded tier2:", tier2);
+      console.log("Loaded tier3:", tier3);
+    })
+    .catch(error => {
+      console.error('Error loading ideas:', error);
+    });
 
-      // Fisher–Yates shuffle function
-      function shuffle(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+  // ----------- Tier Logic Function -----------
+  function getNextIdea() {
+    if (clickCount === 1) {
+      if (tier1.length > 0) {
+        let index = Math.floor(Math.random() * tier1.length);
+        return tier1.splice(index, 1)[0];
       }
+    }
+    if (!hasCombinedTier12) {
+      combinedTier12 = tier1.concat(tier2);
+      combinedTier12 = shuffle(combinedTier12);
+      hasCombinedTier12 = true;
+    }
+    if (combinedTier12.length > 0) {
+      return combinedTier12.shift();
+    }
+    if (!tier3Shuffled) {
+      tier3 = shuffle(tier3);
+      tier3Shuffled = true;
+    }
+    if (tier3.length > 0) {
+      return tier3.shift();
+    }
+    return null;
+  }
 
-      // Load ideas from the JSON file on page load
-      fetch('/ideas.json')
-        .then(response => response.json())
-        .then(data => {
-          if (data.tier1) {
-            tier1 = shuffle(data.tier1);
-            tier2 = shuffle(data.tier2 || []);
-            tier3 = shuffle(data.tier3 || []);
-          } else {
-            tier1 = shuffle(data);
-            tier2 = [];
-            tier3 = [];
-          }
-          console.log("Loaded tier1:", tier1);
-          console.log("Loaded tier2:", tier2);
-          console.log("Loaded tier3:", tier3);
-        })
-        .catch(error => {
-          console.error('Error loading ideas:', error);
-        });
+  // ----------- Button Click Handler -----------
+  button.addEventListener('click', () => {
+    clickCount++;
 
-      // ----------- Tier Logic Function -----------
-      function getNextIdea() {
-        if (clickCount === 1) {
-          if (tier1.length > 0) {
-            let index = Math.floor(Math.random() * tier1.length);
-            return tier1.splice(index, 1)[0];
-          }
-        }
-        if (!hasCombinedTier12) {
-          combinedTier12 = tier1.concat(tier2);
-          combinedTier12 = shuffle(combinedTier12);
-          hasCombinedTier12 = true;
-        }
-        if (combinedTier12.length > 0) {
-          return combinedTier12.shift();
-        }
-        if (!tier3Shuffled) {
-          tier3 = shuffle(tier3);
-          tier3Shuffled = true;
-        }
-        if (tier3.length > 0) {
-          return tier3.shift();
-        }
-        return null;
+    // GA event for generating an idea
+    gtag('event', 'generate_idea_click', {
+      event_category: 'button',
+      event_label: 'Generate Idea'
+    });
+
+    const rawIdea = getNextIdea();
+    if (!rawIdea) {
+      ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
+      claimBtn.style.display = "none";
+      visionaryText.style.display = "none";
+      ideaTitle.innerHTML = "";
+      ideaTitle.style.display = "none";
+      return;
+    }
+
+    // Update the button text
+    if (clickCount === 1) {
+      button.innerHTML = "Generate another $20B idea bro";
+    } else if (clickCount === 2) {
+      cycledStates = shuffle(allStates.filter(text => text.trim() !== "Generate another $20B idea bro".trim()));
+      cycleIndex = 0;
+      button.innerHTML = cycledStates[cycleIndex];
+      cycleIndex++;
+    } else {
+      button.innerHTML = cycledStates[cycleIndex];
+      cycleIndex++;
+      if (cycleIndex >= cycledStates.length) {
+        cycleIndex = 0;
       }
+    }
+    toggleButtonColor();
 
-      // ----------- Button Click Handler -----------
-      button.addEventListener('click', () => {
-        clickCount++;
+    // Update the idea title
+    if (clickCount === 1) {
+      ideaTitle.style.display = "block";
+      ideaTitle.innerHTML = "Your free <b><span style='color: #3EFCFA'>$20B</span></b> idea:";
+    } else {
+      sessionIdeaTotal += 20;
+      ideaTitle.style.display = "block";
+      ideaTitle.innerHTML = `<br><b><span style='color: #3EFCFA'>$${sessionIdeaTotal}B</span></b> of ideas generated.`;
+    }
 
-        // GA event for generating an idea
-        gtag('event', 'generate_idea_click', {
-          event_category: 'button',
-          event_label: 'Generate Idea'
-        });
+    // Show the Claim Dibs button first
+    claimBtn.style.display = "inline-block";
 
-        const rawIdea = getNextIdea();
-        if (!rawIdea) {
-          ideaDiv.innerHTML = "I gave you $500B of ideas, bro. Go get funded.";
-          claimBtn.style.display = "none";
-          visionaryText.style.display = "none";
-          ideaTitle.innerHTML = "";
-          ideaTitle.style.display = "none";
-          return;
-        }
+    // Show the idea container (white box) now that an idea is generated
+    ideaDiv.style.display = "block";
+    const parts = rawIdea.split('<br><br>');
+    if (parts.length >= 2) {
+      currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
+      currentIdeaDescription = parts.slice(1).join(" ").replace(/<[^>]*>/g, "").trim();
+      ideaDiv.innerHTML = `
+        <strong class="idea-title">${currentIdeaTitle}</strong>
+        <p class="desc">${currentIdeaDescription}</p>
+      `;
+    } else {
+      ideaDiv.innerHTML = rawIdea;
+      currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
+      currentIdeaDescription = "";
+    }
 
-        if (clickCount === 1) {
-          button.innerHTML = "Generate another $20B idea bro";
-        } else if (clickCount === 2) {
-          cycledStates = shuffle(allStates.filter(text => text.trim() !== "Generate another $20B idea bro".trim()));
-          cycleIndex = 0;
-          button.innerHTML = cycledStates[cycleIndex];
-          cycleIndex++;
-        } else {
-          button.innerHTML = cycledStates[cycleIndex];
-          cycleIndex++;
-          if (cycleIndex >= cycledStates.length) {
-            cycleIndex = 0;
-          }
-        }
-        toggleButtonColor();
+    if (clickCount === 1) {
+      ideaDiv.classList.add('generated-idea-shadow');
+    }
 
-        if (clickCount === 1) {
-          ideaTitle.style.display = "block";
-          ideaTitle.innerHTML = "Your free <b><span style='color: #3EFCFA'>$20B</span></b> idea:";
-        } else {
-          sessionIdeaTotal += 20;
-          ideaTitle.style.display = "block";
-          ideaTitle.innerHTML = `<br><b><span style='color: #3EFCFA'>$${sessionIdeaTotal}B</span></b> of ideas generated.`;
-        }
-        
-        // Display the Claim dibs button above the visionary text
-        claimBtn.style.display = "inline-block";
+    // Then display the visionary text below the Claim Dibs button
+    visionaryText.style.display = "block";
+    visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
+  });
 
-        // Show the idea container (white box) now that an idea is generated
-        ideaDiv.style.display = "block";
-        const parts = rawIdea.split('<br><br>');
-        if (parts.length >= 2) {
-          currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = parts.slice(1).join(" ").replace(/<[^>]*>/g, "").trim();
-          // Use separate elements for title & description
-          ideaDiv.innerHTML = `
-            <strong class="idea-title">${currentIdeaTitle}</strong>
-            <p class="desc">${currentIdeaDescription}</p>
-          `;
-        } else {
-          ideaDiv.innerHTML = rawIdea;
-          currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = "";
-        }
+  // ----------- "Claim dibs on this idea" Button Logic -----------
+  claimBtn.addEventListener('click', () => {
+    gtag('event', 'claim_dibs_click', {
+      event_category: 'button',
+      event_label: 'Claim Dibs Button'
+    });
 
-        if (clickCount === 1) {
-          ideaDiv.classList.add('generated-idea-shadow');
-        }
+    const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        setTimeout(() => {
+          toast.style.display = 'none';
+          window.open(
+            "https://www.linkedin.com/sharing/share-offsite/?url=" +
+              encodeURIComponent("https://accountingdisruptor.com/?v2"),
+            "_blank"
+          );
+        }, 3000);
+      })
+      .catch(err => console.error("Failed to copy text: ", err));
+  });
 
-        // Now display the visionary text below the Claim dibs button
-        visionaryText.style.display = "block";
-        visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
-      });
+  // ----------- Exit-Intent Popup JavaScript -----------
+  let exitPopupShown = false;
+  const pageLoadTime = Date.now();
 
-      // ----------- "Claim dibs on this idea" Button Logic -----------
-      claimBtn.addEventListener('click', () => {
-        gtag('event', 'claim_dibs_click', {
-          event_category: 'button',
-          event_label: 'Claim Dibs Button'
-        });
+  document.addEventListener('mouseout', function (e) {
+    if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
+      document.getElementById('exitPopup').style.display = 'block';
+      exitPopupShown = true;
+    }
+  });
 
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => {
-            const toast = document.getElementById('toast');
-            toast.style.display = 'block';
-            setTimeout(() => {
-              toast.style.display = 'none';
-              window.open(
-                "https://www.linkedin.com/sharing/share-offsite/?url=" +
-                  encodeURIComponent("https://accountingdisruptor.com/?v2"),
-                "_blank"
-              );
-            }, 3000);
-          })
-          .catch(err => console.error("Failed to copy text: ", err));
-      });
+  document.getElementById('exitPopupCancel').addEventListener('click', function () {
+    gtag('event', 'exit_intent_no_click', {
+      event_category: 'exit_intent_popup',
+      event_label: 'No Button'
+    });
+    document.getElementById('exitPopup').style.display = 'none';
+  });
 
-      // ----------- Exit-Intent Popup JavaScript -----------
-      let exitPopupShown = false;
-      const pageLoadTime = Date.now();
+  document.getElementById('exitPopupYes').addEventListener('click', function (e) {
+    gtag('event', 'exit_intent_yes_click', {
+      event_category: 'exit_intent_popup',
+      event_label: 'Yes Button'
+    });
+    document.getElementById('exitPopup').style.display = 'none';
+  });
+</script>
 
-      document.addEventListener('mouseout', function (e) {
-        if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
-          document.getElementById('exitPopup').style.display = 'block';
-          exitPopupShown = true;
-        }
-      });
-
-      document.getElementById('exitPopupCancel').addEventListener('click', function () {
-        gtag('event', 'exit_intent_no_click', {
-          event_category: 'exit_intent_popup',
-          event_label: 'No Button'
-        });
-        document.getElementById('exitPopup').style.display = 'none';
-      });
-
-      document.getElementById('exitPopupYes').addEventListener('click', function (e) {
-        gtag('event', 'exit_intent_yes_click', {
-          event_category: 'exit_intent_popup',
-          event_label: 'Yes Button'
-        });
-        document.getElementById('exitPopup').style.display = 'none';
-      });
-    </script>
   </body>
 </html>
