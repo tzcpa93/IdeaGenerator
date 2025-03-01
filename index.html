@@ -177,6 +177,11 @@
       #idea strong {
         font-size: 1.2em;
       }
+
+      /* New rule to ensure the generated description is also black */
+        #idea p.desc {
+          color: #000;
+        }
       
       /* Tier title styling */
       #ideaTitle {
@@ -353,6 +358,7 @@
       .button-container {
         position: relative;
         display: inline-block;
+        margin-bottom: 20px; /* Added spacing below the button container */
       }
       
       /* Increased pulsing hand size */
@@ -553,9 +559,9 @@
         }
 
         if (clickCount === 1) {
-          button.innerHTML = allStates[1];
+          button.innerHTML = "Generate another $20B idea bro";
         } else if (clickCount === 2) {
-          cycledStates = shuffle(allStates.filter(text => text.trim() !== allStates[1].trim()));
+          cycledStates = shuffle(allStates.filter(text => text.trim() !== "Generate another $20B idea bro".trim()));
           cycleIndex = 0;
           button.innerHTML = cycledStates[cycleIndex];
           cycleIndex++;
@@ -565,17 +571,16 @@
           if (cycleIndex >= cycledStates.length) {
             cycleIndex = 0;
           }
-        }
         toggleButtonColor();
 
         if (clickCount === 1) {
           ideaTitle.style.display = "block";
-          ideaTitle.innerHTML = "<br>Your free <b>$20B</b> idea:";
+          ideaTitle.innerHTML = "<br>Your free <b><span style='color: #3EFCFA'>$20B</span></b> idea:";
           claimBtn.style.display = "inline-block";
         } else {
           sessionIdeaTotal += 20;
           ideaTitle.style.display = "block";
-          ideaTitle.innerHTML = `<br><b>$${sessionIdeaTotal}B</b> of ideas generated.`;
+          ideaTitle.innerHTML = `<br><b><span style='color: #3EFCFA'>$${sessionIdeaTotal}B</span></b> of ideas generated.`;
         }
 
         const parts = rawIdea.split('<br><br>');
