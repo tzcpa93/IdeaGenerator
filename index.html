@@ -386,7 +386,7 @@
   </head>
   <body>
     <header>
-      <h2>Accounting is easy. Accountants are old.</h2>
+      <h2>Accounting isn't hard, it's just old.</h2>
     </header>
 
     <main>
@@ -598,31 +598,35 @@
         }
         
         // Show the idea container (white box) now that an idea is generated
-        ideaDiv.style.display = "block";
+ideaDiv.style.display = "block";
 
-        const parts = rawIdea.split('<br><br>');
-        if (parts.length >= 2) {
-          currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = parts
-            .slice(1)
-            .join('<br>')
-            .replace(/<[^>]*>/g, "")
-            .trim();
-          ideaDiv.innerHTML =
-            parts[0] + '<p class="desc">' + parts.slice(1).join('') + '</p>';
-        } else {
-          ideaDiv.innerHTML = rawIdea;
-          currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = "";
-        }
+const parts = rawIdea.split('<br><br>');
+if (parts.length >= 2) {
+  currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
+  currentIdeaDescription = parts
+    .slice(1)
+    .join(" ")
+    .replace(/<[^>]*>/g, "")
+    .trim();
 
-        if (clickCount === 1) {
-          ideaDiv.classList.add('generated-idea-shadow');
-        }
+  // Use separate elements for title & description
+  ideaDiv.innerHTML = `
+    <strong class="idea-title">${currentIdeaTitle}</strong>
+    <p class="desc">${currentIdeaDescription}</p>
+  `;
+} else {
+  ideaDiv.innerHTML = rawIdea;
+  currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
+  currentIdeaDescription = "";
+}
 
-        visionaryText.style.display = "block";
-        visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
-      });
+if (clickCount === 1) {
+  ideaDiv.classList.add('generated-idea-shadow');
+}
+
+visionaryText.style.display = "block";
+visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
+
 
       // ----------- "Claim dibs on this idea" Button Logic -----------
 
