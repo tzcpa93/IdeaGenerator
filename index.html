@@ -383,6 +383,18 @@
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.2); }
       }
+
+      @media (max-width: 600px) {
+  /* Reduce margin between H1 and P on mobile only */
+  .hero h1 {
+    margin-bottom: 7px; /* smaller than the current 15px */
+  }
+  .hero p {
+    margin-top: 10px;    /* if you need to shrink the top margin further */
+    margin-bottom: 20px; /* if you want less bottom space, reduce from 40px */
+  }
+}
+
     </style>
     <title>Disrupt Accounting | Generate $20B Ideas for Free</title>
   </head>
@@ -615,9 +627,6 @@
           ideaDiv.classList.add('generated-idea-shadow');
         }
 
-        visionaryText.style.display = "block";
-        visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
-      });
 
       // ----------- "Claim dibs on this idea" Button Logic -----------
       claimBtn.addEventListener('click', () => {
@@ -641,6 +650,12 @@
             }, 3000);
           })
           .catch(err => console.error("Failed to copy text: ", err));
+      });
+
+        // -- visionary text ----
+
+        visionaryText.style.display = "block";
+        visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
       });
 
       // ----------- Exit-Intent Popup JavaScript -----------
