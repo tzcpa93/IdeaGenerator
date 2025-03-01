@@ -161,31 +161,32 @@
       /* IDEA DISPLAY CONTAINER - now white with black text */
       /* Initially hidden until an idea is generated */
       #idea {
-        display: none;
-        margin-top: 20px;
-        font-size: 1.1rem;
-        color: #000;
-        max-width: 600px;
-        margin: 0 auto;
-        text-align: center;
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      }
+          display: none;
+          /* Instead of separate margin-top and margin, use a single margin: 10px auto */
+          margin: 10px auto;
+          font-size: 1.1rem;
+          color: #000;
+          max-width: 600px;
+          text-align: center;
+          background: #fff;
+          /* Reduce top/bottom padding from 20px to 15px for more balance */
+          padding: 15px 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
       #idea strong {
         font-size: 1.2em;
       }
       /* New rule to ensure the generated description is also black */
       #idea .idea-title {
         display: block;
-        margin: 0;
+        margin: 0 0 6px 0;
         padding: 0;
       }
       
       #idea p.desc {
         color: #000;
-        margin: 0;
+        margin: 0 0 6px 0;
         padding: 0;
       }
 
