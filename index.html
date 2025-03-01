@@ -605,7 +605,7 @@
           currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
           currentIdeaDescription = parts
             .slice(1)
-            .join('<br><br>')
+            .join('<br>')
             .replace(/<[^>]*>/g, "")
             .trim();
           ideaDiv.innerHTML =
