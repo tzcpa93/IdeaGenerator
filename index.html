@@ -28,10 +28,7 @@
     <meta name="twitter:url" content="https://accountingdisruptor.com/" />
 
     <!-- Google Fonts: Karla & Poppins (for header text styling) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&family=Poppins:wght@600;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet" />
 
     <!-- Ensure proper scaling on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,17 +40,16 @@
         margin: 0;
         padding: 0;
       }
-
+      
       /* Overall Nightmode Base */
-      html,
-      body {
+      html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
         background: #0F172A;
         color: #fff;
         line-height: 1.6;
       }
-
+      
       /* HEADER */
       header {
         background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 35%, #3EFCFA 100%);
@@ -75,15 +71,9 @@
         animation: shine 4s infinite;
       }
       @keyframes shine {
-        0% {
-          left: -100%;
-        }
-        20% {
-          left: 100%;
-        }
-        100% {
-          left: 100%;
-        }
+        0% { left: -100%; }
+        20% { left: 100%; }
+        100% { left: 100%; }
       }
       header h2 {
         color: #fff;
@@ -91,7 +81,7 @@
         letter-spacing: 1px;
         font-size: 1.5rem;
       }
-
+      
       /* HERO SECTION */
       .hero {
         background: radial-gradient(circle at center, #1E293B 0%, #0F172A 70%);
@@ -109,7 +99,7 @@
       }
       .hero h1 .highlight {
         color: #3EFCFA;
-        text-shadow: 0px 1px 10px rgba(0, 0, 0, 1);
+        text-shadow: 0px 1px 10px rgba(0,0,0,1);
         display: inline-block;
         position: relative;
       }
@@ -130,7 +120,7 @@
         margin: 40px auto;
         color: #ccc;
       }
-
+      
       /* BUTTONS */
       button {
         font-size: 1rem;
@@ -153,12 +143,10 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
-
+      
       /* Toggle Function now forces white background with black text */
-      function toggleButtonColor() {
-        /* (handled in JS) */
-      }
-
+      function toggleButtonColor() { /* (handled in JS) */ }
+      
       /* CLAIM DIBS BUTTON */
       #claimBtn {
         display: none;
@@ -172,9 +160,11 @@
       #claimBtn:hover {
         background-color: #111;
       }
-
+      
       /* IDEA DISPLAY CONTAINER - now white with black text */
+      /* Initially hidden until an idea is generated */
       #idea {
+        display: none;
         margin-top: 20px;
         font-size: 1.1rem;
         color: #000;
@@ -189,12 +179,12 @@
       #idea strong {
         font-size: 1.2em;
       }
-
+      
       /* New rule to ensure the generated description is also black */
       #idea p.desc {
         color: #000;
       }
-
+      
       /* Tier title styling */
       #ideaTitle {
         margin-top: 15px; /* Reduced from 30px (50% less) */
@@ -202,17 +192,17 @@
         color: #fff;
         font-size: 1.2rem; /* Same size as #visionaryText */
       }
-
+      
       /* Visionary text styling */
       #visionaryText {
         display: none;
         margin-top: 30px;
         font-size: 1.2rem;
-        font-style: italic; /* optional if you still want italic */
-        font-weight: 400; /* unbold everything by default */
+        font-style: italic;
+        font-weight: 400;
         color: #fff;
       }
-
+      
       /* Inline image in button styling */
       .button-icon {
         width: 20px;
@@ -220,7 +210,7 @@
         margin-left: 4px;
         vertical-align: middle;
       }
-
+      
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -230,11 +220,11 @@
         background: #0F172A;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
       }
-
+      
       .generated-idea-shadow {
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 0 8px rgba(27, 134, 250, 0.6);
       }
-
+      
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
         display: none;
@@ -252,21 +242,21 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #fff; /* White background */
+        background: #fff;
         padding: 20px;
         border-radius: 8px;
         text-align: center;
         max-width: 90%;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        border: 1px solid #ddd; /* Optional: light gray border */
-        color: #000; /* Black text */
+        border: 1px solid #ddd;
+        color: #000;
       }
       #exitPopup p {
         margin-bottom: 15px;
         font-size: 1.1rem;
-        color: #000; /* Black text */
+        color: #000;
       }
-
+      
       #exitPopup .popup-buttons {
         display: flex;
         justify-content: center;
@@ -290,7 +280,7 @@
         color: #000;
         border: none;
       }
-
+      
       /* Toast Modal for Copy Action */
       #toast {
         display: none;
@@ -321,14 +311,10 @@
         margin-bottom: 10px;
       }
       @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
-
+      
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
@@ -373,13 +359,13 @@
           padding: 12px 24px;
         }
       }
-
+      
       .button-container {
         position: relative;
         display: inline-block;
-        margin-bottom: 10px; /* spacing below the button container */
+        margin-bottom: 10px;
       }
-
+      
       /* Increased pulsing hand size */
       .mouse-cursor {
         position: absolute;
@@ -390,17 +376,10 @@
         animation: pulseIcon 2s infinite;
         cursor: default;
       }
-
+      
       @keyframes pulseIcon {
-        0%,
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-        50% {
-          transform: scale(1.2);
-          opacity: 0.7;
-        }
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.7; }
       }
     </style>
     <title>Disrupt Accounting | Generate $20B Ideas for Free</title>
@@ -412,21 +391,19 @@
 
     <main>
       <section class="hero">
-        <h1>
-          Generate AI accounting<br />
-          app ideas for <span class="highlight">free</span>.
-        </h1>
+        <h1>Generate AI accounting<br>app ideas for <span class="highlight">free</span>.</h1>
         <p>
-          Did you take one accounting class in college?<br />
-          Have you used ChatGPT a few times?<br /><br />
-          Guess what? You're ready to disrupt a $20B industry.<br />
+          Did you take one accounting class in college?<br>
+          Have you used ChatGPT a few times?<br><br>
+          Guess what? You're ready to disrupt a $20B industry.<br>
         </p>
         <div class="button-container">
           <button id="generateBtn" class="initial-state">Make me a disruptor right now</button>
           <img src="images/mouse-cursor.png" alt="Mouse Cursor" class="mouse-cursor" />
         </div>
-        <p id="ideaTitle" style="display: none;"><br>Your free $20B idea:</p>
-        <div id="idea">A $20B idea is waiting for you.</div>
+        <p id="ideaTitle" style="display: none;"><br>Your free <b><span style="color: #3EFCFA">$20B</span></b> idea:</p>
+        <!-- The idea container is hidden initially -->
+        <div id="idea"></div>
         <div id="visionaryText">--</div>
         <button id="claimBtn" style="display: none;">Claim dibs on this idea</button>
       </section>
@@ -441,13 +418,7 @@
       <div class="popup-content">
         <p>wait, sorry. do u want real help?</p>
         <div class="popup-buttons">
-          <a
-            id="exitPopupYes"
-            href="https://finoptimal.com/?utm_source=accountingdisruptor&utm_medium=referral&utm_campaign=disruptor"
-            target="_blank"
-            onclick="document.getElementById('exitPopup').style.display='none';"
-            >yes</a
-          >
+          <a id="exitPopupYes" href="https://finoptimal.com/?utm_source=accountingdisruptor&utm_medium=referral&utm_campaign=disruptor" target="_blank" onclick="document.getElementById('exitPopup').style.display='none';">yes</a>
           <button id="exitPopupCancel">no</button>
         </div>
       </div>
@@ -456,7 +427,7 @@
     <!-- Toast Modal for Copy Action -->
     <div id="toast">
       <div class="toast-spinner"></div>
-      <b>Copying to clipboard...</b><br /><br />Share on social to claim 🔥🚀
+      <b>Copying to clipboard...</b><br><br>Share on social to claim 🔥🚀
     </div>
 
     <script>
@@ -625,6 +596,9 @@
           ideaTitle.style.display = "block";
           ideaTitle.innerHTML = `<br><b><span style='color: #3EFCFA'>$${sessionIdeaTotal}B</span></b> of ideas generated.`;
         }
+        
+        // Show the idea container (white box) now that an idea is generated
+        ideaDiv.style.display = "block";
 
         const parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
@@ -665,11 +639,7 @@
             toast.style.display = 'block';
             setTimeout(() => {
               toast.style.display = 'none';
-              window.open(
-                "https://www.linkedin.com/sharing/share-offsite/?url=" +
-                  encodeURIComponent(window.location.href),
-                "_blank"
-              );
+              window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
             }, 3000);
           })
           .catch(err => console.error("Failed to copy text: ", err));
@@ -680,7 +650,7 @@
       const pageLoadTime = Date.now();
 
       document.addEventListener('mouseout', function (e) {
-        if (!exitPopupShown && e.clientY <= 0 && Date.now() - pageLoadTime >= 5000) {
+        if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
           document.getElementById('exitPopup').style.display = 'block';
           exitPopupShown = true;
         }
