@@ -195,7 +195,8 @@
         display: none;
         margin-top: 30px;
         font-size: 1.2rem;
-        font-weight: 600;
+        font-style: italic; /* optional if you still want italic */
+        font-weight: 400;   /* unbold everything by default */
         color: #fff;
       }
       
@@ -471,10 +472,18 @@
       // ----------- Utility / Helper Functions ----------- 
 
       // Toggle button color now forces white background with black text
-      function toggleButtonColor() {
-        button.style.backgroundColor = "#fff";
-        button.style.color = "#000";
-      }
+      // Create an array of background colors: neon blue and white
+        const buttonColors = ["#3EFCFA", "#fff"];
+        let colorIndex = 0;
+        
+        function toggleButtonColor() {
+          // Flip between 0 and 1
+          colorIndex = 1 - colorIndex;
+          // Set the button background color from the array
+          button.style.backgroundColor = buttonColors[colorIndex];
+          // Always keep black text for both
+          button.style.color = "#000";
+        }
 
       // Fisher–Yates shuffle function
       function shuffle(array) {
@@ -600,7 +609,7 @@
         }
 
         visionaryText.style.display = "block";
-        visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...👀";
+        visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
       });
 
       // ----------- "Claim dibs on this idea" Button Logic ----------- 
