@@ -161,19 +161,17 @@
       /* IDEA DISPLAY CONTAINER - now white with black text */
       /* Initially hidden until an idea is generated */
       #idea {
-          display: none;
-          /* Instead of separate margin-top and margin, use a single margin: 10px auto */
-          margin: 10px auto;
-          font-size: 1.1rem;
-          color: #000;
-          max-width: 600px;
-          text-align: center;
-          background: #fff;
-          /* Reduce top/bottom padding from 20px to 15px for more balance */
-          padding: 15px 20px;
-          border-radius: 8px;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
+        display: none;
+        margin: 10px auto;
+        font-size: 1.1rem;
+        color: #000;
+        max-width: 600px;
+        text-align: center;
+        background: #fff;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
       #idea strong {
         font-size: 1.2em;
       }
@@ -183,7 +181,6 @@
         margin: 0 0 6px 0;
         padding: 0;
       }
-      
       #idea p.desc {
         color: #000;
         margin: 0 0 6px 0;
@@ -192,10 +189,10 @@
 
       /* Tier title styling */
       #ideaTitle {
-        margin-top: 15px; /* Reduced from 30px */
+        margin-top: 15px;
         display: none;
         color: #fff;
-        font-size: 1.2rem; /* Same as #visionaryText */
+        font-size: 1.2rem;
       }
 
       /* Visionary text styling */
@@ -383,18 +380,6 @@
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.2); }
       }
-
-      @media (max-width: 600px) {
-  /* Reduce margin between H1 and P on mobile only */
-  .hero h1 {
-    margin-bottom: 7px; /* smaller than the current 15px */
-  }
-  .hero p {
-    margin-top: 10px;    /* if you need to shrink the top margin further */
-    margin-bottom: 20px; /* if you want less bottom space, reduce from 40px */
-  }
-}
-
     </style>
     <title>Disrupt Accounting | Generate $20B Ideas for Free</title>
   </head>
@@ -599,13 +584,15 @@
         if (clickCount === 1) {
           ideaTitle.style.display = "block";
           ideaTitle.innerHTML = "Your free <b><span style='color: #3EFCFA'>$20B</span></b> idea:";
-          claimBtn.style.display = "inline-block";
         } else {
           sessionIdeaTotal += 20;
           ideaTitle.style.display = "block";
           ideaTitle.innerHTML = `<br><b><span style='color: #3EFCFA'>$${sessionIdeaTotal}B</span></b> of ideas generated.`;
         }
         
+        // Display the Claim dibs button above the visionary text
+        claimBtn.style.display = "inline-block";
+
         // Show the idea container (white box) now that an idea is generated
         ideaDiv.style.display = "block";
         const parts = rawIdea.split('<br><br>');
@@ -627,6 +614,10 @@
           ideaDiv.classList.add('generated-idea-shadow');
         }
 
+        // Now display the visionary text below the Claim dibs button
+        visionaryText.style.display = "block";
+        visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
+      });
 
       // ----------- "Claim dibs on this idea" Button Logic -----------
       claimBtn.addEventListener('click', () => {
@@ -650,12 +641,6 @@
             }, 3000);
           })
           .catch(err => console.error("Failed to copy text: ", err));
-      });
-
-        // -- visionary text ----
-
-        visionaryText.style.display = "block";
-        visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
       });
 
       // ----------- Exit-Intent Popup JavaScript -----------
