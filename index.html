@@ -589,7 +589,7 @@
 
         if (clickCount === 1) {
           ideaTitle.style.display = "block";
-          ideaTitle.innerHTML = "<br>Your free <b><span style='color: #3EFCFA'>$20B</span></b> idea:";
+          ideaTitle.innerHTML = "Your free <b><span style='color: #3EFCFA'>$20B</span></b> idea:";
           claimBtn.style.display = "inline-block";
         } else {
           sessionIdeaTotal += 20;
@@ -609,7 +609,7 @@
             .replace(/<[^>]*>/g, "")
             .trim();
           ideaDiv.innerHTML =
-            parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
+            parts[0] + '<br><p class="desc">' + parts.slice(1).join('<br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
           currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
