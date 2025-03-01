@@ -609,7 +609,7 @@
             .replace(/<[^>]*>/g, "")
             .trim();
           ideaDiv.innerHTML =
-            parts[0] + '<br><p class="desc">' + parts.slice(1).join('<br>') + '</p>';
+            parts[0] + '<p class="desc">' + parts.slice(1).join('') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
           currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
