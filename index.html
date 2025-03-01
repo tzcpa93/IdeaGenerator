@@ -45,8 +45,8 @@
       html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
-        background: #0F172A; /* Dark background */
-        color: #fff;       /* Light text */
+        background: #0F172A;
+        color: #fff;
         line-height: 1.6;
       }
       
@@ -76,7 +76,7 @@
         100% { left: 100%; }
       }
       header h2 {
-        color: #fff; /* Updated to white for legibility */
+        color: #fff;
         font-weight: 800;
         letter-spacing: 1px;
         font-size: 1.5rem;
@@ -84,7 +84,6 @@
       
       /* HERO SECTION */
       .hero {
-        /* Changed from light to dark gradient background */
         background: radial-gradient(circle at center, #1E293B 0%, #0F172A 70%);
         padding: 80px 20px;
         text-align: center;
@@ -95,8 +94,7 @@
         font-weight: 800;
         margin-bottom: 15px;
         max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 0 auto;
         line-height: 1.3;
       }
       .hero h1 .highlight {
@@ -119,8 +117,8 @@
         font-size: 1.1rem;
         font-weight: 400;
         max-width: 700px;
-        margin: 0 auto 40px auto;
-        color: #ccc; /* Lighter text on dark background */
+        margin: 0 auto 40px;
+        color: #ccc;
       }
       
       /* BUTTONS */
@@ -130,9 +128,8 @@
         cursor: pointer;
         border: none;
         border-radius: 6px;
-        /* Default button background remains similar but ensure legible text */
         background-color: #3EFCFA;
-        color: #000; /* This may toggle */
+        color: #000;
         font-weight: 700;
         transition: background-color 0.2s ease-in-out;
       }
@@ -147,32 +144,32 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
       
-      /* Adjusted Toggle Function: When toggling to a dark state, always use white text */
-      /* (This is controlled in JS by checking buttonColors; ensure dark colors get white text) */
+      /* Toggle Function now forces white background with black text */
+      function toggleButtonColor() { /* (handled in JS) */ }
       
-      /* Claim Button */
+      /* CLAIM DIBS BUTTON */
       #claimBtn {
         display: none;
         margin-top: 20px;
-        background-color: #444;
+        background-color: #000;
         font-size: 0.9rem;
         padding: 10px 20px;
-        color: #fff;
+        color: #3EFCFA;
+        border: 2px solid #3EFCFA;
       }
       #claimBtn:hover {
-        background-color: #333;
+        background-color: #111;
       }
       
-      /* IDEA DISPLAY CONTAINER */
+      /* IDEA DISPLAY CONTAINER - now white with black text */
       #idea {
         margin-top: 20px;
         font-size: 1.1rem;
-        color: #e2e8f0; /* Light text */
+        color: #000;
         max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 0 auto;
         text-align: center;
-        background: rgba(30, 41, 59, 0.7); /* Dark, semi-transparent background */
+        background: #fff;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -236,7 +233,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #1E293B; /* Dark background */
+        background: #1E293B;
         padding: 20px;
         border-radius: 8px;
         text-align: center;
@@ -281,7 +278,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #1E293B; /* Dark background */
+        background: #1E293B;
         color: #fff;
         padding: 20px 30px;
         border: 2px solid #3EFCFA;
@@ -358,11 +355,12 @@
         display: inline-block;
       }
       
+      /* Increased pulsing hand size */
       .mouse-cursor {
         position: absolute;
         bottom: -30px;
         right: -35px;
-        width: 40px;
+        width: 50px;
         height: auto;
         animation: pulseIcon 2s infinite;
         cursor: default;
@@ -449,10 +447,6 @@
       // Session-wide visionary count (random number between 195 and 277)
       const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
 
-      // Button color toggle array
-      const buttonColors = ["#1F2937", "#3EFCFA"];
-      let colorIndex = 0;
-
       // All possible button texts
       const allStates = [
         "Make me a disruptor right now",
@@ -470,16 +464,10 @@
 
       // ----------- Utility / Helper Functions ----------- 
 
-      // Toggle button color each click.
+      // Toggle button color now forces white background with black text
       function toggleButtonColor() {
-        colorIndex = 1 - colorIndex;
-        button.style.backgroundColor = buttonColors[colorIndex];
-        // Set text color based on dark/light background: if dark, use white text.
-        if (buttonColors[colorIndex] === "#1F2937" || buttonColors[colorIndex] === "#444") {
-          button.style.color = "#fff";
-        } else {
-          button.style.color = "#000";
-        }
+        button.style.backgroundColor = "#fff";
+        button.style.color = "#000";
       }
 
       // Fisher–Yates shuffle function
