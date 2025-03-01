@@ -378,9 +378,9 @@
       }
       
       @keyframes pulseIcon {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.2); opacity: 0.7; }
-      }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
     </style>
     <title>Disrupt Accounting | Generate $20B Ideas for Free</title>
   </head>
@@ -572,7 +572,7 @@
         }
 
         if (clickCount === 1) {
-          button.innerHTML = "Generate another $20B idea bro";
+          button.innerHTML = "Generate another $20B idea";
         } else if (clickCount === 2) {
           cycledStates = shuffle(allStates.filter(text => text.trim() !== "Generate another $20B idea bro".trim()));
           cycleIndex = 0;
