@@ -114,12 +114,12 @@
         z-index: -1;
       }
       .hero p {
-        font-size: 1.1rem;
-        font-weight: 400;
-        max-width: 700px;
-        margin: 0 auto 40px;
-        color: #ccc;
-      }
+      font-size: 1.1rem;
+      font-weight: 400;
+      max-width: 700px;
+      margin: 40px auto; /* 40px on top, auto sides, 40px bottom */
+      color: #ccc;
+    }
       
       /* BUTTONS */
       button {
@@ -194,9 +194,9 @@
       #visionaryText {
         display: none;
         margin-top: 30px;
-        font-size: 0.85rem;
-        font-style: italic;
-        color: #ccc;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #fff;
       }
       
       /* Inline image in button styling */
@@ -238,19 +238,19 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #1E293B;
+        background: #fff; /* White background */
         padding: 20px;
         border-radius: 8px;
         text-align: center;
         max-width: 90%;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #fff;
+        border: 1px solid #ddd; /* Optional: light gray border */
+        color: #000; /* Black text */
       }
       #exitPopup p {
         margin-bottom: 15px;
         font-size: 1.1rem;
-        color: #fff;
+        color: #000; /* Black text */
       }
       #exitPopup .popup-buttons {
         display: flex;
@@ -410,7 +410,7 @@
     <!-- Exit-Intent Popup HTML -->
     <div id="exitPopup">
       <div class="popup-content">
-        <p>wait sorry -- do u want real help?</p>
+        <p>wait, sorry. do u want real help?</p>
         <div class="popup-buttons">
           <a id="exitPopupYes" href="https://finoptimal.com/?utm_source=accountingdisruptor&utm_medium=referral&utm_campaign=disruptor" target="_blank" onclick="document.getElementById('exitPopup').style.display='none';">yes</a>
           <button id="exitPopupCancel">no</button>
