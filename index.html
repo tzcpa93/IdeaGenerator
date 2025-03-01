@@ -572,19 +572,19 @@
         }
 
         if (clickCount === 1) {
-          button.innerHTML = "Generate another $20B idea";
-        } else if (clickCount === 2) {
-          cycledStates = shuffle(allStates.filter(text => text.trim() !== "Generate another $20B idea bro".trim()));
+        button.innerHTML = "Generate another $20B idea bro";
+      } else if (clickCount === 2) {
+        cycledStates = shuffle(allStates.filter(text => text.trim() !== "Generate another $20B idea bro".trim()));
+        cycleIndex = 0;
+        button.innerHTML = cycledStates[cycleIndex];
+        cycleIndex++;
+      } else {
+        button.innerHTML = cycledStates[cycleIndex];
+        cycleIndex++;
+        if (cycleIndex >= cycledStates.length) {
           cycleIndex = 0;
-          button.innerHTML = cycledStates[cycleIndex];
-          cycleIndex++;
-        } else {
-          button.innerHTML = cycledStates[cycleIndex];
-          cycleIndex++;
-          if (cycleIndex >= cycledStates.length) {
-            cycleIndex = 0;
-          }
         }
+      }
         toggleButtonColor();
 
         if (clickCount === 1) {
