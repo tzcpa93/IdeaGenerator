@@ -28,7 +28,10 @@
     <meta name="twitter:url" content="https://accountingdisruptor.com/" />
 
     <!-- Google Fonts: Karla & Poppins (for header text styling) -->
-    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&family=Poppins:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Ensure proper scaling on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,16 +43,17 @@
         margin: 0;
         padding: 0;
       }
-      
+
       /* Overall Nightmode Base */
-      html, body {
+      html,
+      body {
         height: 100%;
         font-family: 'Karla', sans-serif;
         background: #0F172A;
         color: #fff;
         line-height: 1.6;
       }
-      
+
       /* HEADER */
       header {
         background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 35%, #3EFCFA 100%);
@@ -71,9 +75,15 @@
         animation: shine 4s infinite;
       }
       @keyframes shine {
-        0% { left: -100%; }
-        20% { left: 100%; }
-        100% { left: 100%; }
+        0% {
+          left: -100%;
+        }
+        20% {
+          left: 100%;
+        }
+        100% {
+          left: 100%;
+        }
       }
       header h2 {
         color: #fff;
@@ -81,7 +91,7 @@
         letter-spacing: 1px;
         font-size: 1.5rem;
       }
-      
+
       /* HERO SECTION */
       .hero {
         background: radial-gradient(circle at center, #1E293B 0%, #0F172A 70%);
@@ -99,7 +109,7 @@
       }
       .hero h1 .highlight {
         color: #3EFCFA;
-        text-shadow: 0px 1px 10px rgba(0,0,0,1);
+        text-shadow: 0px 1px 10px rgba(0, 0, 0, 1);
         display: inline-block;
         position: relative;
       }
@@ -114,13 +124,13 @@
         z-index: -1;
       }
       .hero p {
-      font-size: 1.1rem;
-      font-weight: 400;
-      max-width: 700px;
-      margin: 40px auto; /* 40px on top, auto sides, 40px bottom */
-      color: #ccc;
-    }
-      
+        font-size: 1.1rem;
+        font-weight: 400;
+        max-width: 700px;
+        margin: 40px auto;
+        color: #ccc;
+      }
+
       /* BUTTONS */
       button {
         font-size: 1rem;
@@ -143,10 +153,12 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
-      
+
       /* Toggle Function now forces white background with black text */
-      function toggleButtonColor() { /* (handled in JS) */ }
-      
+      function toggleButtonColor() {
+        /* (handled in JS) */
+      }
+
       /* CLAIM DIBS BUTTON */
       #claimBtn {
         display: none;
@@ -160,7 +172,7 @@
       #claimBtn:hover {
         background-color: #111;
       }
-      
+
       /* IDEA DISPLAY CONTAINER - now white with black text */
       #idea {
         margin-top: 20px;
@@ -179,27 +191,28 @@
       }
 
       /* New rule to ensure the generated description is also black */
-        #idea p.desc {
-          color: #000;
-        }
-      
+      #idea p.desc {
+        color: #000;
+      }
+
       /* Tier title styling */
       #ideaTitle {
-        margin-top: 30px;
+        margin-top: 15px; /* Reduced from 30px (50% less) */
         display: none;
         color: #fff;
+        font-size: 1.2rem; /* Same size as #visionaryText */
       }
-      
+
       /* Visionary text styling */
       #visionaryText {
         display: none;
         margin-top: 30px;
         font-size: 1.2rem;
         font-style: italic; /* optional if you still want italic */
-        font-weight: 400;   /* unbold everything by default */
+        font-weight: 400; /* unbold everything by default */
         color: #fff;
       }
-      
+
       /* Inline image in button styling */
       .button-icon {
         width: 20px;
@@ -207,7 +220,7 @@
         margin-left: 4px;
         vertical-align: middle;
       }
-      
+
       /* FOOTER */
       footer {
         padding: 20px 0;
@@ -217,11 +230,11 @@
         background: #0F172A;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
       }
-      
+
       .generated-idea-shadow {
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 0 8px rgba(27, 134, 250, 0.6);
       }
-      
+
       /* EXIT-INTENT POPUP STYLES */
       #exitPopup {
         display: none;
@@ -253,6 +266,7 @@
         font-size: 1.1rem;
         color: #000; /* Black text */
       }
+
       #exitPopup .popup-buttons {
         display: flex;
         justify-content: center;
@@ -276,7 +290,7 @@
         color: #000;
         border: none;
       }
-      
+
       /* Toast Modal for Copy Action */
       #toast {
         display: none;
@@ -307,10 +321,14 @@
         margin-bottom: 10px;
       }
       @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
-      
+
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
@@ -355,13 +373,13 @@
           padding: 12px 24px;
         }
       }
-      
+
       .button-container {
         position: relative;
         display: inline-block;
-        margin-bottom: 10px; /* Added spacing below the button container */
+        margin-bottom: 10px; /* spacing below the button container */
       }
-      
+
       /* Increased pulsing hand size */
       .mouse-cursor {
         position: absolute;
@@ -372,10 +390,17 @@
         animation: pulseIcon 2s infinite;
         cursor: default;
       }
-      
+
       @keyframes pulseIcon {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.2); opacity: 0.7; }
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 0.7;
+        }
       }
     </style>
     <title>Disrupt Accounting | Generate $20B Ideas for Free</title>
@@ -387,11 +412,14 @@
 
     <main>
       <section class="hero">
-        <h1>Generate AI accounting<br>app ideas for <span class="highlight">free</span>.</h1>
+        <h1>
+          Generate AI accounting<br />
+          app ideas for <span class="highlight">free</span>.
+        </h1>
         <p>
-          Did you take one accounting class in college?<br>
-          Have you used ChatGPT a few times?<br><br>
-          Guess what? You're ready to disrupt a $20B industry.<br>
+          Did you take one accounting class in college?<br />
+          Have you used ChatGPT a few times?<br /><br />
+          Guess what? You're ready to disrupt a $20B industry.<br />
         </p>
         <div class="button-container">
           <button id="generateBtn" class="initial-state">Make me a disruptor right now</button>
@@ -413,7 +441,13 @@
       <div class="popup-content">
         <p>wait, sorry. do u want real help?</p>
         <div class="popup-buttons">
-          <a id="exitPopupYes" href="https://finoptimal.com/?utm_source=accountingdisruptor&utm_medium=referral&utm_campaign=disruptor" target="_blank" onclick="document.getElementById('exitPopup').style.display='none';">yes</a>
+          <a
+            id="exitPopupYes"
+            href="https://finoptimal.com/?utm_source=accountingdisruptor&utm_medium=referral&utm_campaign=disruptor"
+            target="_blank"
+            onclick="document.getElementById('exitPopup').style.display='none';"
+            >yes</a
+          >
           <button id="exitPopupCancel">no</button>
         </div>
       </div>
@@ -422,7 +456,7 @@
     <!-- Toast Modal for Copy Action -->
     <div id="toast">
       <div class="toast-spinner"></div>
-      <b>Copying to clipboard...</b><br><br>Share on social to claim 🔥🚀
+      <b>Copying to clipboard...</b><br /><br />Share on social to claim 🔥🚀
     </div>
 
     <script>
@@ -469,21 +503,20 @@
         "My partner is gna leave me if u don't give me a better idea"
       ];
 
-      // ----------- Utility / Helper Functions ----------- 
+      // ----------- Utility / Helper Functions -----------
 
       // Toggle button color now forces white background with black text
-      // Create an array of background colors: neon blue and white
-        const buttonColors = ["#3EFCFA", "#fff"];
-        let colorIndex = 0;
-        
-        function toggleButtonColor() {
-          // Flip between 0 and 1
-          colorIndex = 1 - colorIndex;
-          // Set the button background color from the array
-          button.style.backgroundColor = buttonColors[colorIndex];
-          // Always keep black text for both
-          button.style.color = "#000";
-        }
+      const buttonColors = ["#3EFCFA", "#fff"];
+      let colorIndex = 0;
+
+      function toggleButtonColor() {
+        // Flip between 0 and 1
+        colorIndex = 1 - colorIndex;
+        // Set the button background color from the array
+        button.style.backgroundColor = buttonColors[colorIndex];
+        // Always keep black text for both
+        button.style.color = "#000";
+      }
 
       // Fisher–Yates shuffle function
       function shuffle(array) {
@@ -515,7 +548,7 @@
           console.error('Error loading ideas:', error);
         });
 
-      // ----------- Tier Logic Function ----------- 
+      // ----------- Tier Logic Function -----------
 
       function getNextIdea() {
         if (clickCount === 1) {
@@ -546,7 +579,7 @@
         return null;
       }
 
-      // ----------- Button Click Handler ----------- 
+      // ----------- Button Click Handler -----------
 
       button.addEventListener('click', () => {
         clickCount++;
@@ -580,7 +613,7 @@
           if (cycleIndex >= cycledStates.length) {
             cycleIndex = 0;
           }
-        }      
+        }
         toggleButtonColor();
 
         if (clickCount === 1) {
@@ -596,8 +629,13 @@
         const parts = rawIdea.split('<br><br>');
         if (parts.length >= 2) {
           currentIdeaTitle = parts[0].replace(/<[^>]*>/g, "").trim();
-          currentIdeaDescription = parts.slice(1).join('<br><br>').replace(/<[^>]*>/g, "").trim();
-          ideaDiv.innerHTML = parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
+          currentIdeaDescription = parts
+            .slice(1)
+            .join('<br><br>')
+            .replace(/<[^>]*>/g, "")
+            .trim();
+          ideaDiv.innerHTML =
+            parts[0] + '<br><br><p class="desc">' + parts.slice(1).join('<br><br>') + '</p>';
         } else {
           ideaDiv.innerHTML = rawIdea;
           currentIdeaTitle = rawIdea.replace(/<[^>]*>/g, "").trim();
@@ -612,7 +650,7 @@
         visionaryText.innerHTML = `<strong>${sessionVisionaryCount}</strong> visionaries are generating ideas right now...👀`;
       });
 
-      // ----------- "Claim dibs on this idea" Button Logic ----------- 
+      // ----------- "Claim dibs on this idea" Button Logic -----------
 
       claimBtn.addEventListener('click', () => {
         gtag('event', 'claim_dibs_click', {
@@ -627,18 +665,22 @@
             toast.style.display = 'block';
             setTimeout(() => {
               toast.style.display = 'none';
-              window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
+              window.open(
+                "https://www.linkedin.com/sharing/share-offsite/?url=" +
+                  encodeURIComponent(window.location.href),
+                "_blank"
+              );
             }, 3000);
           })
           .catch(err => console.error("Failed to copy text: ", err));
       });
 
-      // ----------- Exit-Intent Popup JavaScript ----------- 
+      // ----------- Exit-Intent Popup JavaScript -----------
       let exitPopupShown = false;
       const pageLoadTime = Date.now();
 
       document.addEventListener('mouseout', function (e) {
-        if (!exitPopupShown && e.clientY <= 0 && (Date.now() - pageLoadTime >= 5000)) {
+        if (!exitPopupShown && e.clientY <= 0 && Date.now() - pageLoadTime >= 5000) {
           document.getElementById('exitPopup').style.display = 'block';
           exitPopupShown = true;
         }
@@ -652,7 +694,7 @@
         document.getElementById('exitPopup').style.display = 'none';
       });
 
-      document.getElementById('exitPopupYes').addEventListener('click', function(e) {
+      document.getElementById('exitPopupYes').addEventListener('click', function (e) {
         gtag('event', 'exit_intent_yes_click', {
           event_category: 'exit_intent_popup',
           event_label: 'Yes Button'
