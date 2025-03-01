@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2DS0CZPVWM"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-2DS0CZPVWM');
     </script>
 
@@ -30,10 +28,7 @@
     <meta name="twitter:url" content="https://accountingdisruptor.com/" />
 
     <!-- Google Fonts: Karla & Poppins (for header text styling) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&family=Poppins:wght@600;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet" />
 
     <!-- Ensure proper scaling on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -46,19 +41,23 @@
         padding: 0;
       }
       
+      /* Overall Nightmode Base */
       html, body {
         height: 100%;
         font-family: 'Karla', sans-serif;
-        background: #fff;
-        color: #111;
+        background: #0F172A; /* Dark background */
+        color: #fff;       /* Light text */
+        line-height: 1.6;
       }
       
       /* HEADER */
       header {
-        background-color: #3EFCFA;
+        background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 35%, #3EFCFA 100%);
         padding: 20px 0;
         text-align: center;
-        position: relative; /* For shimmer animation */
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
       header:before {
         content: '';
@@ -77,7 +76,7 @@
         100% { left: 100%; }
       }
       header h2 {
-        color: #000;
+        color: #fff; /* Updated to white for legibility */
         font-weight: 800;
         letter-spacing: 1px;
         font-size: 1.5rem;
@@ -85,17 +84,14 @@
       
       /* HERO SECTION */
       .hero {
-        background: linear-gradient(
-          135deg,
-          rgba(240, 240, 240, 1) 0%,
-          rgba(255, 255, 255, 1) 70%
-        );
+        /* Changed from light to dark gradient background */
+        background: radial-gradient(circle at center, #1E293B 0%, #0F172A 70%);
         padding: 80px 20px;
         text-align: center;
       }
       .hero h1 {
-        font-family: 'Poppins', sans-serif; /* Updated font family */
-        font-size: 2.5rem;                /* Increased font size */
+        font-family: 'Poppins', sans-serif;
+        font-size: 2.5rem;
         font-weight: 800;
         margin-bottom: 15px;
         max-width: 900px;
@@ -124,7 +120,7 @@
         font-weight: 400;
         max-width: 700px;
         margin: 0 auto 40px auto;
-        color: #555;
+        color: #ccc; /* Lighter text on dark background */
       }
       
       /* BUTTONS */
@@ -134,23 +130,27 @@
         cursor: pointer;
         border: none;
         border-radius: 6px;
+        /* Default button background remains similar but ensure legible text */
         background-color: #3EFCFA;
-        color: #000;
+        color: #000; /* This may toggle */
         font-weight: 700;
         transition: background-color 0.2s ease-in-out;
       }
       button:hover {
         background-color: #196ac1;
-        transform: translateY(-2px); /* Hover movement added */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow added */
-      }
-      button.initial-state:hover {
-        background-color: #3EFCFA;  /* Keep neon */
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
-
-      /* Claim Button - Dark Grey, Smaller, with extra top margin */
+      button.initial-state:hover {
+        background-color: #3EFCFA;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Adjusted Toggle Function: When toggling to a dark state, always use white text */
+      /* (This is controlled in JS by checking buttonColors; ensure dark colors get white text) */
+      
+      /* Claim Button */
       #claimBtn {
         display: none;
         margin-top: 20px;
@@ -167,12 +167,12 @@
       #idea {
         margin-top: 20px;
         font-size: 1.1rem;
-        color: #333;
+        color: #e2e8f0; /* Light text */
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
         text-align: center;
-        background-color: #fff;
+        background: rgba(30, 41, 59, 0.7); /* Dark, semi-transparent background */
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -181,17 +181,11 @@
         font-size: 1.2em;
       }
       
-      /* Styling for the description paragraph (no indent) */
-      #idea p.desc {
-        text-align: left;
-        line-height: 1.6;
-        margin: 0;
-      }
-      
       /* Tier title styling */
       #ideaTitle {
         margin-top: 30px;
         display: none;
+        color: #fff;
       }
       
       /* Visionary text styling */
@@ -200,7 +194,7 @@
         margin-top: 30px;
         font-size: 0.85rem;
         font-style: italic;
-        color: #555;
+        color: #ccc;
       }
       
       /* Inline image in button styling */
@@ -216,9 +210,11 @@
         padding: 20px 0;
         text-align: center;
         font-size: 0.85rem;
-        color: #777;
+        color: #ccc;
+        background: #0F172A;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
       }
-
+      
       .generated-idea-shadow {
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 0 8px rgba(27, 134, 250, 0.6);
       }
@@ -231,7 +227,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(5px);
         z-index: 1000;
       }
       #exitPopup > .popup-content {
@@ -239,16 +236,19 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #fff;
+        background: #1E293B; /* Dark background */
         padding: 20px;
         border-radius: 8px;
         text-align: center;
         max-width: 90%;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
       }
       #exitPopup p {
         margin-bottom: 15px;
         font-size: 1.1rem;
+        color: #fff;
       }
       #exitPopup .popup-buttons {
         display: flex;
@@ -281,8 +281,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #fff;
-        color: #000;
+        background: #1E293B; /* Dark background */
+        color: #fff;
         padding: 20px 30px;
         border: 2px solid #3EFCFA;
         border-radius: 8px;
@@ -296,7 +296,7 @@
         display: inline-block;
         width: 24px;
         height: 24px;
-        border: 3px solid #3EFCFA; /* Blue border */
+        border: 3px solid #3EFCFA;
         border-top: 3px solid transparent;
         border-radius: 50%;
         animation: spin 1s linear infinite;
@@ -308,7 +308,7 @@
         100% { transform: rotate(360deg); }
       }
       
-      /* MOBILE OVERRIDES (ONLY affect mobile) */
+      /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
           padding: 15px 10px;
@@ -333,8 +333,6 @@
           font-size: 0.95rem;
           margin-top: 10px;
           padding: 15px;
-          max-height: none;
-          overflow-y: visible;
         }
         #ideaTitle {
           margin-top: 5px;
@@ -354,33 +352,28 @@
           padding: 12px 24px;
         }
       }
-
+      
       .button-container {
         position: relative;
         display: inline-block;
       }
-
+      
       .mouse-cursor {
         position: absolute;
         bottom: -30px;
         right: -35px;
-        width: 40x;
+        width: 40px;
         height: auto;
         animation: pulseIcon 2s infinite;
         cursor: default;
       }
-
+      
       @keyframes pulseIcon {
-        0%, 100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-        50% {
-          transform: scale(1.2);
-          opacity: 0.7;
-        }
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.7; }
       }
     </style>
+    <title>Disrupt Accounting | Generate $20B Ideas for Free</title>
   </head>
   <body>
     <header>
@@ -415,12 +408,7 @@
       <div class="popup-content">
         <p>wait sorry -- do u want real help?</p>
         <div class="popup-buttons">
-          <a id="exitPopupYes" 
-             href="https://finoptimal.com/?utm_source=accountingdisruptor&utm_medium=referral&utm_campaign=disruptor" 
-             target="_blank" 
-             onclick="document.getElementById('exitPopup').style.display='none';">
-            yes
-          </a>
+          <a id="exitPopupYes" href="https://finoptimal.com/?utm_source=accountingdisruptor&utm_medium=referral&utm_campaign=disruptor" target="_blank" onclick="document.getElementById('exitPopup').style.display='none';">yes</a>
           <button id="exitPopupCancel">no</button>
         </div>
       </div>
@@ -462,12 +450,12 @@
       const sessionVisionaryCount = Math.floor(Math.random() * (277 - 195 + 1)) + 195;
 
       // Button color toggle array
-      const buttonColors = ["#000", "#3EFCFA"];
+      const buttonColors = ["#1F2937", "#3EFCFA"];
       let colorIndex = 0;
 
       // All possible button texts
       const allStates = [
-        "Make me a disruptor right now",          
+        "Make me a disruptor right now",
         "Bro plz, I need to disrupt. More ideas?",
         "Make me a disruptor bro plz",
         "Plz bro you can do better c'mon",
@@ -480,15 +468,14 @@
         "My partner is gna leave me if u don't give me a better idea"
       ];
 
-      // ----------- Utility / Helper Functions -----------
+      // ----------- Utility / Helper Functions ----------- 
 
       // Toggle button color each click.
       function toggleButtonColor() {
         colorIndex = 1 - colorIndex;
         button.style.backgroundColor = buttonColors[colorIndex];
-      
-        // Conditionally set text color
-        if (buttonColors[colorIndex] === "#000" || buttonColors[colorIndex] === "#444") {
+        // Set text color based on dark/light background: if dark, use white text.
+        if (buttonColors[colorIndex] === "#1F2937" || buttonColors[colorIndex] === "#444") {
           button.style.color = "#fff";
         } else {
           button.style.color = "#000";
@@ -525,7 +512,7 @@
           console.error('Error loading ideas:', error);
         });
 
-      // ----------- Tier Logic Function -----------
+      // ----------- Tier Logic Function ----------- 
 
       function getNextIdea() {
         if (clickCount === 1) {
@@ -556,7 +543,7 @@
         return null;
       }
 
-      // ----------- Button Click Handler -----------
+      // ----------- Button Click Handler ----------- 
 
       button.addEventListener('click', () => {
         clickCount++;
@@ -622,30 +609,28 @@
         visionaryText.innerHTML = sessionVisionaryCount + " visionaries are generating ideas right now...👀";
       });
 
-      // ----------- "Claim dibs on this idea" Button Logic -----------
+      // ----------- "Claim dibs on this idea" Button Logic ----------- 
 
       claimBtn.addEventListener('click', () => {
         gtag('event', 'claim_dibs_click', {
           event_category: 'button',
           event_label: 'Claim Dibs Button'
         });
-        
-        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" +
-          "\n\n" + currentIdeaDescription;
+
+        const textToCopy = "Calling dibs on a $20B idea: " + currentIdeaTitle + " 🔥🔥" + "\n\n" + currentIdeaDescription;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
             const toast = document.getElementById('toast');
             toast.style.display = 'block';
             setTimeout(() => {
               toast.style.display = 'none';
-              window.open("https://www.linkedin.com/sharing/share-offsite/?url=" +
-                encodeURIComponent(window.location.href), "_blank");
+              window.open("https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(window.location.href), "_blank");
             }, 3000);
           })
           .catch(err => console.error("Failed to copy text: ", err));
       });
 
-      // ----------- Exit-Intent Popup JavaScript -----------
+      // ----------- Exit-Intent Popup JavaScript ----------- 
       let exitPopupShown = false;
       const pageLoadTime = Date.now();
 
