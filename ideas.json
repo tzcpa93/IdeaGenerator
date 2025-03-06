@@ -1,36 +1,124 @@
 {
   "tier1": [
-    "<strong>UrLedger</strong><br><br>Instead of building another AI-first GL, build an app that builds AI-first GLs. Firms can instantly generate their own custom GL with a simple prompt and retain clients longer by trapping them onto a proprietary system that only their firm can access and knows how to use.",
-    "<strong>PettyCash.AI</strong><br><br>Conversational chat bot that makes petty comments criticizing your clients’ wastefulness to teach better financial discipline: “Lol – Starbucks again? You can barely make payroll but it’s not my business..”",
-    "<strong>MateriAIlity</strong><br><br>AI Agents specialized in finding items that were forgotten on the “balance sheet” (whatever that is), and writing them off. When auditors ask about it, the AI defends everything by claiming it’s “immaterial.”",
-    "<strong>AccountinGWagon</strong><br><br>Real-time analytics platform showing how G-Wagons your clients should buy to avoid paying any taxes this year.",
-    "<strong>S-copio Szn</strong><br><br>Input your birthday and birth time to receive a personalized horoscope explaining exactly how much you can avoid paying in taxes if you switch to an S-Corp."
+    {
+      "title": "UrLedger",
+      "description": "Instead of building another AI-first GL, build an app that builds AI-first GLs. Firms can instantly generate their own custom GL with a simple prompt and retain clients longer by trapping them onto a proprietary system that only their firm can access and knows how to use."
+    },
+    {
+      "title": "PettyCash.AI",
+      "description": "Conversational chat bot that makes petty comments criticizing your clients’ wastefulness to teach better financial discipline: “Lol – Starbucks again? You can barely make payroll but it’s not my business..”"
+    },
+    {
+      "title": "MateriAIlity",
+      "description": "AI Agents specialized in finding items that were forgotten on the “balance sheet” (whatever that is), and writing them off. When auditors ask about it, the AI defends everything by claiming it’s “immaterial.”"
+    },
+    {
+      "title": "AccountinGWagon",
+      "description": "Real-time analytics platform showing how G-Wagons your clients should buy to avoid paying any taxes this year."
+    },
+    {
+      "title": "S-copio Szn",
+      "description": "Input your birthday and birth time to receive a personalized horoscope explaining exactly how much you can avoid paying in taxes if you switch to an S-Corp."
+    },
+    {
+      "title": "Loss & Profit",
+      "description": "This idea is two ideas: give away a free AI bookkeeping app (i.e. the \"Loss\") but it's really, really bad and makes a total mess. Then, have a service business (i.e. the \"Profit\") that specializes in cleanup."
+    },
+    {
+      "title": "Adjusted EBIDTAI",
+      "description": "Automatically Adam Neumannfy your books. With one click, deploy an AI Agent to analyze your financials and book or delete journal entries until your adjusted EBITDA is positive."
+    },
+    {
+      "title": "Refund.AI",
+      "description": "Input how much you want your tax refund to be and let an AI agent exploit TikTok tax loopholes to get you to that number. If you can't get it all back in taxes, the AI Agent will dispute credit card charges until you hit your full requested refund value. (App is free but you take 45% of all refunds)."
+    }
   ],
   "tier2": [
-    "<strong>Loss & Profit</strong><br><br>This idea is two ideas: give away a free AI bookkeeping app (i.e. the \"Loss\") but it's really, really bad and makes a total mess. Then, have a service business (i.e. the \"Profit\") that specializes in cleanup.",
-    "<strong>Deferred Revenue</strong><br><br>Raise money simply because you have a cool accent and confidently say \"we automate your books,” and defer generating revenue until you think of an actual idea. (Must have a cool accent though).",
-    "<strong>LeaseUhh.AI</strong><br><br>AI Agent named Lisa that automates lease accounting. Don't worry, no one really understands ASC 842 anyway so they won't even check if it's right.",
-    "<strong>S-AI-mple</strong><br><br>AI sampling for auditors that continuously samples and tests until you can give the unqualified opinion your client asked for. If there are no more samples because your client's books are so, so, so wrong, it integrates with the GL to create more microtransactions and continues testing those until you can finally issue an unqualified opinion.",
-    "<strong>Adjusted EBIDTAI</strong><br><br>Automatically Adam Neumannfy your books. With one click, deploy an AI Agent to analyze your financials and book or deletes journal entries until your adjusted EBITDA is positive.",
-    "<strong>DeDuctAble.AI</strong><br><br>Did you know if there is duct tape on something it's technically tax deductible? That's actually where \"deDUCTible\" comes from. Use Tesla's Optimus bot to wrap everything in duct tape to export this tax loophole that is gaining popularity on TikTok.",
-    "<strong>Fluxxx</strong><br><br>Use latest reasoning models to mimic CFOs and generate high-quality explanations for flucutations such as \"cash went up because sales went up\" or \"cash went down because sales went down.\"",
-    "<strong>Refund.AI</strong><br><br>Input how much you want your tax refund to be and let an AI agent exploit TikTok tax loopholes to get you to that number. If you can't get it all back in taxes, the AI Agent will dispute credit card charges until you hit your full requested refund value. (App is free but you take 45% of all refunds).",
-    "<strong>QuickBooks Desktop.AI</strong><br><br>A cloud-based version of QuickBooks Desktop for people who refuse to leave it. AI augments reality to recreate the joy of remote access, synthetically slowing down performance and neutralizing any attempt to integrate with cloud-based apps. Monetize through additional features such as a dial up sound that plays when logging on.",
-    "<strong>ConsolidAIte</strong><br><br>Your clients can't understand one set of books, let alone multiple sets of books. AI consolidates multi-entity financials into one set of books, and then consolidates it even further into a single emoji that you send to your clients to let them know how they're doing. Partner with Apple to leverage their best-in-class Genmoji feature.",
-    "<strong>DOGE eat DOGE World</strong><br><br>Continuously monitor what areas DOGE is targeting next, and if it's your area, it will spawn an infinite number of AI-generated E-girls to distract Elon Musk with so he forgets about your area and moves on to something else. You can continue your tax and audit work in peace!",
-    "<strong>Pluuug</strong><br><br>Use generative AI to auto-complete any journal entry that you kinda forget how to do with a plug. Pluuug automatically scans your books, determines your materiality threshold, and makes \"microplugs\" that are small enough that auditors can't pick them as samples so you can't get in trouble.",
-    "<strong>AI-sk My Accountant</strong><br><br>AI Agents run nightly, sweeping every unreconciled transaction into the Ask My Accountant account. This forces your client to ask you questions, and you get extra opportunities to demonstrate value. Use these moments to remind them of scope creep and that you'll need to bill another 30 mins.",
-    "<strong>RightClick2Jail</strong><br><br>Real-time monitoring of how your team uses their computer. If anyone is caught right clicking to copy and paste, an AI Agent puts them on a PIP and sets their salary to $0 (it's PEO agnostic) until they complete mandatory keyboard shortcut training. Guaranteed to 5x productivity in over 50% of accounting firms.",
-    "<strong>Pipeline Fixr</strong><br><br>AI Agents identify and exploit arbitrage opportunities between excess supply from US pipe manufactuers and local jurisdictions with a dwindling CPA population to help solve the pipeline problem. Wait, crap, AI can't tell the difference between pipelines. Forget this one.",
-    "<strong>Fire Your Tax Pro (lol jk)</strong><br><br>Platform-agnostic digital overlay programmed to identify who is viewing an ad, and if they're an accountant, it automatically appends \"lol jk\" to the bottom of ads that say \"Fire your Tax Pro.\"",
-    "<strong>Purrsonal Exemption</strong><br><br>AI-generated pets that you can claim as emotional-support business expenses. Upsell with hardware, like a Temu Tamogatchi, sold on TikTok marketplace by TikTok tax influencers. Grow strictly through affiliate sales.",
-    "<strong>NexSuss</strong><br><br>Text a picture of any business document to NexSuss, and leveraging Midjourney, it will generate nearly identical documentation except it changes the location to Delaware so you never have to pay sales tax."
+    {
+      "title": "LeaseUhh.AI",
+      "description": "AI Agent named Lisa that automates lease accounting. Don't worry, no one really understands ASC 842 anyway so they won't even check if it's right."
+    },
+    {
+      "title": "S-AI-mple",
+      "description": "AI sampling for auditors that continuously samples and tests until you can give the unqualified opinion your client asked for. If there are no more samples because your client's books are so, so, so wrong, it integrates with the GL to create more microtransactions and continues testing those until you can finally issue an unqualified opinion."
+    },
+    {
+      "title": "DeDuctAble.AI",
+      "description": "Did you know if there is duct tape on something it's technically tax deductible? That's actually where \"deDUCTible\" comes from. Use Tesla's Optimus bot to wrap everything in duct tape to export this tax loophole that is gaining popularity on TikTok."
+    },
+    {
+      "title": "DOGE eat DOGE World",
+      "description": "Continuously monitors what areas DOGE is targeting next, and if it's your area, it will spawn an infinite number of AI-generated distractions (female Twitter influencers) so Elon Musk forgets about your area and moves on to something else. You can continue your tax and audit work in peace!"
+    },
+    {
+      "title": "Pluuug",
+      "description": "Use generative AI to auto-complete any journal entry that you kinda forget how to do with a plug. Pluuug automatically scans your books, determines your materiality threshold, and makes \"microplugs\" that are small enough that auditors can't pick them as samples so you can't get in trouble."
+    },
+    {
+      "title": "AI-sk My Accountant",
+      "description": "AI Agents run nightly, sweeping every unreconciled transaction into the Ask My Accountant account. This forces your client to ask you questions, and you get extra opportunities to demonstrate value. Use these moments to remind them of scope creep and that you'll need to bill another 30 mins."
+    },
+    {
+      "title": "RightClick2Jail",
+      "description": "Real-time monitoring of how your team uses their computer. If anyone is caught right clicking to copy and paste, an AI Agent puts them on a PIP and sets their salary to $0 (it's PEO agnostic) until they complete mandatory keyboard shortcut training. Guaranteed to 5x productivity in over 50% of accounting firms."
+    },
+    {
+      "title": "Fire Your Tax Pro (lol jk)",
+      "description": "Platform-agnostic digital overlay programmed to identify who is viewing an ad, and if they're an accountant, it automatically appends \"lol jk\" to the bottom of ads that say \"Fire your Tax Pro.\""
+    },
+    {
+      "title": "Purrsonal Exemption",
+      "description": "AI-generated pets that you can claim as emotional-support business expenses. Upsell with hardware, like a Temu Tamogatchi, sold on TikTok marketplace by TikTok tax influencers. Grow strictly through affiliate sales."
+    },
+    {
+      "title": "Advisori",
+      "description": "A newsletter with a list of new accounting acronyms delivered daily. Continuously invents new abbreviations and adds letters to existing abbreviations (CAS to CAAS, and then you can be the first person to say CAAAS), and updates you on what an advisor means today (might be different tomorrow though)."
+    }
   ],
   "tier3": [
-    "<strong>SafeBookz</strong><br><br>Automatically encrypt everything in your books. Every 11 seconds, AI will generate unique 64 digit hex codes for every single thing in your GL: accounts, transactions, amounts. Your books will be so safe that even you won't know what's in there. Target accountants who spent time in audit and love to flex what they know about data security.",
-    "<strong>ThroBack</strong><br><br>Using generative AI, compare week over week performance, and if you were doing better last week, it'll just throwback your books to then and pretend this bad week didn't happen. Only runs on Thursdays.",
-    "<strong>CopyRaight</strong><br><br>Using advanced reasoning models, generative AI predicts the 1st day of the year and automatically updates the footer of accounting firm websites from © 2024 to © 2025. Charge by the amount of years you're updating and target all of the firms who still have © 2021 on their site.",
-    "<strong>ERP4ever</strong><br><br>Software-as-a-service isn't cool anymore, we're back to software-with-a-service. Best way to do that? ERP implementations. Using generative AI, we'll find subtle ways to scope creep, strategically introduce red tape, and use highly-targeted ads to get key project stakeholders to go on vacation around important deadlines so that the ERP implementation never ends.",
-    "<strong>RemoteAInventory</strong><br><br>Junior staff at remote firms suffer from a lack of hands-on, in-person experience that toughened up the public accounting leaders of prior decades. With RemoteAIInventory, you'll make young accountants \"earn it\" again. Repurpose Apple's defunct Vision Pros and program them simulate inventory counts in dirty, wet warehouses. Force junior staff to do this hungover on Saturdays or the day after the Super Bowl for maximum effect."
+    {
+      "title": "Deferred Revenue",
+      "description": "Raise money simply because you have a cool accent and confidently say \"we automate your books,” and defer generating revenue until you think of an actual idea. (Must have a cool accent though)."
+    },
+    {
+      "title": "Fluxxx",
+      "description": "Use latest reasoning models to mimic CFOs and generate high-quality explanations for flucutations such as \"cash went up because sales went up\" or \"cash went down because sales went down.\""
+    },
+    {
+      "title": "QuickBooks Desktop.AI",
+      "description": "A cloud-based version of QuickBooks Desktop for people who refuse to leave it. AI augments reality to recreate the joy of remote access, synthetically slowing down performance and neutralizing any attempt to integrate with cloud-based apps. Monetize through additional features such as a dial up sound that plays when logging on."
+    },
+    {
+      "title": "ConsolidAIte",
+      "description": "Your clients can't understand one set of books, let alone multiple sets of books. AI consolidates multi-entity financials into one set of books, and then consolidates it even further into a single emoji that you send to your clients to let them know how they're doing. Partner with Apple to leverage their best-in-class Genmoji feature."
+    },
+    {
+      "title": "Pipeline Fixr",
+      "description": "AI Agents identify and exploit arbitrage opportunities between excess supply from US pipe manufactuers and local jurisdictions with a dwindling CPA population to help solve the pipeline problem. Wait, crap, AI can't tell the difference between pipelines. Forget this one."
+    },
+    {
+      "title": "NexSuss",
+      "description": "Text a picture of any business document to NexSuss, and leveraging Midjourney, it will generate nearly identical documentation except it changes the location to Delaware so you never have to pay sales tax."
+    },
+    {
+      "title": "SafeBookz",
+      "description": "Automatically encrypt everything in your books. Every 11 seconds, AI will generate unique 64 digit hex codes for every single thing in your GL: accounts, transactions, amounts. Your books will be so safe that even you won't know what's in there. Target accountants who spent time in audit and love to flex what they know about data security."
+    },
+    {
+      "title": "ThroBack",
+      "description": "Using generative AI, compare week over week performance, and if you were doing better last week, it'll just throwback your books to then and pretend this bad week didn't happen. Only runs on Thursdays."
+    },
+    {
+      "title": "CopyRaight",
+      "description": "Using advanced reasoning models, generative AI predicts the 1st day of the year and automatically updates the footer of accounting firm websites from © 2024 to © 2025. Charge by the amount of years you're updating and target all of the firms who still have © 2021 on their site."
+    },
+    {
+      "title": "ERP4ever",
+      "description": "Software-as-a-service isn't cool anymore, we're back to software-with-a-service. Best way to do that? ERP implementations. Using generative AI, we'll find subtle ways to scope creep, strategically introduce red tape, and use highly-targeted ads to get key project stakeholders to go on vacation around important deadlines so that the ERP implementation never ends."
+    },
+    {
+      "title": "RemoteAInventory",
+      "description": "Junior staff at remote firms suffer from a lack of hands-on, in-person experience that toughened up the public accounting leaders of prior decades. With RemoteAIInventory, you'll make young accountants \"earn it\" again. Repurpose Apple's defunct Vision Pros and program them simulate inventory counts in dirty, wet warehouses. Force junior staff to do this hungover on Saturdays or the day after the Super Bowl for maximum effect."
+    }
   ]
 }
