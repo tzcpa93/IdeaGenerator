@@ -53,7 +53,7 @@
       /* HEADER */
       header {
         background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 35%, #3EFCFA 100%);
-        padding: 20px 0;
+        padding: 15px 0;
         text-align: center;
         position: relative;
         overflow: hidden;
@@ -85,7 +85,7 @@
       /* HERO SECTION */
       .hero {
         background: radial-gradient(circle at center, #1E293B 0%, #0F172A 70%);
-        padding: 80px 20px;
+        padding: 60px 20px;
         text-align: center;
       }
       .hero h1 {
@@ -314,31 +314,6 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-
-
-          /* MacBook screen adjustments */
-          @media (min-width: 601px) and (max-width: 1440px) {
-            header {
-              /* Thinner banner */
-              padding: 10px 0;
-            }
-            
-            .hero {
-              /* Reduced padding between banner and hero section */
-              padding: 50px 20px;
-            }
-            
-            .hero h1 {
-              /* Reduce spacing below the headline */
-              margin-bottom: 5px;
-            }
-            
-            .hero p {
-              /* Reduce spacing below the headline paragraph */
-              margin: 20px auto;
-            }
-          }
-
       
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
@@ -420,8 +395,8 @@
         </h1>
         <p>
           Did you take one accounting class in college?<br>
-          Have you used ChatGPT a few times?<br><br>
-          Guess what? You're ready to disrupt a $20B industry.<br>
+          Have you used ChatGPT a few times?<br>
+          <b></b>Guess what?</b> You're ready to disrupt a $20B industry.<br>
         </p>
         <div class="button-container">
           <button id="generateBtn" class="initial-state">Make me a disruptor right now</button>
