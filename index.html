@@ -410,10 +410,10 @@
       </section>
     </main>
 
-    <footer>
-      <p>&copy; 2025 Accounting Disruptor. All rights reserved.</p>
-      <p><a href="https://www.linkedin.com/in/tom-zehentner-cpa-a0591b5b/">Media Inquiries</a></p>
-    </footer>
+ <footer>
+  <p>&copy; 2025 Accounting Disruptor. All rights reserved.</p>
+  <p><a id="mediaInquiriesLink" href="https://www.linkedin.com/in/tom-zehentner-cpa-a0591b5b">Media Inquiries</a></p>
+</footer>
 
     <!-- Exit-Intent Popup HTML -->
     <div id="exitPopup">
@@ -449,11 +449,12 @@
   let cycleIndex = 0;
 
   // Variables for referencing DOM elements
-  const button = document.getElementById('generateBtn');
-  const ideaDiv = document.getElementById('idea');
-  const ideaTitle = document.getElementById('ideaTitle');
-  const claimBtn = document.getElementById('claimBtn');
-  const visionaryText = document.getElementById('visionaryText');
+const button = document.getElementById("generateBtn");
+const ideaDiv = document.getElementById("idea");
+const ideaTitle = document.getElementById("ideaTitle");
+const claimBtn = document.getElementById("claimBtn");
+const visionaryText = document.getElementById("visionaryText");
+const mediaInquiriesLink = document.getElementById("mediaInquiriesLink");
 
   // Session idea total for display, starts at 20 ($20B)
   let sessionIdeaTotal = 20;
@@ -681,6 +682,14 @@
       })
       .catch(err => console.error("Failed to copy text: ", err));
   });
+
+// "Media Inquiries" Link Logic
+mediaInquiriesLink.addEventListener('click', () => {
+    gtag('event', 'media_inquiries_click', {
+        event_category: 'link',
+        event_label: 'Media Inquiries'
+    });
+});
 
   // ----------- Exit-Intent Popup JavaScript -----------
   let exitPopupShown = false;
