@@ -315,6 +315,31 @@
         100% { transform: rotate(360deg); }
       }
 
+
+          /* MacBook screen adjustments */
+          @media (min-width: 601px) and (max-width: 1440px) {
+            header {
+              /* Thinner banner */
+              padding: 10px 0;
+            }
+            
+            .hero {
+              /* Reduced padding between banner and hero section */
+              padding: 50px 20px;
+            }
+            
+            .hero h1 {
+              /* Reduce spacing below the headline */
+              margin-bottom: 5px;
+            }
+            
+            .hero p {
+              /* Reduce spacing below the headline paragraph */
+              margin: 20px auto;
+            }
+          }
+
+      
       /* MOBILE OVERRIDES */
       @media (max-width: 600px) {
         header {
