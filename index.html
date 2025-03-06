@@ -393,9 +393,9 @@
         <h1>
           Generate AI accounting<br>app ideas for <span class="highlight">free</span>.
         </h1>
-        <p>
+        <p id="introText">
           Did you take one accounting class in college?<br>
-          Have you used ChatGPT a few times?<br>
+          Have you used ChatGPT a few times?<br><br>
           <b>Guess what?</b> You're ready to disrupt a $20B industry.<br>
         </p>
         <div class="button-container">
@@ -586,6 +586,10 @@
     if (clickCount === 1) {
       ideaTitle.style.display = "block";
       ideaTitle.innerHTML = "Your free <b><span style='color: #3EFCFA'>$20B</span></b> idea:";
+
+      // Replace the introductory text on first generation:
+    document.getElementById("introText").innerHTML = "Placeholder for filler text";
+      
     } else {
       sessionIdeaTotal += 20;
       ideaTitle.style.display = "block";
