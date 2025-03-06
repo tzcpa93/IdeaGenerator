@@ -488,65 +488,15 @@ r<!DOCTYPE html>
     // Always keep black text for both
     button.style.color = "#000";
   }
-
- function getNextIdea() {
-  // First idea: pick a random idea from tier1.
-  if (clickCount === 1) {
-    if (tier1.length > 0) {
-      let idx = Math.floor(Math.random() * tier1.length);
-      return tier1.splice(idx, 1)[0];
+      
+// Fisher–Yates shuffle function
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
   }
-  // Second idea: pick a different random idea from tier1.
-  else if (clickCount === 2) {
-    if (tier1.length > 0) {
-      let idx = Math.floor(Math.random() * tier1.length);
-      return tier1.splice(idx, 1)[0];
-    } else if (tier2.length > 0) {
-      // Fallback in case tier1 is empty
-      let idx = Math.floor(Math.random() * tier2.length);
-      return tier2.splice(idx, 1)[0];
-    }
-  }
-  // Subsequent ideas: choose arbitrarily from remaining tier1 and tier2,
-  // with tier1 being weighted to show more regularly.
-  else {
-    if (tier1.length > 0 || tier2.length > 0) {
-      let weightedPool = [];
-      // Weight tier1: add each item twice.
-      tier1.forEach(item => {
-        weightedPool.push({ source: 'tier1', idea: item });
-        weightedPool.push({ source: 'tier1', idea: item });
-      });
-      // Weight tier2: add each item once.
-      tier2.forEach(item => {
-        weightedPool.push({ source: 'tier2', idea: item });
-      });
-      // Randomly select an entry from the weighted pool.
-      let chosen = weightedPool[Math.floor(Math.random() * weightedPool.length)];
-      // Remove the chosen idea from its source array.
-      if (chosen.source === 'tier1') {
-        let index = tier1.indexOf(chosen.idea);
-        if (index > -1) tier1.splice(index, 1);
-      } else {
-        let index = tier2.indexOf(chosen.idea);
-        if (index > -1) tier2.splice(index, 1);
-      }
-      return chosen.idea;
-    } else {
-      // When both tier1 and tier2 are exhausted, shuffle and use tier3.
-      if (!tier3Shuffled) {
-        tier3 = shuffle(tier3);
-        tier3Shuffled = true;
-      }
-      if (tier3.length > 0) {
-        return tier3.shift();
-      }
-    }
-  }
-  return null;
-}
-
 
   // Load ideas from the JSON file on page load
   fetch('/ideas.json')
