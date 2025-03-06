@@ -521,29 +521,62 @@ r<!DOCTYPE html>
 
   // ----------- Tier Logic Function -----------
   function getNextIdea() {
-    if (clickCount === 1) {
-      if (tier1.length > 0) {
-        let index = Math.floor(Math.random() * tier1.length);
-        return tier1.splice(index, 1)[0];
+  // For the first click, pick an arbitrary idea from tier1.
+  if (clickCount === 1) {
+    if (tier1.length > 0) {
+      let idx = Math.floor(Math.random() * tier1.length);
+      return tier1.splice(idx, 1)[0];
+    }
+  }
+  // For the second click, pick a different arbitrary idea from tier1.
+  else if (clickCount === 2) {
+    if (tier1.length > 0) {
+      let idx = Math.floor(Math.random() * tier1.length);
+      return tier1.splice(idx, 1)[0];
+    } else if (tier2.length > 0) {
+      let idx = Math.floor(Math.random() * tier2.length);
+      return tier2.splice(idx, 1)[0];
+    }
+  }
+  // For subsequent clicks, choose arbitrarily from remaining tier1 and tier2,
+  // giving tier1 a higher chance by adding each tier1 item twice.
+  else {
+    if (tier1.length > 0 || tier2.length > 0) {
+      let weightedPool = [];
+      tier1.forEach(item => {
+        weightedPool.push({ source: 'tier1', idea: item });
+        weightedPool.push({ source: 'tier1', idea: item });
+      });
+      tier2.forEach(item => {
+        weightedPool.push({ source: 'tier2', idea: item });
+      });
+      // If the weighted pool is empty for any reason, return null.
+      if (weightedPool.length === 0) return null;
+      let chosen = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+      // Remove the chosen idea from its respective array.
+      if (chosen.source === 'tier1') {
+        let index = tier1.indexOf(chosen.idea);
+        if (index > -1) tier1.splice(index, 1);
+      } else {
+        let index = tier2.indexOf(chosen.idea);
+        if (index > -1) tier2.splice(index, 1);
+      }
+      return chosen.idea;
+    }
+    // When tier1 and tier2 are exhausted, shuffle and return from tier3.
+    else {
+      if (!tier3Shuffled) {
+        tier3 = shuffle(tier3);
+        tier3Shuffled = true;
+      }
+      if (tier3.length > 0) {
+        return tier3.shift();
       }
     }
-    if (!hasCombinedTier12) {
-      combinedTier12 = tier1.concat(tier2);
-      combinedTier12 = shuffle(combinedTier12);
-      hasCombinedTier12 = true;
-    }
-    if (combinedTier12.length > 0) {
-      return combinedTier12.shift();
-    }
-    if (!tier3Shuffled) {
-      tier3 = shuffle(tier3);
-      tier3Shuffled = true;
-    }
-    if (tier3.length > 0) {
-      return tier3.shift();
-    }
-    return null;
   }
+  return null;
+}
+
 
   // ----------- Button Click Handler -----------
   button.addEventListener('click', () => {
