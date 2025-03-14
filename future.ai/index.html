@@ -331,6 +331,28 @@
   </div>
 
   <script>
+    const companyInput = document.getElementById('companyWebsite');
+const emailInput = document.getElementById('email');
+
+// Function to enable/disable the button based on both inputs having a value
+function validateFormInputs() {
+  if (companyInput.value.trim() !== '' && emailInput.value.trim() !== '') {
+    predictBtn.disabled = false;
+    // Optionally, remove styling that indicates disabled state
+    predictBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+  } else {
+    predictBtn.disabled = true;
+    predictBtn.classList.add('opacity-50', 'cursor-not-allowed');
+  }
+}
+
+// Listen to changes in both inputs
+companyInput.addEventListener('input', validateFormInputs);
+emailInput.addEventListener('input', validateFormInputs);
+
+// Initial check to disable the button if fields are empty
+validateFormInputs();
+
     /* Keep your existing script logic */
     const stages = {
       form: document.getElementById('form-stage'),
@@ -416,14 +438,46 @@
       addThought();
     }
 
-    predictBtn.addEventListener('click', () => {
-      // Immediately show folding stage since we removed the top fade-out
-      showStage(stages.folding);
-      setTimeout(() => {
-        showStage(stages.thinking);
-        startThinkingSequence();
-      }, 2000);
-    });
+    predictBtn.addEventListener('click', (e) => {
+  // Validation check (as shown above)
+  if (companyInput.value.trim() === '' || emailInput.value.trim() === '') {
+    alert('Provide info to generate idea');
+    return;
+  }
+  
+  // Post the data to Formspree
+  fetch('https://formspree.io/f/mvgkoean', { // Replace with your actual Formspree form ID
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      companyWebsite: companyInput.value,
+      email: emailInput.value
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Submission logged:', data);
+    // Proceed with your UI transitions
+    showStage(stages.folding);
+    setTimeout(() => { 
+      showStage(stages.thinking);
+      startThinkingSequence();
+    }, 2000);
+  })
+  .catch(error => {
+    console.error('Error logging submission:', error);
+    // Optionally continue with UI transitions even if there's an error
+    showStage(stages.folding);
+    setTimeout(() => { 
+      showStage(stages.thinking);
+      startThinkingSequence();
+    }, 2000);
+  });
+});
+
+
 
     resetBtn.addEventListener('click', () => {
       showStage(stages.form);
