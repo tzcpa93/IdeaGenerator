@@ -330,160 +330,159 @@
     <a href="#" class="text-cyan-300 hover:underline mt-1 inline-block">Media Inquiries</a>
   </div>
 
-  <script>
-    const companyInput = document.getElementById('companyWebsite');
-const emailInput = document.getElementById('email');
+ <script>
+  // First, declare all necessary DOM elements
+  const companyInput = document.getElementById('companyWebsite');
+  const emailInput = document.getElementById('email');
+  const predictBtn = document.getElementById('predict-btn');
+  const resetBtn = document.getElementById('reset-btn');
 
-// Function to enable/disable the button based on both inputs having a value
-function validateFormInputs() {
-  if (companyInput.value.trim() !== '' && emailInput.value.trim() !== '') {
-    predictBtn.disabled = false;
-    // Optionally, remove styling that indicates disabled state
-    predictBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-  } else {
-    predictBtn.disabled = true;
-    predictBtn.classList.add('opacity-50', 'cursor-not-allowed');
+  // Function to enable/disable the button based on both inputs having a value
+  function validateFormInputs() {
+    if (companyInput.value.trim() !== '' && emailInput.value.trim() !== '') {
+      predictBtn.disabled = false;
+      predictBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    } else {
+      predictBtn.disabled = true;
+      predictBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
   }
-}
 
-// Listen to changes in both inputs
-companyInput.addEventListener('input', validateFormInputs);
-emailInput.addEventListener('input', validateFormInputs);
+  // Listen to changes in both inputs and validate on page load
+  companyInput.addEventListener('input', validateFormInputs);
+  emailInput.addEventListener('input', validateFormInputs);
+  validateFormInputs();
 
-// Initial check to disable the button if fields are empty
-validateFormInputs();
+  // Declare other DOM elements used in the logic
+  const stages = {
+    form: document.getElementById('form-stage'),
+    folding: document.getElementById('folding-stage'),
+    thinking: document.getElementById('thinking-stage'),
+    quantum: document.getElementById('quantum-stage'),
+    blackhole: document.getElementById('blackhole-stage'),
+    result: document.getElementById('result-stage')
+  };
+  const thoughtsContainer = document.getElementById('thoughts-container');
+  const dataPointsEl = document.getElementById('data-points');
+  const progressBar = document.getElementById('progress-bar');
+  const predictionDateEl = document.getElementById('prediction-date');
+  const finalDataPointsEl = document.getElementById('final-data-points');
 
-    /* Keep your existing script logic */
-    const stages = {
-      form: document.getElementById('form-stage'),
-      folding: document.getElementById('folding-stage'),
-      thinking: document.getElementById('thinking-stage'),
-      quantum: document.getElementById('quantum-stage'),
-      blackhole: document.getElementById('blackhole-stage'),
-      result: document.getElementById('result-stage')
-    };
+  let dataPoints = 0;
 
-    const predictBtn = document.getElementById('predict-btn');
-    const resetBtn = document.getElementById('reset-btn');
-    const thoughtsContainer = document.getElementById('thoughts-container');
-    const dataPointsEl = document.getElementById('data-points');
-    const progressBar = document.getElementById('progress-bar');
-    const predictionDateEl = document.getElementById('prediction-date');
-    const finalDataPointsEl = document.getElementById('final-data-points');
-
-    let dataPoints = 0;
-
-    function showStage(stage) {
-      Object.values(stages).forEach(s => {
-        s.classList.add('opacity-0', '-z-10');
-        s.classList.remove('opacity-100', 'z-10');
-      });
-      stage.classList.remove('opacity-0', '-z-10');
-      stage.classList.add('opacity-100', 'z-10');
-    }
-
-    function getTomorrowDate() {
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
-      return tomorrow.toLocaleDateString('en-US', {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric'
-      });
-    }
-
-    function startThinkingSequence() {
-      const thinkingPhrases = [
-        "Considering company industry and macro trends...",
-        "Researching key stakeholder reputation...",
-        "Calculating probability matrices...",
-        "Scanning multiverse timelines...",
-        "Cross-referencing quantum variables..."
-      ];
-
-      let thoughtIndex = 0;
-      thoughtsContainer.innerHTML = '';
-      dataPoints = 0;
-
-      function addThought() {
-        if (thoughtIndex < thinkingPhrases.length) {
-          const thought = document.createElement('div');
-          thought.className = 'bg-gray-800 p-4 rounded-lg thought-appear';
-          thought.style = `--delay: ${thoughtIndex * 0.2}s`;
-          thought.innerHTML = `<p class="text-gray-300">${thinkingPhrases[thoughtIndex]}</p>`;
-          thoughtsContainer.appendChild(thought);
-
-          dataPoints += Math.floor(Math.random() * 15000000) + 5000000;
-          dataPointsEl.textContent = dataPoints.toLocaleString();
-          progressBar.style.width = `${Math.min((thoughtIndex + 1) / thinkingPhrases.length * 100, 100)}%`;
-
-          thoughtIndex++;
-          setTimeout(addThought, 800);
-        } else {
-          setTimeout(() => {
-            showStage(stages.quantum);
-            setTimeout(() => {
-              showStage(stages.blackhole);
-              setTimeout(() => {
-                predictionDateEl.textContent = `Tomorrow will be ${getTomorrowDate()}`;
-                finalDataPointsEl.textContent = `${(dataPoints + 42000000).toLocaleString()} data points considered`;
-                showStage(stages.result);
-              }, 3000);
-            }, 4000);
-          }, 1500);
-        }
-      }
-      addThought();
-    }
-
-    predictBtn.addEventListener('click', (e) => {
-  // Validation check (as shown above)
-  if (companyInput.value.trim() === '' || emailInput.value.trim() === '') {
-    alert('Provide info to generate idea');
-    return;
-  }
-  
-  // Post the data to Formspree
-  fetch('https://formspree.io/f/mvgkoean', { // Replace with your actual Formspree form ID
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      companyWebsite: companyInput.value,
-      email: emailInput.value
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Submission logged:', data);
-    // Proceed with your UI transitions
-    showStage(stages.folding);
-    setTimeout(() => { 
-      showStage(stages.thinking);
-      startThinkingSequence();
-    }, 2000);
-  })
-  .catch(error => {
-    console.error('Error logging submission:', error);
-    // Optionally continue with UI transitions even if there's an error
-    showStage(stages.folding);
-    setTimeout(() => { 
-      showStage(stages.thinking);
-      startThinkingSequence();
-    }, 2000);
-  });
-});
-
-
-
-    resetBtn.addEventListener('click', () => {
-      showStage(stages.form);
-      document.getElementById('companyWebsite').value = '';
-      document.getElementById('email').value = '';
+  // Function to switch between stages
+  function showStage(stage) {
+    Object.values(stages).forEach(s => {
+      s.classList.add('opacity-0', '-z-10');
+      s.classList.remove('opacity-100', 'z-10');
     });
-  </script>
+    stage.classList.remove('opacity-0', '-z-10');
+    stage.classList.add('opacity-100', 'z-10');
+  }
+
+  // Function to get tomorrow's date in a formatted string
+  function getTomorrowDate() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    return tomorrow.toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
+
+  // Function to start the thinking sequence with animated thoughts
+  function startThinkingSequence() {
+    const thinkingPhrases = [
+      "Considering company industry and macro trends...",
+      "Researching key stakeholder reputation...",
+      "Calculating probability matrices...",
+      "Scanning multiverse timelines...",
+      "Cross-referencing quantum variables..."
+    ];
+
+    let thoughtIndex = 0;
+    thoughtsContainer.innerHTML = '';
+    dataPoints = 0;
+
+    function addThought() {
+      if (thoughtIndex < thinkingPhrases.length) {
+        const thought = document.createElement('div');
+        thought.className = 'bg-gray-800 p-4 rounded-lg thought-appear';
+        thought.style = `--delay: ${thoughtIndex * 0.2}s`;
+        thought.innerHTML = `<p class="text-gray-300">${thinkingPhrases[thoughtIndex]}</p>`;
+        thoughtsContainer.appendChild(thought);
+
+        dataPoints += Math.floor(Math.random() * 15000000) + 5000000;
+        dataPointsEl.textContent = dataPoints.toLocaleString();
+        progressBar.style.width = `${Math.min((thoughtIndex + 1) / thinkingPhrases.length * 100, 100)}%`;
+
+        thoughtIndex++;
+        setTimeout(addThought, 800);
+      } else {
+        setTimeout(() => {
+          showStage(stages.quantum);
+          setTimeout(() => {
+            showStage(stages.blackhole);
+            setTimeout(() => {
+              predictionDateEl.textContent = `Tomorrow will be ${getTomorrowDate()}`;
+              finalDataPointsEl.textContent = `${(dataPoints + 42000000).toLocaleString()} data points considered`;
+              showStage(stages.result);
+            }, 3000);
+          }, 4000);
+        }, 1500);
+      }
+    }
+    addThought();
+  }
+
+  // Click handler for the "Forecast Now" button
+  predictBtn.addEventListener('click', (e) => {
+    // Check if both fields are filled; if not, show an error message
+    if (companyInput.value.trim() === '' || emailInput.value.trim() === '') {
+      alert('Provide info to generate idea');
+      return;
+    }
+
+    // Log the submission via Formspree (replace with your actual Formspree endpoint)
+    fetch('https://formspree.io/f/mvgkoean', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        companyWebsite: companyInput.value,
+        email: emailInput.value
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Submission logged:', data);
+      showStage(stages.folding);
+      setTimeout(() => {
+        showStage(stages.thinking);
+        startThinkingSequence();
+      }, 2000);
+    })
+    .catch(error => {
+      console.error('Error logging submission:', error);
+      showStage(stages.folding);
+      setTimeout(() => {
+        showStage(stages.thinking);
+        startThinkingSequence();
+      }, 2000);
+    });
+  });
+
+  // Click handler for the "Try Another Prediction" button
+  resetBtn.addEventListener('click', () => {
+    showStage(stages.form);
+    companyInput.value = '';
+    emailInput.value = '';
+  });
+</script>
+
 </body>
 </html>
