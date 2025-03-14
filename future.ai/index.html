@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Future.Me - AI Prediction</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Keep the existing custom classes */
+    .origami-fold { animation: fold 2s forwards; }
+    
+    @keyframes fold {
+      0% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(0.8) rotate(15deg); }
+      50% { transform: scale(0.5) rotate(45deg); box-shadow: 0 0 20px rgba(103, 232, 249, 0.6); }
+      75% { transform: scale(0.2) rotate(90deg); }
+      100% { transform: scale(0) rotate(180deg); }
+    }
+    
+    .brain-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.95); }
+    }
+    
+    .thought-appear {
+      animation: fadeIn 0.5s forwards;
+      animation-delay: var(--delay, 0s);
+      opacity: 0;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Quantum animation */
+    .quantum-container { position: relative; width: 200px; height: 200px; }
+    .quantum-ring { position: absolute; border-radius: 50%; border: 2px solid transparent; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .ring-1 { width: 100px; height: 100px; border-top-color: #67e8f9; border-bottom-color: #67e8f9; animation: quantum-spin1 4s linear infinite; }
+    .ring-2 { width: 140px; height: 140px; border-left-color: #a855f7; border-right-color: #a855f7; animation: quantum-spin2 6s linear infinite; }
+    .ring-3 { width: 180px; height: 180px; border-top-color: #3b82f6; border-right-color: #3b82f6; animation: quantum-spin3 8s linear infinite; }
+    .quantum-core { position: absolute; width: 40px; height: 40px; background: radial-gradient(circle, white, #67e8f9); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 20px 5px rgba(103, 232, 249, 0.8); animation: pulse-core 2s ease-in-out infinite alternate; }
+    .quantum-particles { position: absolute; width: 100%; height: 100%; top: 0; left: 0; animation: particles 4s linear infinite; }
+    .quantum-particles:before, .quantum-particles:after { 
+      content: ''; 
+      position: absolute; 
+      width: 10px; 
+      height: 10px; 
+      background-color: #67e8f9; 
+      border-radius: 50%; 
+      box-shadow: 0 0 15px 5px rgba(103, 232, 249, 0.6); 
+    }
+    .quantum-particles:before { top: 20%; left: 20%; animation: particle1 4s ease-in-out infinite; }
+    .quantum-particles:after { bottom: 20%; right: 20%; animation: particle2 4s ease-in-out infinite; }
+    
+    @keyframes quantum-spin1 {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    @keyframes quantum-spin2 {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(-360deg); }
+    }
+    @keyframes quantum-spin3 {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    @keyframes pulse-core {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.7; }
+      100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    }
+    @keyframes particles {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes particle1 {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      50% { transform: scale(1.5) translate(20px, 20px); }
+    }
+    @keyframes particle2 {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      50% { transform: scale(1.5) translate(-20px, -20px); }
+    }
+    
+    /* Blackhole animation */
+    .blackhole-advanced { position: relative; width: 300px; height: 300px; }
+    .event-horizon { position: absolute; width: 80px; height: 80px; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; border-radius: 50%; box-shadow: 0 0 60px 20px rgba(0, 0, 0, 0.8); animation: event-horizon 3s ease-in-out infinite alternate; }
+    .accretion-disk { position: absolute; width: 300px; height: 300px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(70deg); border-radius: 50%; border: 4px solid transparent; border-top: 4px solid #67e8f9; border-bottom: 4px solid #3b82f6; filter: blur(2px); box-shadow: 0 0 30px rgba(103, 232, 249, 0.6); animation: rotate-disk 3s linear infinite; }
+    .accretion-disk:before {
+      content: '';
+      position: absolute; width: 260px; height: 260px;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      border-radius: 50%; border: 8px solid transparent;
+      border-top: 8px solid #a855f7; border-bottom: 8px solid #a855f7;
+      filter: blur(5px); animation: rotate-disk-inner 2s linear infinite reverse;
+    }
+    .star-field { position: absolute; width: 100%; height: 100%; top: 0; left: 0; animation: star-warp 3s ease-in-out infinite; }
+    .star-field:before, .star-field:after {
+      content: '';
+      position: absolute; width: 4px; height: 4px;
+      background-color: white; border-radius: 50%;
+      box-shadow: 80px 50px 0 0 white, -60px 90px 0 0 white,
+                  120px -80px 0 0 white, -90px -60px 0 0 white,
+                  140px 30px 0 0 white, -140px -20px 0 0 white,
+                  100px 90px 0 1px white, -110px 90px 0 0 white;
+    }
+    .star-field:before { top: 20%; left: -50%; animation: star-drift1 3s ease-in-out infinite alternate; }
+    .star-field:after { bottom: 30%; right: -40%; animation: star-drift2 3s ease-in-out infinite alternate; }
+    
+    @keyframes event-horizon {
+      0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 60px 20px rgba(0, 0, 0, 0.8); }
+      100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 80px 40px rgba(0, 0, 0, 0.9); }
+    }
+    @keyframes rotate-disk {
+      0% { transform: translate(-50%, -50%) rotate(70deg); }
+      100% { transform: translate(-50%, -50%) rotate(430deg); }
+    }
+    @keyframes rotate-disk-inner {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    @keyframes star-warp {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.8); opacity: 0.6; }
+    }
+    @keyframes star-drift1 {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-30px, 20px); }
+    }
+    @keyframes star-drift2 {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(30px, -20px); }
+    }
+
+    .hidden { display: none; }
+
+    /* Removed max-height and overflow to prevent clipping */
+    .widget-container {
+      /* max-height: 50vh; */
+      /* overflow: hidden; */
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+
+  <!-- Gradient Header -->
+  <div class="w-full bg-gradient-to-r from-blue-400 to-cyan-300 p-4 text-white text-center">
+    <h1 class="text-3xl font-bold">The ultimate AI forecasting tool.</h1>
+  </div>
+
+  <!-- Main Widget Area (Form & Animations) -->
+  <div class="flex-grow py-4 px-8 flex flex-col items-center justify-center">
+    <div class="w-full max-w-2xl mx-auto">
+      <div class="relative rounded-xl my-4 widget-container">
+        
+        <!-- Form Stage -->
+        <div id="form-stage" class="transition-all duration-500 z-10">
+          <!-- New title added here -->
+          <h2 class="text-2xl font-bold mb-4 text-center">Forecast the future with confidence.<br>Input key data to get started:</h2>
+          <div class="space-y-2">
+            <div>
+              <label class="block text-xl text-gray-300 mb-3">Company Website</label>
+              <input
+                type="url"
+                id="companyWebsite"
+                placeholder="https://www.yourcompany.com"
+                class="w-full px-5 py-4 bg-gray-800 border border-gray-700 rounded-md text-white text-lg focus:ring-cyan-300 focus:border-cyan-300"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-xl text-gray-300 mb-3">Your Email</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="you@example.com"
+                class="w-full px-5 py-4 bg-gray-800 border border-gray-700 rounded-md text-white text-lg focus:ring-cyan-300 focus:border-cyan-300"
+                required
+              />
+            </div>
+            <div class="pt-6 flex justify-center">
+              <button id="predict-btn" class="px-8 py-4 bg-cyan-300 hover:bg-cyan-400 text-gray-900 text-xl font-bold rounded-md shadow-lg transition duration-200 relative">
+                Forecast Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Folding Stage -->
+        <div
+          id="folding-stage"
+          class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0"
+        >
+          <div class="relative">
+            <div class="w-32 h-32 bg-cyan-300 rounded-md origami-fold"></div>
+          </div>
+        </div>
+
+        <!-- Thinking Stage -->
+        <div
+          id="thinking-stage"
+          class="h-64 space-y-6 transition-opacity duration-300 absolute inset-0 -z-10 opacity-0"
+        >
+          <div class="flex items-center justify-center mb-4">
+            <div class="brain-pulse">
+              <svg class="h-16 w-16 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 4h6M9 8h6m-6 4h6m-6 4h6m-6 8h6m-9-4v-8m6 8v-8m-9 4h12"
+                />
+              </svg>
+            </div>
+          </div>
+          <div id="thoughts-container" class="space-y-3"></div>
+          <div class="mt-6 text-center">
+            <p class="text-lg text-gray-300">
+              <span id="data-points" class="font-medium text-cyan-300">0</span> data points processed
+            </p>
+            <div class="w-full bg-gray-800 rounded-full h-3 mt-3">
+              <div
+                id="progress-bar"
+                class="bg-cyan-300 h-3 rounded-full"
+                style="width: 0%; transition: width 0.8s ease-in-out"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quantum Stage -->
+        <div
+          id="quantum-stage"
+          class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0"
+        >
+          <div class="quantum-container">
+            <div class="quantum-ring ring-1"></div>
+            <div class="quantum-ring ring-2"></div>
+            <div class="quantum-ring ring-3"></div>
+            <div class="quantum-particles"></div>
+            <div class="quantum-core"></div>
+          </div>
+        </div>
+
+        <!-- Blackhole Stage -->
+        <div
+          id="blackhole-stage"
+          class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0"
+        >
+          <div class="blackhole-advanced">
+            <div class="event-horizon"></div>
+            <div class="accretion-disk"></div>
+            <div class="star-field"></div>
+          </div>
+        </div>
+
+        <!-- Result Stage -->
+        <div
+          id="result-stage"
+          class="h-64 space-y-6 transition-opacity duration-500 absolute inset-0 -z-10 opacity-0"
+        >
+          <div class="bg-gradient-to-r from-blue-400 to-cyan-300 p-8 rounded-lg text-white text-center">
+            <h3 class="text-2xl font-bold mb-3">Future Prediction</h3>
+            <div id="prediction-date" class="text-3xl font-bold mb-6"></div>
+            <div class="flex items-center justify-center space-x-3 mt-4">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 10l-6 6m0 0l-6-6m6 6V3"
+                />
+              </svg>
+              <span class="font-bold text-xl">100% Accuracy</span>
+            </div>
+          </div>
+          <div class="bg-gray-800 p-5 rounded-lg">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <svg class="h-6 w-6 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+                <span id="final-data-points" class="text-lg text-gray-300"></span>
+              </div>
+              <div class="flex items-center">
+                <svg class="h-6 w-6 text-yellow-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+                <span class="text-lg text-gray-300">Confidence: 100%</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-center pt-4">
+            <button
+              id="reset-btn"
+              class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white text-lg font-medium rounded-md shadow-md transition duration-200"
+            >
+              Try Another Prediction
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="mt-10 bg-gray-900 text-gray-400 py-6 border-t border-gray-800 text-center">
+    <p>© 2025 Future.Me Disruptor. All rights reserved.</p>
+    <a href="#" class="text-cyan-300 hover:underline mt-1 inline-block">Media Inquiries</a>
+  </div>
+
+  <script>
+    /* Keep your existing script logic */
+    const stages = {
+      form: document.getElementById('form-stage'),
+      folding: document.getElementById('folding-stage'),
+      thinking: document.getElementById('thinking-stage'),
+      quantum: document.getElementById('quantum-stage'),
+      blackhole: document.getElementById('blackhole-stage'),
+      result: document.getElementById('result-stage')
+    };
+
+    const predictBtn = document.getElementById('predict-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const thoughtsContainer = document.getElementById('thoughts-container');
+    const dataPointsEl = document.getElementById('data-points');
+    const progressBar = document.getElementById('progress-bar');
+    const predictionDateEl = document.getElementById('prediction-date');
+    const finalDataPointsEl = document.getElementById('final-data-points');
+
+    let dataPoints = 0;
+
+    function showStage(stage) {
+      Object.values(stages).forEach(s => {
+        s.classList.add('opacity-0', '-z-10');
+        s.classList.remove('opacity-100', 'z-10');
+      });
+      stage.classList.remove('opacity-0', '-z-10');
+      stage.classList.add('opacity-100', 'z-10');
+    }
+
+    function getTomorrowDate() {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      return tomorrow.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
+
+    function startThinkingSequence() {
+      const thinkingPhrases = [
+        "Considering company industry and macro trends...",
+        "Researching key stakeholder reputation...",
+        "Calculating probability matrices...",
+        "Scanning multiverse timelines...",
+        "Cross-referencing quantum variables..."
+      ];
+
+      let thoughtIndex = 0;
+      thoughtsContainer.innerHTML = '';
+      dataPoints = 0;
+
+      function addThought() {
+        if (thoughtIndex < thinkingPhrases.length) {
+          const thought = document.createElement('div');
+          thought.className = 'bg-gray-800 p-4 rounded-lg thought-appear';
+          thought.style = `--delay: ${thoughtIndex * 0.2}s`;
+          thought.innerHTML = `<p class="text-gray-300">${thinkingPhrases[thoughtIndex]}</p>`;
+          thoughtsContainer.appendChild(thought);
+
+          dataPoints += Math.floor(Math.random() * 15000000) + 5000000;
+          dataPointsEl.textContent = dataPoints.toLocaleString();
+          progressBar.style.width = `${Math.min((thoughtIndex + 1) / thinkingPhrases.length * 100, 100)}%`;
+
+          thoughtIndex++;
+          setTimeout(addThought, 800);
+        } else {
+          setTimeout(() => {
+            showStage(stages.quantum);
+            setTimeout(() => {
+              showStage(stages.blackhole);
+              setTimeout(() => {
+                predictionDateEl.textContent = `Tomorrow will be ${getTomorrowDate()}`;
+                finalDataPointsEl.textContent = `${(dataPoints + 42000000).toLocaleString()} data points considered`;
+                showStage(stages.result);
+              }, 3000);
+            }, 4000);
+          }, 1500);
+        }
+      }
+      addThought();
+    }
+
+    predictBtn.addEventListener('click', () => {
+      // Immediately show folding stage since we removed the top fade-out
+      showStage(stages.folding);
+      setTimeout(() => {
+        showStage(stages.thinking);
+        startThinkingSequence();
+      }, 2000);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      showStage(stages.form);
+      document.getElementById('companyWebsite').value = '';
+      document.getElementById('email').value = '';
+    });
+  </script>
+</body>
+</html>
