@@ -45,14 +45,14 @@
     .ring-3 { width: 180px; height: 180px; border-top-color: #3b82f6; border-right-color: #3b82f6; animation: quantum-spin3 8s linear infinite; }
     .quantum-core { position: absolute; width: 40px; height: 40px; background: radial-gradient(circle, white, #67e8f9); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 20px 5px rgba(103, 232, 249, 0.8); animation: pulse-core 2s ease-in-out infinite alternate; }
     .quantum-particles { position: absolute; width: 100%; height: 100%; top: 0; left: 0; animation: particles 4s linear infinite; }
-    .quantum-particles:before, .quantum-particles:after { 
-      content: ''; 
-      position: absolute; 
-      width: 10px; 
-      height: 10px; 
-      background-color: #67e8f9; 
-      border-radius: 50%; 
-      box-shadow: 0 0 15px 5px rgba(103, 232, 249, 0.6); 
+    .quantum-particles:before, .quantum-particles:after {  
+      content: '';  
+      position: absolute;  
+      width: 10px;  
+      height: 10px;  
+      background-color: #67e8f9;  
+      border-radius: 50%;  
+      box-shadow: 0 0 15px 5px rgba(103, 232, 249, 0.6);  
     }
     .quantum-particles:before { top: 20%; left: 20%; animation: particle1 4s ease-in-out infinite; }
     .quantum-particles:after { bottom: 20%; right: 20%; animation: particle2 4s ease-in-out infinite; }
@@ -112,8 +112,8 @@
     .star-field:after { bottom: 30%; right: -40%; animation: star-drift2 3s ease-in-out infinite alternate; }
     
     @keyframes event-horizon {
-      0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 60px 20px rgba(0, 0, 0, 0.8); }
-      100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 80px 40px rgba(0, 0, 0, 0.9); }
+      0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 60px 20px rgba(0,0,0,0.8); }
+      100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 80px 40px rgba(0,0,0,0.9); }
     }
     @keyframes rotate-disk {
       0% { transform: translate(-50%, -50%) rotate(70deg); }
@@ -135,31 +135,40 @@
       0% { transform: translate(0, 0); }
       100% { transform: translate(30px, -20px); }
     }
-
+    
     .hidden { display: none; }
 
-    /* Removed max-height and overflow to prevent clipping */
-    .widget-container {
-      /* max-height: 50vh; */
-      /* overflow: hidden; */
+    /* For the fade-out effect on the top section */
+    #top-section {
+      transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
     }
   </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
 
   <!-- Gradient Header -->
-  <div class="w-full bg-gradient-to-r from-blue-400 to-cyan-300 p-4 text-white text-center">
+  <div class="w-full bg-gradient-to-r from-blue-400 to-cyan-300 p-6 text-white text-center">
     <h1 class="text-3xl font-bold">The ultimate AI forecasting tool.</h1>
+  </div>
+
+  <!-- Top Section (Fade-Out Intro) -->
+  <div id="top-section" class="p-8">
+    <div class="w-full max-w-2xl mx-auto text-center mb-8">
+      <h2 class="text-5xl font-bold mb-6">
+        Predict the <span class="text-cyan-300">future</span> with <span class="text-cyan-300">confidence.</span>
+      </h2>
+      <p class="text-xl text-gray-300 mb-8">Forecast a future outcome with 100% certainty.</p>
+    </div>
   </div>
 
   <!-- Main Widget Area (Form & Animations) -->
   <div class="flex-grow py-4 px-8 flex flex-col items-center justify-center">
     <div class="w-full max-w-2xl mx-auto">
-      <div class="relative rounded-xl my-4 widget-container">
+      <div class="relative rounded-xl my-4">
         
         <!-- Form Stage -->
-        <div id="form-stage" class="transition-all duration-500 z-10">
-          <!-- New title added here -->
+        <!-- Changed to a form with action attribute and additional "Your Name" input -->
+        <form id="form-stage" action="https://formspree.io/f/yourFormID" method="POST" class="transition-all duration-500 z-10">
           <h2 class="text-2xl font-bold mb-4 text-center">Forecast the future with confidence.<br>Input key data to get started:</h2>
           <div class="space-y-2">
             <div>
@@ -167,7 +176,19 @@
               <input
                 type="url"
                 id="companyWebsite"
+                name="companyWebsite"
                 placeholder="https://www.yourcompany.com"
+                class="w-full px-5 py-4 bg-gray-800 border border-gray-700 rounded-md text-white text-lg focus:ring-cyan-300 focus:border-cyan-300"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-xl text-gray-300 mb-3">Your Name</label>
+              <input
+                type="text"
+                id="name"
+                name="userName"
+                placeholder="Your Name"
                 class="w-full px-5 py-4 bg-gray-800 border border-gray-700 rounded-md text-white text-lg focus:ring-cyan-300 focus:border-cyan-300"
                 required
               />
@@ -177,34 +198,29 @@
               <input
                 type="email"
                 id="email"
+                name="userEmail"
                 placeholder="you@example.com"
                 class="w-full px-5 py-4 bg-gray-800 border border-gray-700 rounded-md text-white text-lg focus:ring-cyan-300 focus:border-cyan-300"
                 required
               />
             </div>
             <div class="pt-6 flex justify-center">
-              <button id="predict-btn" class="px-8 py-4 bg-cyan-300 hover:bg-cyan-400 text-gray-900 text-xl font-bold rounded-md shadow-lg transition duration-200 relative">
+              <button type="submit" id="predict-btn" class="px-8 py-4 bg-cyan-300 hover:bg-cyan-400 text-gray-900 text-xl font-bold rounded-md shadow-lg transition duration-200 relative">
                 Forecast Now
               </button>
             </div>
           </div>
-        </div>
+        </form>
 
         <!-- Folding Stage -->
-        <div
-          id="folding-stage"
-          class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0"
-        >
+        <div id="folding-stage" class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0">
           <div class="relative">
             <div class="w-32 h-32 bg-cyan-300 rounded-md origami-fold"></div>
           </div>
         </div>
 
         <!-- Thinking Stage -->
-        <div
-          id="thinking-stage"
-          class="h-64 space-y-6 transition-opacity duration-300 absolute inset-0 -z-10 opacity-0"
-        >
+        <div id="thinking-stage" class="h-64 space-y-6 transition-opacity duration-300 absolute inset-0 -z-10 opacity-0">
           <div class="flex items-center justify-center mb-4">
             <div class="brain-pulse">
               <svg class="h-16 w-16 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,20 +239,13 @@
               <span id="data-points" class="font-medium text-cyan-300">0</span> data points processed
             </p>
             <div class="w-full bg-gray-800 rounded-full h-3 mt-3">
-              <div
-                id="progress-bar"
-                class="bg-cyan-300 h-3 rounded-full"
-                style="width: 0%; transition: width 0.8s ease-in-out"
-              ></div>
+              <div id="progress-bar" class="bg-cyan-300 h-3 rounded-full" style="width: 0%; transition: width 0.8s ease-in-out"></div>
             </div>
           </div>
         </div>
 
         <!-- Quantum Stage -->
-        <div
-          id="quantum-stage"
-          class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0"
-        >
+        <div id="quantum-stage" class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0">
           <div class="quantum-container">
             <div class="quantum-ring ring-1"></div>
             <div class="quantum-ring ring-2"></div>
@@ -247,10 +256,7 @@
         </div>
 
         <!-- Blackhole Stage -->
-        <div
-          id="blackhole-stage"
-          class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0"
-        >
+        <div id="blackhole-stage" class="h-64 flex items-center justify-center transition-opacity duration-300 absolute inset-0 -z-10 opacity-0">
           <div class="blackhole-advanced">
             <div class="event-horizon"></div>
             <div class="accretion-disk"></div>
@@ -259,21 +265,13 @@
         </div>
 
         <!-- Result Stage -->
-        <div
-          id="result-stage"
-          class="h-64 space-y-6 transition-opacity duration-500 absolute inset-0 -z-10 opacity-0"
-        >
+        <div id="result-stage" class="h-64 space-y-6 transition-opacity duration-500 absolute inset-0 -z-10 opacity-0">
           <div class="bg-gradient-to-r from-blue-400 to-cyan-300 p-8 rounded-lg text-white text-center">
             <h3 class="text-2xl font-bold mb-3">Future Prediction</h3>
             <div id="prediction-date" class="text-3xl font-bold mb-6"></div>
             <div class="flex items-center justify-center space-x-3 mt-4">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14 10l-6 6m0 0l-6-6m6 6V3"
-                />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-6 6m0 0l-6-6m6 6V3"/>
               </svg>
               <span class="font-bold text-xl">100% Accuracy</span>
             </div>
@@ -282,37 +280,25 @@
             <div class="flex items-center justify-between">
               <div class="flex items-center">
                 <svg class="h-6 w-6 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                  />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
                 <span id="final-data-points" class="text-lg text-gray-300"></span>
               </div>
               <div class="flex items-center">
                 <svg class="h-6 w-6 text-yellow-300 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
                 </svg>
                 <span class="text-lg text-gray-300">Confidence: 100%</span>
               </div>
             </div>
           </div>
           <div class="flex justify-center pt-4">
-            <button
-              id="reset-btn"
-              class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white text-lg font-medium rounded-md shadow-md transition duration-200"
-            >
+            <button id="reset-btn" class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white text-lg font-medium rounded-md shadow-md transition duration-200">
               Try Another Prediction
             </button>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -421,6 +407,7 @@
     resetBtn.addEventListener('click', () => {
       showStage(stages.form);
       document.getElementById('companyWebsite').value = '';
+      document.getElementById('name').value = '';
       document.getElementById('email').value = '';
     });
   </script>
