@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2DS0CZPVWM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-2DS0CZPVWM');
+    </script>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Future.Me - AI Prediction</title>
@@ -343,9 +352,10 @@
 <div class="mt-10 bg-gray-900 text-gray-400 py-6 border-t border-gray-800 text-center">
   <p>© 2025 Future.Me | All rights reserved.</p>
   <p class="mt-1">
-    <a href="https://accountingdisruptor.com" class="text-cyan-300 hover:underline">AccountingDisruptor.com</a>
+    <a id="accounting-disruptor" href="https://accountingdisruptor.com" class="text-cyan-300 hover:underline">AccountingDisruptor.com</a>
      | 
-    <a href="https://www.linkedin.com/in/tom-zehentner-cpa-a0591b5b/" class="text-cyan-300 hover:underline">Media Inquiries</a>
+    <a id="media-inquiries" href="https://www.linkedin.com/in/tom-zehentner-cpa-a0591b5b/" class="text-cyan-300 hover:underline">Media Inquiries</a>
+
   </p>
 </div>
 
@@ -466,6 +476,12 @@
 
   // Click handler for the "Forecast Now" button
   predictBtn.addEventListener('click', (e) => {
+    // Track the Forecast Now button click
+  gtag('event', 'click', {
+    event_category: 'Forecast',
+    event_label: 'Forecast Now'
+  });
+    
     // Check if both fields are filled; if not, show an error message
     if (companyInput.value.trim() === '' || emailInput.value.trim() === '') {
       alert('Provide info to generate idea');
@@ -510,10 +526,31 @@
 
   // Click handler for the "Try Another Prediction" button
   resetBtn.addEventListener('click', () => {
-    showStage(stages.form);
-    companyInput.value = '';
-    emailInput.value = '';
+  gtag('event', 'click', {
+    event_category: 'Button',
+    event_label: 'Get Another Forecast'
   });
+  showStage(stages.form); 
+  companyInput.value = ''; 
+  emailInput.value = ''; 
+});
+
+   const mediaInquiriesLink = document.getElementById('media-inquiries');
+mediaInquiriesLink.addEventListener('click', () => {
+  gtag('event', 'click', {
+    event_category: 'Footer Link',
+    event_label: 'Media Inquiries'
+  });
+});
+
+   const accountingLink = document.getElementById('accounting-disruptor');
+accountingLink.addEventListener('click', () => {
+  gtag('event', 'click', {
+    event_category: 'Footer Link',
+    event_label: 'AccountingDisruptor.com'
+  });
+});
+
 </script>
 
 </body>
